@@ -68,7 +68,14 @@
 } */
 
 .logoDiv1{
+   margin-top: 20px;
    width: 60px;
+   margin-left: 20px;
+   margin-bottom: 10px;
+}
+
+.logoDiv1 h2{
+   margin-left: 10px;
 }
 
 

@@ -11,7 +11,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const sidebarRef = useRef(null);
+  const sidebarRef = useRef(null); 
 
   // Update state on window resize
   useEffect(() => {
