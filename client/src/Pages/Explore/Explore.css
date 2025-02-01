@@ -1,0 +1,89 @@
+.explore-container {
+  padding: 20px;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.see-all {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.flower-types-scroll,
+.flowers-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+}
+
+.flower-type-container,
+.flower-container1 {
+  min-width: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  /* Ensure text is below the image */
+  align-items: center;
+}
+
+.flower-type-box,
+.flower-box {
+  position: relative;
+  width: 200px;
+  height: 150px;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.flower-image1 {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.heart-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: rgb(255, 255, 255);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Ensure the text is visible and positioned below the image */
+.flower-text {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #333;
+  /* Set text color to a visible value */
+  font-weight: 600;
+  display: block;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}/*# sourceMappingURL=Explore.css.map */

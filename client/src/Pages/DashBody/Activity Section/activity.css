@@ -1,0 +1,68 @@
+.activitySection {
+  flex-basis: 50%;
+  /* Adjusts width of the activity section */
+  height: 100%;
+  /* Makes it take full height of its parent */
+  display: flex;
+  flex-direction: column;
+  /* Ensures children stack vertically */
+  /* Set a specific max-height for the scrollable area */
+}
+.activitySection .heading {
+  width: 100%;
+  justify-content: space-between;
+}
+.activitySection .heading h1 {
+  font-size: var(--h2FontSize);
+  color: var(--blackColor);
+  font-weight: 700;
+}
+.activitySection .heading .btn {
+  border: 1px solid transparent;
+}
+.activitySection .heading .btn:hover {
+  border: var(--primary-color);
+}
+.activitySection .secContainer {
+  margin-top: 1rem;
+  flex: 1;
+  /* Allows secContainer to take remaining space */
+  overflow-y: auto;
+  /* Enables vertical scrolling */
+  overflow-x: hidden;
+  /* Hides horizontal scrolling if needed */
+  max-height: 400px;
+  /* Adjust this value based on your design */
+}
+.activitySection .secContainer .singleCustomer {
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.activitySection .secContainer .singleCustomer img {
+  width: 40px;
+  height: 40px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px var(--itemCardColor);
+  margin-right: 1rem;
+}
+.activitySection .secContainer .singleCustomer .customerDetails {
+  flex: 1;
+}
+.activitySection .secContainer .singleCustomer .customerDetails .name {
+  font-size: var(--h3FontSize);
+  font-weight: 600;
+  color: var(--blackColor);
+  display: block;
+}
+.activitySection .secContainer .singleCustomer .customerDetails small {
+  font-weight: 500;
+  color: var(--textColor);
+  font-size: var(--smallFontSize);
+}
+.activitySection .secContainer .singleCustomer .duration {
+  color: var(--textColor);
+  font-weight: 500;
+  font-size: var(--smallestFontSize);
+}/*# sourceMappingURL=activity.css.map */

@@ -1,0 +1,142 @@
+.listingSection {
+   flex-basis: 70%;
+   gap: 2rem;
+
+   .heading {
+      width: 100%;
+      justify-content: space-between;
+
+      h1 {
+         font-size: 1.25rem;
+         color: var(--blackColor);
+         font-weight: 700;
+      }
+
+      .btn {
+         border: 1px solid transparent;
+         font-weight: 500;
+      }
+
+      .btn:hover {
+         border: 1px solid var(--primary-color);
+      }
+   }
+
+   .secContainer {
+      width: 100%;
+      margin: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .singleItem {
+         position: relative;
+         width: 150px;
+         height: 170px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         /* Center content vertically */
+         flex-direction: column;
+         padding: 1rem;
+         border-radius: 10px;
+         background: #f1f1f1;
+         text-align: center;
+         /* Center text horizontally */
+
+         &:hover {
+            background: var(--itemCardHover);
+            box-shadow: 0 2px 2px var(--inputColor);
+         }
+
+         img {
+            max-width: 100px;
+         }
+
+         .icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: var(--primary-color);
+         }
+
+         h3 {
+            font-size: 1rem;
+            color: var(--blackColor);
+            padding: 1rem 0;
+            margin: 0;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Center text vertically */
+         }
+      }
+   }
+
+   .seller {
+      width: 100%;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-top: 2rem;
+
+      .topSeller,
+      .featuredSellers {
+         .heading {
+            padding: 1rem 0;
+
+            h3{
+               margin-left: 3rem;
+            }
+
+            .btn {
+               padding: 0.5rem 1rem;
+            }
+
+
+         }
+
+         .card {
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            background: var(--whiteColor);
+            gap: 1rem;
+            box-shadow: 0 2px 4px var(--inputColor);
+
+            .users {
+               padding-right: 1rem;
+               border-right: 2px solid hsl(0, 0%, 75%);
+
+               img {
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                  border: 2px solid var(--inputColor);
+                  transition: .5s ease;
+
+                  &:hover {
+                     transform: translateY(-10px);
+                  }
+               }
+            }
+
+            .cardText {
+               span {
+                  color: var(--blackColor);
+                  font-weight: 500;
+
+                  small {
+                     font-weight: 400;
+
+                     .date {
+                        margin-left: 1rem;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}

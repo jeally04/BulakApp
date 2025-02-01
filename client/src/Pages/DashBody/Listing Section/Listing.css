@@ -1,0 +1,125 @@
+.listingSection {
+  flex-basis: 70%;
+  gap: 2rem;
+}
+.listingSection .heading {
+  width: 100%;
+  justify-content: space-between;
+}
+.listingSection .heading h1 {
+  font-size: 1.25rem;
+  color: var(--blackColor);
+  font-weight: 700;
+}
+.listingSection .heading .btn {
+  border: 1px solid transparent;
+  font-weight: 500;
+}
+.listingSection .heading .btn:hover {
+  border: 1px solid var(--primary-color);
+}
+.listingSection .secContainer {
+  width: 100%;
+  margin: 1rem 0;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.listingSection .secContainer .singleItem {
+  position: relative;
+  width: 150px;
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Center content vertically */
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 10px;
+  background: #f1f1f1;
+  text-align: center;
+  /* Center text horizontally */
+}
+.listingSection .secContainer .singleItem:hover {
+  background: var(--itemCardHover);
+  box-shadow: 0 2px 2px var(--inputColor);
+}
+.listingSection .secContainer .singleItem img {
+  max-width: 100px;
+}
+.listingSection .secContainer .singleItem .icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: var(--primary-color);
+}
+.listingSection .secContainer .singleItem h3 {
+  font-size: 1rem;
+  color: var(--blackColor);
+  padding: 1rem 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Center text vertically */
+}
+.listingSection .seller {
+  width: 100%;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+.listingSection .seller .topSeller .heading,
+.listingSection .seller .featuredSellers .heading {
+  padding: 1rem 0;
+}
+.listingSection .seller .topSeller .heading h3,
+.listingSection .seller .featuredSellers .heading h3 {
+  margin-left: 3rem;
+}
+.listingSection .seller .topSeller .heading .btn,
+.listingSection .seller .featuredSellers .heading .btn {
+  padding: 0.5rem 1rem;
+}
+.listingSection .seller .topSeller .card,
+.listingSection .seller .featuredSellers .card {
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  background: var(--whiteColor);
+  gap: 1rem;
+  box-shadow: 0 2px 4px var(--inputColor);
+}
+.listingSection .seller .topSeller .card .users,
+.listingSection .seller .featuredSellers .card .users {
+  padding-right: 1rem;
+  border-right: 2px solid hsl(0, 0%, 75%);
+}
+.listingSection .seller .topSeller .card .users img,
+.listingSection .seller .featuredSellers .card .users img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: 2px solid var(--inputColor);
+  transition: 0.5s ease;
+}
+.listingSection .seller .topSeller .card .users img:hover,
+.listingSection .seller .featuredSellers .card .users img:hover {
+  transform: translateY(-10px);
+}
+.listingSection .seller .topSeller .card .cardText span,
+.listingSection .seller .featuredSellers .card .cardText span {
+  color: var(--blackColor);
+  font-weight: 500;
+}
+.listingSection .seller .topSeller .card .cardText span small,
+.listingSection .seller .featuredSellers .card .cardText span small {
+  font-weight: 400;
+}
+.listingSection .seller .topSeller .card .cardText span small .date,
+.listingSection .seller .featuredSellers .card .cardText span small .date {
+  margin-left: 1rem;
+}/*# sourceMappingURL=Listing.css.map */

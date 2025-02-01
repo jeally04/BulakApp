@@ -1,0 +1,98 @@
+/* Recognition.css */
+
+.recognition-container {
+   padding: 20px;
+   text-align: center;
+   font-family: Arial, sans-serif;
+   background-color: #f9f9f9;
+}
+
+h1 {
+   color: #333;
+   margin-bottom: 20px;
+}
+
+.options-container {
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
+   align-items: center;
+   margin-bottom: 30px;
+}
+
+.option-button {
+   background-color: #007BFF;
+   color: #fff;
+   border: none;
+   padding: 10px 20px;
+   font-size: 16px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+
+.option-button:hover {
+   background-color: #0056b3;
+}
+
+.camera-stream {
+   margin-top: 20px;
+   padding: 10px;
+   background-color: #ececec;
+   border: 2px dashed #ccc;
+   border-radius: 10px;
+   width: 100%;
+   max-width: 600px;
+   margin: 20px auto;
+}
+
+.uploaded-preview {
+   margin-top: 20px;
+   text-align: center;
+}
+
+.preview-image,
+.preview-video {
+   max-width: 100%;
+   height: auto;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+
+@media (min-width: 768px) {
+   .options-container {
+      flex-direction: row;
+      justify-content: center;
+   }
+
+   .option-button {
+      margin: 0 10px;
+   }
+}
+
+@media (max-width: 767px) {
+   .recognition-container {
+      padding: 15px;
+   }
+
+   h1 {
+      font-size: 24px;
+   }
+
+   .option-button {
+      font-size: 14px;
+      padding: 8px 16px;
+   }
+
+   .camera-stream {
+      padding: 8px;
+      border-width: 1px;
+   }
+
+   .preview-image,
+   .preview-video {
+      max-width: 90%;
+   }
+}

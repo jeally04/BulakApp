@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+/* Global Styles */
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: "Outfit", sans-serif;
+}
+
+body {
+   background: #f5f5f5;
+   color: #212121;
+   line-height: 1.6;
+}
+
+a {
+   text-decoration: none;
+   color: inherit;
+   line-height: 1;
+   cursor: pointer;
+   transition: color 0.3s ease;
+}
+
+a:hover {
+   color: #212ea0;
+}
+
+/* Container Styling */
+.container1 {
+   padding: 1rem 10%;
+}
+
+@media (max-width: 1200px) {
+   .container1 {
+      padding: 2rem 5%;
+   }
+}
+
+/* Button Styling */
+.btn1 {
+   background: #fff;
+   color: #212121;
+   padding: 14px 25px;
+   font-size: 16px;
+   font-weight: 600;
+   border-radius: 30px;
+   border: none;
+   outline: none;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   cursor: pointer;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn1:hover {
+   background: #eaeaea;
+   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn1 img {
+   width: 20px;
+   margin-left: 10px;
+}
+
+.btn1.dark-btn {
+   background: #212ea0;
+   color: #fff;
+}
+
+.btn1.dark-btn:hover {
+   background: #1a238a;
+   box-shadow: 0 6px 8px rgba(33, 46, 160, 0.2);
+}
+
+/* Media Query for Buttons */
+@media (max-width: 1200px) {
+   .btn1 {
+      padding: 14px 22px;
+   }
+}
+
+/* Accessibility Enhancements */
+.btn1:focus {
+   outline: 3px solid #212ea0;
+   outline-offset: 2px;
+}
+
+/* Enhanced Transitions */
+button,
+a {
+   transition: all 0.3s ease;
+}
+
+
+/* Modal Overlay */
+.modalOverlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.6);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 1000;
+}
+
+/* Modal Content */
+.modalContent {
+   background: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   width: 90%;
+   max-width: 400px;
+   position: relative;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button */
+.closeBtn {
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   background: none;
+   border: none;
+   font-size: 20px;
+   cursor: pointer;
+}
+
+.closeBtn:hover {
+   color: #ff4d4d;
+}
+
+/* Login Button */
+.loginBtn {
+   padding: 10px 20px;
+   background: #212ea0;
+   color: #fff;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background 0.3s ease-in-out;
+}
+
+.loginBtn:hover {
+   background: #0f8bd6;
+}

@@ -1,0 +1,577 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+   padding: 0;
+   margin: 0;
+   box-sizing: border-box;
+   font-family: "Montserrat", sans-serif;
+}
+
+//Let set up our default styling
+
+:root {
+   --primary-color: hsl(94, 55%, 56%);
+   --hoverColor: hsl(93, 75%, 76%);
+   --paleGreen: hsl(96, 75%, 89%);
+   --whiteColor: hsl(0, 0%, 100%);
+   --blackColor: hsl(0, 0%, 18%);
+   --greyText: hsl(0, 0%, 75%);
+   --bgColor: hsl(113, 11%, 85%);
+   --inputColor: hsl(330, 12%, 97%);
+   --textColor: hsl(240, 1%, 48%);
+   --itemCardColor: hsl(120, 5%, 88%);
+   --itemCardHover: hsl(120, 27%, 87%);
+
+   //font typography
+   --biggestFontSize: 2.5rem;
+   --h1FontSize: 1.5rem;
+   --h2FontSize: 1.25rem;
+   --h3FontSize: 1rem;
+   --normalFontSize: .938rem;
+   --smallFontSize: .813rem;
+   --smallestFontSize: .75rem;
+}
+
+.flex {
+   display: flex;
+   align-items: center;
+}
+
+.grid {
+   display: grid;
+   align-items: center;
+   gap: 1.5rem;
+}
+
+.grid1 {
+   display: grid;
+   gap: 1.5rem;
+}
+
+html {
+   font-size: 90%;
+}
+
+a {
+   text-decoration: none;
+}
+
+li {
+   list-style: none;
+}
+
+.icon {
+   font-size: var(--h1FontSize);
+   cursor: pointer;
+}
+
+img,
+video {
+   height: auto;
+   width: 100%;
+}
+
+.message {
+   display: none;
+}
+
+.showMessage {
+   display: block;
+   color: var(--whiteColor);
+   padding: 10px;
+   background: rgb(255, 0, 0);
+   border-radius: 3px;
+   text-align: center;
+}
+
+.btn {
+   border: none;
+   outline: none;
+   cursor: pointer;
+   border-radius: 8px;
+   padding: .8rem 1rem;
+   color: var(--greyText);
+}
+
+.btn .icon {
+   margin-left: .5rem;
+}
+
+.btn:hover {
+   color: var(--primary-color);
+   background: var(--paleGreen);
+}
+
+// page stylings
+
+.loginPage,
+.registerPage {
+   height: 100vh;
+   width: 100vw;
+   border-radius: 10px;
+   overflow: hidden;
+   box-shadow: 0 7px 50px rgba(214, 223, 213, 1); // 1 for fully opaque
+
+   .container {
+      height: 90vh;
+      width: 100vw;
+      margin: auto;
+      justify-content: space-between;
+      border-radius: 10px;
+      background: hsl(0, 0%, 91%);
+
+      .videoDiv {
+         position: relative;
+         display: flex;
+         flex-basis: 50%;
+         width: 70%;
+         height: 100%;
+         padding: 0 1.5rem;
+         justify-content: center;
+         text-align: center;
+         flex-direction: column;
+         margin: auto;
+         border-radius: 10px;
+         overflow: hidden;
+
+         video,
+         .footerDiv {
+            position: absolute;
+         }
+
+         video {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+         }
+
+         .textDiv {
+            position: relative;
+
+            .title {
+               color: var(--whiteColor);
+               font-size: 30px;
+               font-weight: 800;
+            }
+
+            p {
+               color: var(--whiteColor);
+               padding: 1rem;
+               font-weight: 400;
+            }
+         }
+
+         .footerDiv {
+            bottom: 10px;
+            padding: 0 1rem;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.248);
+            left: 10px;
+            right: 10px;
+            justify-content: space-between;
+            backdrop-filter: blur(1px);
+            border-radius: 10px;
+
+            .text {
+               color: var(--whiteColor);
+            }
+
+            .btn {
+               background: var(--whiteColor);
+               color: var(--primary-color);
+               padding: .8rem 1.5rem;
+               border-radius: 10px;
+               font-weight: 400;
+               transition: .3s ease;
+
+               &:hover {
+                  background: var(--hoverColor);
+               }
+            }
+         }
+      }
+
+      .formDiv {
+         flex-basis: 50%;
+         margin: auto;
+         flex-direction: column;
+         gap: 1.5rem;
+         transform: translateY(-1rem);
+
+         .headerDiv {
+            text-align: center;
+            padding: 1.5rem 0;
+
+            img {
+               width: 80px;
+               padding-bottom: .5rem;
+            }
+
+            h3 {
+               font-size: 25px;
+               color: var(--blackColor);
+               font-weight: 600;
+            }
+         }
+
+         .form {
+            gap: 1rem;
+
+            .inputDiv {
+               .icon {
+                  color: var(--greyText);
+               }
+
+               input {
+                  background: none;
+                  outline: none;
+                  border: none;
+                  width: 200px;
+               }
+
+               label {
+                  color: var(--blackColor);
+                  font-weight: 400;
+                  font-size: 14px;
+                  padding: .5rem 0;
+                  display: block;
+               }
+
+               .input {
+                  gap: .5rem;
+                  padding: 1rem;
+                  background: var(--inputColor);
+                  border-radius: 10px;
+               }
+            }
+
+            .btn {
+               padding: .8rem;
+               background: var(--primary-color);
+               border-radius: 10px;
+               color: var(--whiteColor);
+               align-items: center;
+               margin: auto;
+               justify-content: center;
+               font-size: 16px;
+               width: 100%;
+               gap: .5rem;
+               transition: .3s ease;
+               margin-top: 2rem;
+
+               .icon {
+                  font-size: 25px;
+                  transition: .3s ease;
+               }
+
+               &:hover {
+                  background: var(--hoverColor);
+                  color: var(--blackColor);
+
+                  .icon {
+                     color: var(--blackColor);
+                     transform: translateX(5px);
+                  }
+               }
+            }
+
+            .forgotPassword {
+               font-size: 13px;
+               color: var(--blackColor);
+               opacity: .7;
+               text-align: center;
+
+               a {
+                  text-decoration: underline;
+                  cursor: pointer;
+               }
+            }
+         }
+      }
+   }
+}
+
+
+.popupMessage {
+   position: fixed;
+   top: 10%;
+   left: 50%;
+   transform: translateX(-50%);
+   background-color: rgba(0, 128, 0, 0.9);
+   /* Green color for success */
+   color: white;
+   padding: 15px 30px;
+   border-radius: 5px;
+   z-index: 1000;
+   font-size: 18px;
+   text-align: center;
+   justify-content: center;
+   align-items: center;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popupMessage.error {
+   background-color: rgba(255, 0, 0, 0.9);
+   /* Red color for error */
+}
+
+
+
+
+// .dashboard {
+//    height: 100vh;
+//    width: 100%;
+//    justify-content: center;
+//    margin: auto;
+
+//    .dashboardContainer {
+//       height: 95vh;
+//       width: 95%;
+//       border-radius: 10px;
+//       overflow: hidden;
+//       box-shadow: 0 5px 10px rgba(194, 194, 194, 1);
+//    }
+// }
+
+
+
+
+// Media Queries ===>
+
+
+// @media screen and (max-width: 500px) {
+//    .heading {
+//       flex-direction: column;
+//       align-items: flex-start;
+//       gap: 1rem;
+//    }
+// }
+
+// @media screen and (max-width: 918px) {
+//    .heading {
+//       flex-direction: row;
+//       align-items: center;
+//       gap: 1rem;
+//    }
+// }
+
+// @media screen and (max-width: 602px) {
+
+//    .loginPage,
+//    .registerPage {
+//       .container {
+//          height: 100%;
+//          width: 100%;
+//          flex-direction: column;
+//          padding: 1.5rem;
+
+//          .videoDiv {
+//             width: 100%;
+
+//             .textDiv {
+//                .title {
+//                   font-size: 20px;
+//                }
+
+//                p {
+//                   padding: 1rem;
+//                }
+//             }
+
+//             .footerDiv {
+//                .text {
+//                   font-size: 12px;
+//                }
+
+//                .btn {
+//                   padding: .4rem 1.5rem;
+//                }
+//             }
+//          }
+
+//          .formDiv {
+//             gap: 1rem;
+//             transform: translateY(-.5rem);
+
+//             .headerDiv {
+//                padding: 1rem 0;
+
+//                img {
+//                   width: 40px;
+//                }
+
+//                h3 {
+//                   font-size: 20px;
+//                }
+//             }
+
+//             .form {
+//                gap: .5rem;
+
+//                .inputDiv {
+//                   input {
+//                      width: 100%;
+//                   }
+//                }
+//             }
+//          }
+//       }
+//    }
+// }
+
+// @media screen and (max-width: 678px) {
+
+//    .loginPage,
+//    .registerPage {
+//       .container {
+//          .videoDiv {
+//             .textDiv {
+//                .title {
+//                   font-size: 20px;
+//                }
+
+//                p {
+//                   padding: 1rem;
+//                }
+//             }
+
+//             .footerDiv {
+//                .text {
+//                   font-size: 12px;
+//                }
+
+//                .btn {
+//                   padding: .4rem 1.5rem;
+//                }
+//             }
+//          }
+
+//          .formDiv {
+
+//             .headerDiv {
+//                padding: 1.5rem 0;
+
+//                h3 {
+//                   font-size: 20px;
+//                }
+//             }
+
+//             .inputDiv {
+//                input {
+//                   width: 100%;
+//                   max-width: 200px;
+//                }
+//             }
+//          }
+//       }
+//    }
+// }
+
+// @media screen and (max-width: 927px) {
+
+//    .loginPage,
+//    .registerPage {
+//       .container {
+//          width: 85%;
+//       }
+//    }
+// }
+
+// @media screen and (max-width: 1440px) {
+
+//    .loginPage,
+//    .registerPage {
+//       .container {
+//          width: 90%;
+//       }
+//    }
+
+//    .heading {
+//       flex-direction: column;
+//       align-items: flex-start;
+//       gap: 1rem;
+//    }
+// }
+
+// // For screen sizes 2560px width
+// @media screen and (min-width: 1440px) and (max-width: 2560px) {
+
+//    .loginPage,
+//    .registerPage {
+//       .container {
+//          width: 95%;
+//          max-width: 1440px;
+//          padding: 2rem;
+//       }
+
+
+//       .heading {
+//          flex-direction: row;
+//          align-items: center;
+//          gap: 2rem;
+//       }
+
+//       .videoDiv .textDiv .title {
+//          font-size: 24px;
+//       }
+
+//       .footerDiv .text {
+//          font-size: 14px;
+//       }
+
+//       .footerDiv .btn {
+//          padding: 0.6rem 2rem;
+//       }
+
+//       .formDiv {
+//          gap: 2rem;
+//          transform: translateY(0);
+
+//          .headerDiv img {
+//             width: 60px;
+//          }
+
+//          .headerDiv h3 {
+//             font-size: 24px;
+//          }
+
+//          .form .inputDiv input {
+//             max-width: 400px;
+//          }
+//       }
+//    }
+
+   
+// }
+
+
+
+// /* Close Button */
+// .closeBtn {
+//    position: absolute;
+//    top: 10px;
+//    right: 10px;
+//    background: none;
+//    border: none;
+//    font-size: 30px;
+//    cursor: pointer;
+//    color: #212ea0;
+// }
+
+// .closeBtn:hover {
+//    color: #ff4d4d;
+//    /* Change color on hover */
+// }
+
+// .closeIcon {
+//    font-size: 30px;
+// }
+
+// // Hide scroll bar
+// ::-webkit-scrollbar {
+//    display: none;
+// }

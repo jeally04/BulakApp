@@ -1,0 +1,120 @@
+.about {
+   margin: 100px auto;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   width: 90%;
+   gap: 2rem;
+   /* Added spacing between elements for better visual balance */
+}
+
+.about-left {
+   flex-basis: 50%;
+   position: relative;
+}
+
+.about-right {
+   flex-basis: 46%;
+}
+
+.about-img {
+   width: 100%;
+   border-radius: 10px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   /* Added subtle shadow for depth */
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+   /* Added hover effects */
+}
+
+.about-img:hover {
+   transform: scale(1.05);
+   /* Slight zoom effect on hover */
+   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+   /* Enhanced shadow on hover */
+}
+
+.play-icon {
+   width: 60px;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   cursor: pointer;
+   transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.play-icon:hover {
+   transform: translate(-50%, -50%) scale(1.2);
+   /* Slight enlarge on hover */
+   opacity: 0.9;
+}
+
+.about h3 {
+   font-weight: 600;
+   font-size: 16px;
+   color: #212ea0;
+   margin: 0;
+   /* Simplified margin */
+   transition: color 0.3s ease;
+   /* Smooth hover effect */
+}
+
+.about h3:hover {
+   color: #1a238a;
+   /* Darker shade on hover */
+}
+
+.about h2 {
+   font-size: 2.2rem;
+   /* Modern, responsive font size */
+   color: #000f38;
+   margin: 10px 0;
+   max-width: 400px;
+   line-height: 1.4;
+   /* Improved readability */
+}
+
+.about p {
+   color: #676767;
+   margin-bottom: 15px;
+   font-size: 1rem;
+   /* Responsive font size */
+   line-height: 1.6;
+   /* Enhanced readability */
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 850px) {
+   .about {
+      flex-direction: column;
+      gap: 1.5rem;
+      /* Adjust spacing for stacked layout */
+   }
+
+   .about-left {
+      flex-basis: 100%;
+      margin: 20px 0;
+      order: 2;
+   }
+
+   .about-right {
+      flex-basis: 100%;
+   }
+
+   .about h2 {
+      font-size: 1.8rem;
+      /* Adjust font size for smaller screens */
+   }
+
+   .about p {
+      font-size: 0.95rem;
+      /* Adjust text size for better readability */
+   }
+}
+
+/* Accessibility Enhancements */
+.about-img:focus,
+.play-icon:focus {
+   outline: 3px solid #212ea0;
+   outline-offset: 4px;
+}

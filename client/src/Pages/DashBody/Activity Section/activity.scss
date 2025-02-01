@@ -1,0 +1,78 @@
+.activitySection {
+   flex-basis: 50%;
+   /* Adjusts width of the activity section */
+   height: 100%;
+   /* Makes it take full height of its parent */
+   display: flex;
+   flex-direction: column;
+   /* Ensures children stack vertically */
+
+   /* Set a specific max-height for the scrollable area */
+   .heading {
+      width: 100%;
+      justify-content: space-between;
+
+      h1 {
+         font-size: var(--h2FontSize);
+         color: var(--blackColor);
+         font-weight: 700;
+      }
+
+      .btn {
+         border: 1px solid transparent;
+
+         &:hover {
+            border: var(--primary-color);
+         }
+      }
+   }
+
+   .secContainer {
+      margin-top: 1rem;
+      flex: 1;
+      /* Allows secContainer to take remaining space */
+      overflow-y: auto;
+      /* Enables vertical scrolling */
+      overflow-x: hidden;
+      /* Hides horizontal scrolling if needed */
+      max-height: 400px;
+      /* Adjust this value based on your design */
+
+      .singleCustomer {
+         align-items: flex-start;
+         justify-content: space-between;
+
+         img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px var(--itemCardColor);
+            margin-right: 1rem;
+         }
+
+         .customerDetails {
+            flex: 1;
+
+            .name {
+               font-size: var(--h3FontSize);
+               font-weight: 600;
+               color: var(--blackColor);
+               display: block;
+            }
+ 
+            small {
+               font-weight: 500;
+               color: var(--textColor);
+               font-size: var(--smallFontSize);
+            }
+         }
+
+         .duration {
+            color: var(--textColor);
+            font-weight: 500;
+            font-size: var(--smallestFontSize);
+         }
+      }
+   }
+}
