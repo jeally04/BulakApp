@@ -13,7 +13,6 @@ const SideBar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const sidebarRef = useRef(null); 
 
-  // Update state on window resize
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -23,14 +22,12 @@ const SideBar = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Toggle sidebar only on smaller screens
   const toggleSidebar = () => {
     if (isMobile) {
       setIsOpen(!isOpen);
     }
   };
 
-  // Close sidebar when clicking outside (only for mobile view)
   const handleClickOutside = (event) => {
     if (isMobile && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
       setIsOpen(false);
@@ -48,14 +45,12 @@ const SideBar = () => {
 
   return (
     <>
-      {/* Hamburger Button (Visible on smaller screens) */}
       {isMobile && (
         <div className="hamburger" onClick={toggleSidebar}>
           {isOpen ? <FaTimes className="close-icon" /> : <FaBars className="hamburger-icon" />}
         </div>
       )}
 
-      {/* Sidebar Menu */}
       <div 
         ref={sidebarRef} 
         className={`sideBar ${isOpen || !isMobile ? 'open' : 'closed'}`}
@@ -65,7 +60,6 @@ const SideBar = () => {
           <h2>BulakAPP</h2>
         </div>
 
-        {/* Quick Menu Section */}
         <div className="menuDiv">
           <ul className="menuLists grid">
             <li className="listItem">
@@ -77,7 +71,13 @@ const SideBar = () => {
             <li className="listItem">
               <NavLink to="/dashboard/recognition" className={({ isActive }) => isActive ? "menuLink activeLink flex" : "menuLink flex"}>
                 <MdOutlineCamera className="icon" />
-                <span className="smallText">Recognition</span>
+                <span className="smallText">Live Detection</span>
+              </NavLink>
+            </li>
+            <li className="listItem">
+              <NavLink to="/dashboard/uploadrecognition" className={({ isActive }) => isActive ? "menuLink activeLink flex" : "menuLink flex"}>
+                <MdOutlineCamera className="icon" />
+                <span className="smallText">Upload Image/Video</span>
               </NavLink>
             </li>
             <li className="listItem">
@@ -101,7 +101,6 @@ const SideBar = () => {
           </ul>
         </div>
 
-        {/* Help Center Section */}
         <div className="sideBarCard">
           <BsQuestionCircle className="icon" />
           <div className="cardContent">

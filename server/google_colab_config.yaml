@@ -1,0 +1,19 @@
+path: "/content/gdrive/My Drive/Datasets/data" # dataset root dir
+train: images/train # train images (relative to 'path')
+val: images/train # val images (relative to 'path')
+
+# Classes
+names:
+  0: Red Rose
+  1: Pink Rose
+  2: White Rose
+  3: Desert Rose
+  4: Sunflower
+  5: Gumamela
+  6: Yellow Rose
+  7: Anthurium
+  8: Yellow Alder
+  9: Chrysanthemum
+  10: Yellow Chrysanthemum
+  11: Magenta Chrysanthemum
+  12: White Anthurium

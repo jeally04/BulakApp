@@ -15,13 +15,18 @@ const Recognition = () => {
 
   const flowerIdMap = {
     "Red Rose": 1,
-    "Pink Rose": 12,
+    "Pink Rose": 12, 
     "White Rose": 13,
     "Desert Rose": 14,
     "Sunflower": 5,
     "Gumamela": 15,
     "Yellow Rose": 2,
     "Anthurium": 16,
+    "Yellow Alder": 22,
+    "Chrysanthemum": 18,
+    "Yellow Chrysanthemum": 19,
+    "Magenta Chrysanthemum": 20,
+    "white Anthurium": 21
   };
 
   const classNames = [
@@ -30,9 +35,14 @@ const Recognition = () => {
     "White Rose",
     "Desert Rose",
     "Sunflower",
-    "Red Rose",
+    "Gumamela",
     "Yellow Rose",
-    "Anthurium"
+    "Anthurium",
+    "Yellow Alder",
+    "Chrysanthemum",
+    "Yellow Chrysanthemum",
+    "Magenta Chrysanthemum",
+    "white Anthurium"
   ];
 
   useEffect(() => {
