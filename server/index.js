@@ -3,12 +3,12 @@ const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
 const multer = require('multer');
-const path = require('path');
 const axios = require('axios');
+const path = require('path');
 
 // Middleware to parse JSON and handle CORS
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173" })); // Allow frontend to make requests
 
 // Connect to MySQL database
 const db = mysql.createConnection({
@@ -126,6 +126,7 @@ app.get('/api/flowers', (req, res) => {
 
 // ************** IMAGE UPLOAD & DETECTION (YOLO) ************
 
+// Set up multer for handling image uploads
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Route to handle image uploads and detection
@@ -135,7 +136,7 @@ app.post('/detect', upload.single('image'), async (req, res) => {
       return res.status(400).send({ message: 'No image uploaded.' });
     }
 
-    // Send the image to the Python API
+    // Send the image to the Python API for YOLO detection
     const response = await axios.post(
       'http://localhost:8000/detect/',
       req.file.buffer,
@@ -203,4 +204,3 @@ app.put('/api/update-profile/:id', upload.single('profileImage'), (req, res) => 
     }
   });
 });
-
