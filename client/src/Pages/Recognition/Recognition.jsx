@@ -12,7 +12,7 @@ const Recognition = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [flowersData, setFlowersData] = useState({});
   const navigate = useNavigate();
-
+ 
   const flowerIdMap = {
     "Red Rose": 1,
     "Pink Rose": 12, 
@@ -26,7 +26,7 @@ const Recognition = () => {
     "Chrysanthemum": 18,
     "Yellow Chrysanthemum": 19,
     "Magenta Chrysanthemum": 20,
-    "white Anthurium": 21
+    "white Anthurium": 21,
   };
 
   const classNames = [

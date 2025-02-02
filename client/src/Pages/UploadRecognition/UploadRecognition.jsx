@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaCloudUploadAlt, FaRegTimesCircle } from "react-icons/fa"; // Import icons
+import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Loading icon
+import { BsFillFileImageFill } from "react-icons/bs"; // File icon
 import "./UploadRecognition.css";
 
 const UploadRecognition = () => {
@@ -27,7 +30,6 @@ const UploadRecognition = () => {
     "White Anthurium": 21,
   };
 
-  // Fetch flower data from API
   const fetchFlowersData = async () => {
     try {
       const response = await axios.get("http://localhost:3002/flowers");
@@ -48,10 +50,10 @@ const UploadRecognition = () => {
 
     if (file) {
       const formData = new FormData();
-      formData.append("file", file); 
+      formData.append("file", file);
 
       try {
-        setIsDetecting(true); // Set detecting flag to true
+        setIsDetecting(true);
         const response = await axios.post("http://localhost:8000/detect", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -60,10 +62,10 @@ const UploadRecognition = () => {
 
         const detectionResults = response.data.detections || [];
         setDetections(detectionResults);
-        setIsDetecting(false); // Reset detecting flag
+        setIsDetecting(false);
       } catch (error) {
         console.error("Error uploading file:", error);
-        setIsDetecting(false); // Reset detecting flag on error
+        setIsDetecting(false);
         setErrorMessage("Error detecting flowers. Please try again.");
       }
     }
@@ -73,55 +75,65 @@ const UploadRecognition = () => {
     navigate(`/dashboard/flower/${flowerId}`);
   };
 
-  // Fetch flower data on mount
   React.useEffect(() => {
     fetchFlowersData();
   }, []);
 
   return (
-    <div className="upload-recognition-container">
+    <div className="upload-container">
       <h1 className="upload-title">Flower Recognition - Upload Image</h1>
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleUpload}
-        className="file-input"
-      />
-      {isDetecting && <p>Detecting flowers...</p>}
+      <div className="upload-box">
+        <label className="upload-label">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleUpload}
+            className="file-input"
+          />
+          <div className="upload-text">
+            <FaCloudUploadAlt size={40} />
+            <span>{selectedFile ? `File selected: ${selectedFile.name}` : "Click to choose a file"}</span>
+          </div>
+        </label>
+
+        {selectedFile && <img src={URL.createObjectURL(selectedFile)} alt="Selected" />}
+      </div>
+
+      {isDetecting && <div className="loading"><AiOutlineLoading3Quarters size={30} className="spin" /> Detecting flowers...</div>}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
       <div className="detections">
         <h2>Detected Flowers</h2>
         {detections.length > 0 ? (
           detections.map((detection, idx) => {
-            const flowerName = detection.class_name; // Assuming detection includes class_name
+            const flowerName = detection.class_name;
             const flowerId = flowerIdMap[flowerName];
             const flowerDetails = flowersData[flowerName];
 
             return (
               <div
                 key={idx}
-                className="detection-card"
+                className="detection-item"
                 onClick={() => handleFlowerClick(flowerId)}
               >
-                <div className="detection-info">
-                  <p><strong>Name:</strong> {flowerName}</p>
-                  <p><strong>Scientific Name:</strong> {flowerDetails?.scientific_name || "N/A"}</p>
-                  <p><strong>Other Names:</strong> {flowerDetails?.other_names || "N/A"}</p>
-                  <p><strong>Family:</strong> {flowerDetails?.family || "N/A"}</p>
-                  <p><strong>Symbolism:</strong> {flowerDetails?.symbolism || "N/A"}</p>
-                </div>
-                <div className="flower-image">
-                  <img src={flowerDetails?.image_url || "default_image.jpg"} alt={flowerName} />
-                </div>
+                <p><strong>Name:</strong> {flowerName}</p>
+                <p><strong>Scientific Name:</strong> {flowerDetails?.scientific_name || "N/A"}</p>
+                <p><strong>Other Names:</strong> {flowerDetails?.other_names || "N/A"}</p>
+                <p><strong>Family:</strong> {flowerDetails?.family || "N/A"}</p>
+                <p><strong>Symbolism:</strong> {flowerDetails?.symbolism || "N/A"}</p>
+                <img src={flowerDetails?.image_url || "default_image.jpg"} alt={flowerName} />
               </div>
             );
           })
         ) : (
-          <p>No flowers detected. Please upload another image.</p>
+          <p className="no-detection">No flowers detected. Please upload another image.</p>
         )}
       </div>
+
+      <button className="upload-btn" onClick={() => setSelectedFile(null)}>
+        <FaRegTimesCircle size={20} /> Clear Upload
+      </button>
     </div>
   );
 };

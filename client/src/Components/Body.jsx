@@ -10,6 +10,7 @@ import Flower from '../Components/Flower'; // Import the Flower component
 import AllFlowers from '../Pages/AllFlowers/AllFlowers';
 import AllFlowerTypes from '../Pages/AllFlowerTypes/AllFlowerTypes';
 import FlowerTypes from '../Pages/FlowerTypes/FlowerTypes';
+import UploadRecognition from '../Pages/UploadRecognition/uploadrecognition';
 
 const Body = () => {
   return (
@@ -19,6 +20,7 @@ const Body = () => {
         <Route path="/" element={<Navigate to="dashbody" />} />
         <Route path="dashbody" element={<Dashbody />} />
         <Route path="recognition" element={<Recognition />} />
+        <Route path="uploadrecognition" element={<UploadRecognition />} />
         <Route path="explore" element={<Explore />} />
         <Route path="history" element={<History />} />
         <Route path="favorite" element={<Favorite />} />
