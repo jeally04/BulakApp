@@ -7,7 +7,7 @@ model = YOLO("C:/Users/user/OneDrive/Documents/GitHub/Problema/train3/weights/be
 
 # Perform inference on the video
 results = model(
-    "C:/Users/user/OneDrive/Desktop/ds111.jpg",
+    "C:/Users/user/OneDrive/Desktop/sf111.jpg",
     save=True,  # Save the results (annotated video)
     save_txt=True  # Save detection results in text files
 )

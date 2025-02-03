@@ -99,14 +99,14 @@
    text-align: center;
 }
 
-.flower-details {
+.flower-details1 {
    background-color: #f5f5f5;
    padding: 15px;
    border-radius: 10px;
    border: 2px solid #86c232;
 }
 
-.flower-details p {
+.flower-details1 p {
    font-size: 16px;
    margin-bottom: 8px;
 }
@@ -164,7 +164,7 @@
       font-size: 18px;
    }
 
-   .flower-details p,
+   .flower-details1 p,
    #section-4 p {
       font-size: 14px;
    }

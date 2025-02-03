@@ -51,7 +51,7 @@ const Flower = () => {
           {/* Second section for characteristics */}
           <div className="flower-section" id="section-2">
             <h2 className="section-title">Characteristics</h2>
-            <div className="flower-details">
+            <div className="flower-details1">
               <p><strong>Life Span:</strong> {flower.lifespan}</p>
               <p><strong>Flower Size:</strong> {flower.flower_size}</p>
               <p><strong>Bloom Time:</strong> {flower.bloom_time}</p>

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaCloudUploadAlt, FaRegTimesCircle } from "react-icons/fa"; // Import icons
-import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Loading icon
-import { BsFillFileImageFill } from "react-icons/bs"; // File icon
+import { FaCloudUploadAlt, FaRegTimesCircle } from "react-icons/fa";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import "./UploadRecognition.css";
 
 const UploadRecognition = () => {
@@ -14,27 +13,31 @@ const UploadRecognition = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const flowerIdMap = { 
-    "Red Rose": 1,
-    "Pink Rose": 12,
-    "White Rose": 13,
-    "Desert Rose": 14,
-    "Sunflower": 5,
-    "Gumamela": 15,
-    "Yellow Rose": 2,
-    "Anthurium": 16,
-    "Yellow Alder": 22,
-    "Chrysanthemum": 18,
-    "Yellow Chrysanthemum": 19,
-    "Magenta Chrysanthemum": 20,
-    "White Anthurium": 21,
+  // Normalize flower names for mapping
+  const normalizeName = (name) => name.trim().toLowerCase();
+
+  const flowerIdMap = {
+    "red rose": 1,
+    "pink rose": 12,
+    "white rose": 13,
+    "desert rose": 14,
+    "sunflower": 5,
+    "gumamela": 15,
+    "yellow rose": 2,
+    "anthurium": 16,
+    "yellow alder": 22,
+    "chrysanthemum": 18,
+    "yellow chrysanthemum": 19,
+    "magenta chrysanthemum": 20,
+    "white anthurium": 21,
   };
 
+  // Fetch flower data from database
   const fetchFlowersData = async () => {
     try {
       const response = await axios.get("http://localhost:3002/flowers");
       const flowers = response.data.reduce((acc, flower) => {
-        acc[flower.flower_name] = flower;
+        acc[normalizeName(flower.flower_name)] = flower;
         return acc;
       }, {});
       setFlowersData(flowers);
@@ -43,10 +46,11 @@ const UploadRecognition = () => {
     }
   };
 
+  // Handle image upload and detection
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    setErrorMessage(""); // Reset error message
+    setErrorMessage("");
 
     if (file) {
       const formData = new FormData();
@@ -55,13 +59,16 @@ const UploadRecognition = () => {
       try {
         setIsDetecting(true);
         const response = await axios.post("http://127.0.0.1:8000/detect", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: { "Content-Type": "multipart/form-data" },
         });
 
         const detectionResults = response.data.detections || [];
-        setDetections(detectionResults);
+        const normalizedDetections = detectionResults.map((d) => ({
+          ...d,
+          flower_name: normalizeName(d.flower_name),
+        }));
+
+        setDetections(normalizedDetections);
         setIsDetecting(false);
       } catch (error) {
         console.error("Error uploading file:", error);
@@ -71,11 +78,12 @@ const UploadRecognition = () => {
     }
   };
 
+  // Navigate to flower details page
   const handleFlowerClick = (flowerId) => {
     navigate(`/dashboard/flower/${flowerId}`);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchFlowersData();
   }, []);
 
@@ -85,12 +93,7 @@ const UploadRecognition = () => {
 
       <div className="upload-box">
         <label className="upload-label">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleUpload}
-            className="file-input"
-          />
+          <input type="file" accept="image/*" onChange={handleUpload} className="file-input" />
           <div className="upload-text">
             <FaCloudUploadAlt size={40} />
             <span>{selectedFile ? `File selected: ${selectedFile.name}` : "Click to choose a file"}</span>
@@ -107,16 +110,12 @@ const UploadRecognition = () => {
         <h2>Detected Flowers</h2>
         {detections.length > 0 ? (
           detections.map((detection, idx) => {
-            const flowerName = detection.flower_name;  // ✅ Fixed key name
-            const flowerId = flowerIdMap[flowerName];
-            const flowerDetails = flowersData[flowerName] || {}; // ✅ Prevent undefined errors
+            const flowerName = detection.flower_name;
+            const flowerId = flowerIdMap[flowerName] || "Unknown";
+            const flowerDetails = flowersData[flowerName] || {};
 
             return (
-              <div
-                key={idx}
-                className="detection-item"
-                onClick={() => handleFlowerClick(flowerId)}
-              >
+              <div key={idx} className="detection-item" onClick={() => handleFlowerClick(flowerId)}>
                 <p><strong>Name:</strong> {flowerName}</p>
                 <p><strong>Scientific Name:</strong> {flowerDetails.scientific_name || "N/A"}</p>
                 <p><strong>Other Names:</strong> {flowerDetails.other_names || "N/A"}</p>
@@ -130,7 +129,6 @@ const UploadRecognition = () => {
           <p className="no-detection">No flowers detected. Please upload another image.</p>
         )}
       </div>
-
 
       <button className="upload-btn" onClick={() => setSelectedFile(null)}>
         <FaRegTimesCircle size={20} /> Clear Upload
