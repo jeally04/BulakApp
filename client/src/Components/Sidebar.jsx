@@ -45,11 +45,11 @@ const SideBar = () => {
 
   return (
     <>
-      {isMobile && (
+      {isMobile && ( 
         <div className="hamburger" onClick={toggleSidebar}>
           {isOpen ? <FaTimes className="close-icon" /> : <FaBars className="hamburger-icon" />}
         </div>
-      )}
+      )} 
 
       <div 
         ref={sidebarRef} 

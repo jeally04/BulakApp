@@ -53,20 +53,6 @@
    margin-right: 10px;
 }
 
-/* Hamburger Menu
-.hamburger {
-   position: fixed;
-   top: 20px;
-   left: 20px;
-   z-index: 1100;
-   cursor: pointer;
-}
-
-.hamburger-icon,
-.close-icon {
-   font-size: 1.5rem;
-} */
-
 .logoDiv1{
    margin-top: 20px;
    width: 60px;

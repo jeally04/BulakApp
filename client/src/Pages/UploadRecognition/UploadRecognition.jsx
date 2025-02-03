@@ -54,7 +54,7 @@ const UploadRecognition = () => {
 
       try {
         setIsDetecting(true);
-        const response = await axios.post("http://localhost:8000/detect", formData, {
+        const response = await axios.post("http://127.0.0.1:8000/detect", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -107,9 +107,9 @@ const UploadRecognition = () => {
         <h2>Detected Flowers</h2>
         {detections.length > 0 ? (
           detections.map((detection, idx) => {
-            const flowerName = detection.class_name;
+            const flowerName = detection.flower_name;  // ✅ Fixed key name
             const flowerId = flowerIdMap[flowerName];
-            const flowerDetails = flowersData[flowerName];
+            const flowerDetails = flowersData[flowerName] || {}; // ✅ Prevent undefined errors
 
             return (
               <div
@@ -118,11 +118,11 @@ const UploadRecognition = () => {
                 onClick={() => handleFlowerClick(flowerId)}
               >
                 <p><strong>Name:</strong> {flowerName}</p>
-                <p><strong>Scientific Name:</strong> {flowerDetails?.scientific_name || "N/A"}</p>
-                <p><strong>Other Names:</strong> {flowerDetails?.other_names || "N/A"}</p>
-                <p><strong>Family:</strong> {flowerDetails?.family || "N/A"}</p>
-                <p><strong>Symbolism:</strong> {flowerDetails?.symbolism || "N/A"}</p>
-                <img src={flowerDetails?.image_url || "default_image.jpg"} alt={flowerName} />
+                <p><strong>Scientific Name:</strong> {flowerDetails.scientific_name || "N/A"}</p>
+                <p><strong>Other Names:</strong> {flowerDetails.other_names || "N/A"}</p>
+                <p><strong>Family:</strong> {flowerDetails.family || "N/A"}</p>
+                <p><strong>Symbolism:</strong> {flowerDetails.symbolism || "N/A"}</p>
+                <img src={flowerDetails.image_url || "default_image.jpg"} alt={flowerName} />
               </div>
             );
           })
@@ -130,6 +130,7 @@ const UploadRecognition = () => {
           <p className="no-detection">No flowers detected. Please upload another image.</p>
         )}
       </div>
+
 
       <button className="upload-btn" onClick={() => setSelectedFile(null)}>
         <FaRegTimesCircle size={20} /> Clear Upload

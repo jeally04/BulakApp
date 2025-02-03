@@ -3,11 +3,11 @@ import shutil
 import os
 
 # Load the YOLO model with the pre-trained weights
-model = YOLO("C:/Users/user/OneDrive/Desktop/BulakApp4/FlowerDetector006/runs/detect/train5/weights/best.pt")
+model = YOLO("C:/Users/user/OneDrive/Documents/GitHub/Problema/train3/weights/best.pt")
 
 # Perform inference on the video
 results = model(
-    "C:/Users/user/OneDrive/Desktop/BulakApp4/FlowerDetector006/Sunflower And Red Rose Bouquet.mp4",
+    "C:/Users/user/OneDrive/Desktop/ds111.jpg",
     save=True,  # Save the results (annotated video)
     save_txt=True  # Save detection results in text files
 )
@@ -26,7 +26,7 @@ if output_folders:
     latest_output_dir = os.path.join(default_output_dir, output_folders[-1])  # Last modified folder
 
     # Define the custom output directory where you want to move the results
-    output_dir = "C:/Users/user/OneDrive/Desktop/BulakApp4/FlowerDetector006/sample/sample3"
+    output_dir = "C:/Users/user/OneDrive/Desktop"
 
     # Ensure the output directory exists
     os.makedirs(output_dir, exist_ok=True)
