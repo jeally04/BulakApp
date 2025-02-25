@@ -9,17 +9,17 @@ import os
 # Initialize FastAPI app
 app = FastAPI()
 
-# Add CORS middleware (for frontend communication)
+# CORS configuration to allow frontend requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Use your React frontend URL
+    allow_origins=["http://localhost:5173"],  # Update with your frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Load the YOLO model
-MODEL_PATH = os.path.join("C:/Users/user/OneDrive/Documents/GitHub/Problema/train3/weights/best.pt")
+# Load YOLO model
+MODEL_PATH = "C:/Users/user/OneDrive/Documents/GitHub/Problema/train3/weights/best.pt"
 model = YOLO(MODEL_PATH)
 
 # Mapping class IDs to flower names
@@ -42,37 +42,37 @@ CLASS_NAMES = {
 @app.post("/detect/")
 async def detect(file: UploadFile = File(...)):
     try:
-        # Check file type
+        # Ensure the uploaded file is an image
         if not file.content_type.startswith("image/"):
             raise HTTPException(status_code=400, detail="Invalid file type. Please upload an image.")
 
         # Read and process image
         image_data = await file.read()
         try:
-            image = Image.open(io.BytesIO(image_data))
-            image.thumbnail((1024, 1024))  # Resize before processing (improves accuracy)
+            image = Image.open(io.BytesIO(image_data)).convert("RGB")
         except UnidentifiedImageError:
-            raise HTTPException(status_code=400, detail="Could not process the image. Make sure it's valid.")
+            raise HTTPException(status_code=400, detail="Invalid image format.")
 
-        # Convert image to numpy array for YOLO model
-        results = model.predict(source=np.array(image))
+        # Convert image to numpy array
+        img_array = np.array(image)
 
-        # Extract detections
+        # Perform object detection
+        results = model.predict(source=img_array, conf=0.4)  # Adjust confidence threshold if needed
+
         detections = []
-        for box in results[0].boxes:
-            class_id = int(box.cls[0])
-            flower_name = CLASS_NAMES.get(class_id, "Unknown Flower")
-            confidence = float(box.conf[0])
-            bbox = box.xyxy.tolist()[0]  # Bounding box coordinates
+        for result in results:
+            for box in result.boxes:
+                class_id = int(box.cls[0].item())  # Convert tensor to integer
+                confidence = float(box.conf[0].item())  # Convert tensor to float
+                bbox = [float(coord) for coord in box.xyxy[0].tolist()]  # Convert bbox to list
 
-            detections.append({
-                "flower_name": flower_name,
-                "confidence": confidence,
-                "bbox": bbox,
-            })
+                detections.append({
+                    "flower_name": CLASS_NAMES.get(class_id, "Unknown Flower"),
+                    "confidence": confidence,
+                    "bbox": bbox,
+                })
 
         return {"detections": detections}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
-

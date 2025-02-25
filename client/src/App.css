@@ -218,7 +218,7 @@ video {
 }
 .loginPage .container .formDiv .form,
 .registerPage .container .formDiv .form {
-  gap: 1rem;
+  gap: 0.5rem;
 }
 .loginPage .container .formDiv .form .inputDiv .icon,
 .registerPage .container .formDiv .form .inputDiv .icon {
@@ -236,13 +236,11 @@ video {
   color: var(--blackColor);
   font-weight: 400;
   font-size: 14px;
-  padding: 0.5rem 0;
   display: block;
 }
 .loginPage .container .formDiv .form .inputDiv .input,
 .registerPage .container .formDiv .form .inputDiv .input {
-  gap: 0.5rem;
-  padding: 1rem;
+  padding-left: 10px;
   background: var(--inputColor);
   border-radius: 10px;
 }

@@ -118,8 +118,8 @@ const UploadRecognition = () => {
               <div key={idx} className="detection-item" onClick={() => handleFlowerClick(flowerId)}>
                 <p><strong>Name:</strong> {flowerName}</p>
                 <p><strong>Scientific Name:</strong> {flowerDetails.scientific_name || "N/A"}</p>
-                <p><strong>Other Names:</strong> {flowerDetails.other_names || "N/A"}</p>
                 <p><strong>Family:</strong> {flowerDetails.family || "N/A"}</p>
+                <p><strong>Uses on Events:</strong> {flowerDetails.uses_on_events || "N/A"}</p>
                 <p><strong>Symbolism:</strong> {flowerDetails.symbolism || "N/A"}</p>
                 <img src={flowerDetails.image_url || "default_image.jpg"} alt={flowerName} />
               </div>

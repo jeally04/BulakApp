@@ -46,11 +46,13 @@
 .searchBar {
   display: flex;
   /* Use flexbox to align items */
-  padding: 0.5rem;
+  
   /* Adjusted padding */
   background: var(--whiteColor);
   border-radius: 5px;
   gap: 0.5rem;
+  padding-top: 10px;
+  padding-bottom: -10px;
   /* Optional: Adjusts spacing between elements */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 30%;
@@ -67,9 +69,11 @@
 
 .searchBar .icon {
   color: var(--textColor);
-  margin-left: 0.5rem;
+  margin-left: 0.25rem;
   /* Add some space before the icon */
   align-self: center;
+
+  
   /* Center icon vertically if needed */
 }
 

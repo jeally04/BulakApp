@@ -77,7 +77,7 @@ const SideBar = () => {
             <li className="listItem">
               <NavLink to="/dashboard/uploadrecognition" className={({ isActive }) => isActive ? "menuLink activeLink flex" : "menuLink flex"}>
                 <MdOutlineCamera className="icon" />
-                <span className="smallText">Upload Image/Video</span>
+                <span className="smallText">Upload Image</span>
               </NavLink>
             </li>
             <li className="listItem">

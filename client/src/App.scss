@@ -219,7 +219,7 @@ video {
          }
 
          .form {
-            gap: 1rem;
+            gap: 0.5rem;
 
             .inputDiv {
                .icon {
@@ -237,13 +237,14 @@ video {
                   color: var(--blackColor);
                   font-weight: 400;
                   font-size: 14px;
-                  padding: .5rem 0;
+                  // padding: .5rem 0;
                   display: block;
                }
 
                .input {
-                  gap: .5rem;
-                  padding: 1rem;
+                  // gap: .5rem;
+                  // padding: 1rem;
+                  padding-left: 10px;
                   background: var(--inputColor);
                   border-radius: 10px;
                }

@@ -7,7 +7,7 @@ const Hero = () => {
       <div className='hero container1'>
          <div className='hero-text'>
             <h1>BulakApp: Real-Time Flower Detection</h1>
-            <p>BulakApp uses advanced AI technology to instantly identify and classify flowers. Simply upload or scan a photo, and explore detailed information about each flower species, from origins to care tips, all in real-time.</p>
+            <p>BulakApp uses advanced AI technology for instant flower identification and classification. Whether you upload an image, scan a photo, or use live detection via video streaming, BulakApp provides real-time insights. Explore detailed information about each flower species.</p>
             <button className='btn1'>Explore more <img src={dark_arrow} alt="" /></button>
          </div>
       </div>
