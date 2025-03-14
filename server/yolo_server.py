@@ -1,28 +1,43 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from ultralytics import YOLO
 from PIL import Image, UnidentifiedImageError
 import numpy as np
 import io
-import os
+import mysql.connector
+from datetime import datetime
 
 # Initialize FastAPI app
 app = FastAPI()
 
-# CORS configuration to allow frontend requests
+# CORS Configuration (Frontend Connection)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Update with your frontend URL
+    allow_origins=["http://localhost:5173"],  # Allow frontend access
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Load YOLO model
-MODEL_PATH = "C:/Users/user/OneDrive/Documents/GitHub/Problema/train3/weights/best.pt"
+# Load YOLO Model
+MODEL_PATH = "C:/Users/user/OneDrive/Desktop/BulakApp4/FlowerDetector001/runs/detect/train3/weights/best.pt"
 model = YOLO(MODEL_PATH)
 
-# Mapping class IDs to flower names
+# Database connection function
+def get_db_connection():
+    try:
+        conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="bulakappdb"
+        )
+        return conn
+    except mysql.connector.Error as err:
+        print(f"Database connection error: {err}")
+        raise HTTPException(status_code=500, detail="Database connection failed.")
+
+# Flower Class Mapping (Change these according to your trained model)
 CLASS_NAMES = {
     0: "Red Rose",
     1: "Pink Rose",
@@ -40,7 +55,11 @@ CLASS_NAMES = {
 }
 
 @app.post("/detect/")
-async def detect(file: UploadFile = File(...)):
+async def detect(
+    file: UploadFile = File(...),
+    user_id: int = Query(None, description="User ID (only required for uploads)"),
+    live: bool = Query(False, description="True for live detection, False for upload detection")
+):
     try:
         # Ensure the uploaded file is an image
         if not file.content_type.startswith("image/"):
@@ -53,26 +72,61 @@ async def detect(file: UploadFile = File(...)):
         except UnidentifiedImageError:
             raise HTTPException(status_code=400, detail="Invalid image format.")
 
-        # Convert image to numpy array
-        img_array = np.array(image)
+        # Resize image to match YOLO training size
+        image = image.resize((640, 640))
 
-        # Perform object detection
-        results = model.predict(source=img_array, conf=0.4)  # Adjust confidence threshold if needed
+        # Run YOLO detection
+        results = model.predict(image, conf=0.25, iou=0.4)  # Lower confidence & apply NMS
 
         detections = []
         for result in results:
             for box in result.boxes:
-                class_id = int(box.cls[0].item())  # Convert tensor to integer
-                confidence = float(box.conf[0].item())  # Convert tensor to float
-                bbox = [float(coord) for coord in box.xyxy[0].tolist()]  # Convert bbox to list
+                class_id = int(box.cls[0].item())
+                confidence = float(box.conf[0].item())
+                bbox = box.xyxy.tolist()[0]  # [xmin, ymin, xmax, ymax]
+                flower_name = CLASS_NAMES.get(class_id, "Unknown Flower")
 
                 detections.append({
-                    "flower_name": CLASS_NAMES.get(class_id, "Unknown Flower"),
+                    "flower_name": flower_name,
                     "confidence": confidence,
                     "bbox": bbox,
                 })
 
-        return {"detections": detections}
+                # Save detection to database only if it's an upload (not live)
+                if not live and user_id:
+                    conn = get_db_connection()
+                    cursor = conn.cursor()
+                    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+                    cursor.execute(
+                        "INSERT INTO detection_history (user_id, flower_name, confidence, detected_at) VALUES (%s, %s, %s, %s)",
+                        (user_id, flower_name, confidence, timestamp)
+                    )
+                    conn.commit()
+                    cursor.close()
+                    conn.close()
+
+        return {"detections": detections} if detections else {"message": "No flowers detected."}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+
+@app.get("/history/{user_id}")
+async def get_user_history(user_id: int):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("SELECT id, flower_name, confidence, detected_at FROM detection_history WHERE user_id = %s ORDER BY detected_at DESC", (user_id,))
+        history = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return {"history": history} if history else {"message": "No detection history found."}
+
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=500, detail=f"Database error: {err}")
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred while retrieving history: {str(e)}")

@@ -1,42 +1,137 @@
-.favorite-page {
+/* Favorite Page Styling */
+.favorite-page11 {
    padding: 20px;
-}
-
-h2 {
    text-align: center;
-   font-size: 24px;
-   margin-bottom: 40px;
-   margin-top: 20px;
-}
-
-.favorite-grid {
-   display: grid;
-   grid-template-columns: repeat(4, 1fr);
-   gap: 30px; 
-   justify-items: center;
-}
-
-.favorite-item {
-   position: relative;
-   width: 250px;
-   height: 300px;
-   background-color: #f1f1f1;
+   background: linear-gradient(135deg, hsl(113, 11%, 85%), hsl(113, 11%, 75%));
+   min-height: 100vh;
    display: flex;
+   flex-direction: column;
+   align-items: center;
    justify-content: center;
-   align-items: flex-end;
-   border-radius: 8px;
 }
 
-.heart-icon {
-   position: absolute;
-   top: 10px;
-   right: 10px;
-   font-size: 24px;
-   color: red;
-}
-
-.flower-name {
-   font-size: 16px;
+/* Header */
+h2 {
+   font-size: 2rem;
+   color: #333;
+   margin-bottom: 20px;
    font-weight: bold;
-   margin-bottom: 10px;
+   text-transform: uppercase;
+   letter-spacing: 1px;
+}
+
+/* Favorite Grid Layout */
+.favorite-grid11 {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+   gap: 20px;
+   justify-content: center;
+   max-width: 1000px;
+   width: 100%;
+   padding: 10px;
+}
+
+/* Favorite Item Styling */
+.favorite-item11 {
+   position: relative;
+   background: white;
+   padding: 12px;
+   border-radius: 12px;
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+   text-align: center;
+   cursor: pointer;
+   overflow: hidden;
+   max-width: 100%;
+}
+
+.favorite-item11:hover {
+   transform: translateY(-5px);
+   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Favorite Image - Ensures 1:1 Aspect Ratio */
+.favorite-image11 {
+   width: 100%;
+   height: auto;
+   aspect-ratio: 1/1;
+   object-fit: cover;
+   border-radius: 10px;
+   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.favorite-item11:hover .favorite-image11 {
+   transform: scale(1.05);
+   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Flower Name - Adjusts text size dynamically */
+.flower-name11 {
+   margin-top: 10px;
+   font-size: 1rem;
+   font-weight: 600;
+   color: #444;
+   text-align: center;
+   word-wrap: break-word;
+   max-width: 90%;
+   transition: color 0.3s ease-in-out;
+}
+
+.favorite-item11:hover .flower-name11 {
+   color: #e44d7d;
+}
+
+/* Heart Icon */
+.heart-icon11 {
+   position: absolute;
+   top: 12px;
+   right: 12px;
+   font-size: 22px;
+   color: #e44d7d;
+   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.favorite-item11:hover .heart-icon11 {
+   transform: scale(1.2);
+   opacity: 0.9;
+}
+
+/* ==================== 🔹 RESPONSIVE DESIGN 🔹 ==================== */
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+   .favorite-grid11 {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+   }
+
+   h2 {
+      font-size: 1.8rem;
+   }
+}
+
+/* Phones (max-width: 480px) */
+@media (max-width: 480px) {
+   .favorite-grid11 {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+   }
+
+   h2 {
+      font-size: 1.6rem;
+   }
+
+   .favorite-item11 {
+      padding: 8px;
+   }
+
+   .flower-name11 {
+      font-size: 0.85rem;
+   }
+
+   .heart-icon11 {
+      font-size: 18px;
+      top: 8px;
+      right: 8px;
+   }
 }

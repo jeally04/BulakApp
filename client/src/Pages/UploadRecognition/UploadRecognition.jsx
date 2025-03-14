@@ -13,6 +13,9 @@ const UploadRecognition = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  // Retrieve logged-in user ID
+  const userId = localStorage.getItem("user_id");
+
   // Normalize flower names for mapping
   const normalizeName = (name) => name.trim().toLowerCase();
 
@@ -32,7 +35,7 @@ const UploadRecognition = () => {
     "white anthurium": 21,
   };
 
-  // Fetch flower data from database
+  // Fetch flower data from the database
   const fetchFlowersData = async () => {
     try {
       const response = await axios.get("http://localhost:3002/flowers");
@@ -49,32 +52,37 @@ const UploadRecognition = () => {
   // Handle image upload and detection
   const handleUpload = async (event) => {
     const file = event.target.files[0];
+    if (!file) return;
+
+    if (!userId) {
+      setErrorMessage("User ID not found! Please log in.");
+      return;
+    }
+
     setSelectedFile(file);
     setErrorMessage("");
+    setIsDetecting(true);
 
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
+    const formData = new FormData();
+    formData.append("file", file);
 
-      try {
-        setIsDetecting(true);
-        const response = await axios.post("http://127.0.0.1:8000/detect", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/detect?user_id=${userId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-        const detectionResults = response.data.detections || [];
-        const normalizedDetections = detectionResults.map((d) => ({
-          ...d,
-          flower_name: normalizeName(d.flower_name),
-        }));
+      const detectionResults = response.data.detections || [];
+      const normalizedDetections = detectionResults.map((d) => ({
+        ...d,
+        flower_name: normalizeName(d.flower_name),
+      }));
 
-        setDetections(normalizedDetections);
-        setIsDetecting(false);
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        setIsDetecting(false);
-        setErrorMessage("Error detecting flowers. Please try again.");
-      }
+      setDetections(normalizedDetections);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      setErrorMessage("Error detecting flowers. Please try again.");
+    } finally {
+      setIsDetecting(false);
     }
   };
 
@@ -103,7 +111,12 @@ const UploadRecognition = () => {
         {selectedFile && <img src={URL.createObjectURL(selectedFile)} alt="Selected" />}
       </div>
 
-      {isDetecting && <div className="loading"><AiOutlineLoading3Quarters size={30} className="spin" /> Detecting flowers...</div>}
+      {isDetecting && (
+        <div className="loading">
+          <AiOutlineLoading3Quarters size={30} className="spin" /> Detecting flowers...
+        </div>
+      )}
+
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
       <div className="detections">

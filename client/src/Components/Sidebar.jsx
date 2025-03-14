@@ -57,7 +57,7 @@ const SideBar = () => {
       >
         <div className="logoDiv1 flex">
           <img src={logo} alt="BulakAPP Logo" className="logo" />
-          <h2>BulakAPP</h2>
+          <h2 className='bulakapp'>BulakAPP</h2>
         </div>
 
         <div className="menuDiv">

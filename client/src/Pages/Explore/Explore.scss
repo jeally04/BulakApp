@@ -1,23 +1,34 @@
+/* Explore Page Container */
 .explore-container {
   padding: 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 
+/* Sections */
 .section {
   margin-bottom: 40px;
 }
 
+/* Section Header */
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+  /* Ensures wrapping on small screens */
 }
 
 .section-header h2 {
   font-size: 1.8rem;
   color: #333;
+  flex-grow: 1;
+  /* Allows text to adjust dynamically */
+  min-width: 200px;
 }
 
+/* See All Button */
 .see-all {
   background-color: #4CAF50;
   color: white;
@@ -25,25 +36,38 @@
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
+.see-all:hover {
+  background-color: #388E3C;
+}
+
+/* Scrollable Flower Sections */
 .flower-types-scroll,
 .flowers-scroll {
   display: flex;
   overflow-x: auto;
   gap: 20px;
+  padding-bottom: 10px;
+  /* Adds spacing to prevent cut-off */
+  scroll-snap-type: x mandatory;
 }
 
+/* Flower Items */
 .flower-type-container,
 .flower-container1 {
   min-width: 200px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  /* Ensure text is below the image */
   align-items: center;
+  scroll-snap-align: start;
 }
 
+/* Flower Boxes */
 .flower-type-box,
 .flower-box {
   position: relative;
@@ -53,15 +77,24 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.flower-type-box:hover,
+.flower-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Flower Images */
 .flower-image1 {
   width: 100%;
   height: 100%;
-  border-radius: 5px;
   object-fit: cover;
+  border-radius: 5px;
 }
 
+/* Heart Icon */
 .heart-icon {
   position: absolute;
   top: 10px;
@@ -69,20 +102,97 @@
   color: rgb(255, 255, 255);
   font-size: 1.5rem;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
 }
 
-/* Ensure the text is visible and positioned below the image */
+.heart-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Flower Name */
 .flower-text {
   margin-top: 10px;
   font-size: 1rem;
   color: #333;
-  /* Set text color to a visible value */
   font-weight: 600;
-  display: block;
+  text-align: center;
 }
 
+/* Error Message */
 .error-message {
   color: red;
   text-align: center;
   margin-top: 20px;
+}
+
+/* ==================== 🔹 RESPONSIVE DESIGN 🔹 ==================== */
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .see-all {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .flower-types-scroll,
+  .flowers-scroll {
+    gap: 15px;
+  }
+
+  .flower-type-container,
+  .flower-container1 {
+    min-width: 180px;
+  }
+
+  .flower-type-box,
+  .flower-box {
+    width: 180px;
+    height: 130px;
+  }
+}
+
+/* Phones (max-width: 480px) */
+@media (max-width: 480px) {
+  .section-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .section-header h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  .see-all {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  .flower-types-scroll,
+  .flowers-scroll {
+    gap: 10px;
+  }
+
+  .flower-type-container,
+  .flower-container1 {
+    min-width: 160px;
+  }
+
+  .flower-type-box,
+  .flower-box {
+    width: 160px;
+    height: 120px;
+  }
+
+  .flower-text {
+    font-size: 0.9rem;
+  }
+
+  .heart-icon {
+    font-size: 1.3rem;
+  }
 }

@@ -84,7 +84,7 @@ const Explore = () => {
               onClick={() => handleFlowerClick(flower.id)}
             >
               <div className="flower-type-box">
-                <FaRegHeart className="heart-icon iconn" />
+                {/* <FaRegHeart className="heart-icon iconn" /> */}
                 <img 
                   src={flower.image_url}
                   alt={flower.flower_name}

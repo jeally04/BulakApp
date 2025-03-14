@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import React, { useEffect, useState } from 'react'; 
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaArrowLeft, FaHeart } from 'react-icons/fa'; // React Icons for back and heart
-import './Styles/Flower.css'; // Importing the updated CSS
+import { FaArrowLeft, FaHeart } from 'react-icons/fa';
+import './Styles/Flower.css';
 
 const Flower = () => {
   const { id } = useParams(); 
   const [flower, setFlower] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [error, setError] = useState('');
   
-  const navigate = useNavigate(); // Create a navigate instance for going back
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("user_id"); // Get logged-in user ID
 
   useEffect(() => {
+    // Fetch flower details
     axios.get(`http://localhost:3002/flower/${id}`)
       .then((response) => {
         setFlower(response.data);
@@ -20,7 +23,36 @@ const Flower = () => {
         setError('Error fetching flower data.');
         console.error(err);
       });
-  }, [id]);
+
+    // Check if flower is in user's favorites
+    if (userId) {
+      axios.get(`http://localhost:3002/favorites/${userId}`)
+        .then((response) => {
+          const favoriteIds = response.data.map(fav => fav.flower_id);
+          setIsFavorite(favoriteIds.includes(parseInt(id)));
+        })
+        .catch((err) => console.error("Error fetching favorites:", err));
+    }
+  }, [id, userId]);
+
+  // Toggle favorite
+  const toggleFavorite = async () => {
+    if (!userId) {
+      alert("Please log in to save favorites.");
+      return;
+    }
+
+    const url = isFavorite 
+      ? "http://localhost:3002/favorites/remove"
+      : "http://localhost:3002/favorites/add";
+
+    try {
+      await axios.post(url, { user_id: userId, flower_id: id });
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
+  };
 
   if (error) return <p className="error-message">{error}</p>;
 
@@ -30,9 +62,8 @@ const Flower = () => {
         <>
           {/* Fixed Header with icons */}
           <div className="header">
-            {/* Add onClick event to navigate back */}
             <FaArrowLeft className="icon-back" onClick={() => navigate(-1)} />
-            <FaHeart className="icon-favorite" />
+            <FaHeart className={`icon-favorite ${isFavorite ? 'favorite' : ''}`} onClick={toggleFavorite} />
           </div>
 
           {/* First section with image and basic details */}

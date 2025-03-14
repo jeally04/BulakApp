@@ -1,6 +1,9 @@
+@charset "UTF-8";
 .listingSection {
   flex-basis: 70%;
   gap: 2rem;
+  /* 🟢 Ensure all items maintain the same size */
+  /* 🟢 Seller Section */
 }
 .listingSection .heading {
   width: 100%;
@@ -25,44 +28,55 @@
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.listingSection .secContainer .singleItem {
+.listingSection .singleItem {
   position: relative;
   width: 150px;
   height: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Center content vertically */
   flex-direction: column;
   padding: 1rem;
   border-radius: 10px;
   background: #f1f1f1;
   text-align: center;
-  /* Center text horizontally */
+  transition: 0.3s ease-in-out;
+  /* 🟢 Keep images square (1:1 aspect ratio) */
+  /* 🟢 Fix heart icon position */
+  /* 🟢 Improve text alignment */
 }
-.listingSection .secContainer .singleItem:hover {
+.listingSection .singleItem:hover {
   background: var(--itemCardHover);
   box-shadow: 0 2px 2px var(--inputColor);
 }
-.listingSection .secContainer .singleItem img {
-  max-width: 100px;
+.listingSection .singleItem img {
+  width: 100px;
+  /* Same width */
+  height: 100px;
+  /* Same height */
+  -o-object-fit: cover;
+     object-fit: cover;
+  /* Ensures no distortion */
+  border-radius: 10px;
 }
-.listingSection .secContainer .singleItem .icon {
+.listingSection .singleItem .icon {
   position: absolute;
   top: 10px;
   right: 10px;
   color: var(--primary-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
 }
-.listingSection .secContainer .singleItem h3 {
+.listingSection .singleItem h3 {
   font-size: 1rem;
   color: var(--blackColor);
-  padding: 1rem 0;
+  padding-top: 0.5rem;
   margin: 0;
-  flex: 1;
+  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Center text vertically */
 }
 .listingSection .seller {
   width: 100%;
@@ -71,55 +85,61 @@
   align-items: flex-start;
   margin-top: 2rem;
 }
-.listingSection .seller .topSeller .heading,
-.listingSection .seller .featuredSellers .heading {
+.listingSection .topSeller,
+.listingSection .featuredSellers {
+  /* 🟢 Fix user profile images */
+}
+.listingSection .topSeller .heading,
+.listingSection .featuredSellers .heading {
   padding: 1rem 0;
 }
-.listingSection .seller .topSeller .heading h3,
-.listingSection .seller .featuredSellers .heading h3 {
+.listingSection .topSeller .heading h3,
+.listingSection .featuredSellers .heading h3 {
   margin-left: 3rem;
 }
-.listingSection .seller .topSeller .heading .btn,
-.listingSection .seller .featuredSellers .heading .btn {
+.listingSection .topSeller .heading .btn,
+.listingSection .featuredSellers .heading .btn {
   padding: 0.5rem 1rem;
 }
-.listingSection .seller .topSeller .card,
-.listingSection .seller .featuredSellers .card {
+.listingSection .topSeller .card,
+.listingSection .featuredSellers .card {
   padding: 1rem 1.5rem;
   border-radius: 1rem;
   background: var(--whiteColor);
   gap: 1rem;
   box-shadow: 0 2px 4px var(--inputColor);
+  display: flex;
+  align-items: center;
 }
-.listingSection .seller .topSeller .card .users,
-.listingSection .seller .featuredSellers .card .users {
+.listingSection .topSeller .users,
+.listingSection .featuredSellers .users {
   padding-right: 1rem;
   border-right: 2px solid hsl(0, 0%, 75%);
 }
-.listingSection .seller .topSeller .card .users img,
-.listingSection .seller .featuredSellers .card .users img {
-  width: 30px;
-  height: 30px;
+.listingSection .topSeller .users img,
+.listingSection .featuredSellers .users img {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
   border: 2px solid var(--inputColor);
   transition: 0.5s ease;
 }
-.listingSection .seller .topSeller .card .users img:hover,
-.listingSection .seller .featuredSellers .card .users img:hover {
-  transform: translateY(-10px);
+.listingSection .topSeller .users img:hover,
+.listingSection .featuredSellers .users img:hover {
+  transform: translateY(-5px);
 }
-.listingSection .seller .topSeller .card .cardText span,
-.listingSection .seller .featuredSellers .card .cardText span {
+.listingSection .topSeller .cardText span,
+.listingSection .featuredSellers .cardText span {
   color: var(--blackColor);
   font-weight: 500;
 }
-.listingSection .seller .topSeller .card .cardText span small,
-.listingSection .seller .featuredSellers .card .cardText span small {
+.listingSection .topSeller .cardText span small,
+.listingSection .featuredSellers .cardText span small {
   font-weight: 400;
 }
-.listingSection .seller .topSeller .card .cardText span small .date,
-.listingSection .seller .featuredSellers .card .cardText span small .date {
+.listingSection .topSeller .cardText span small .date,
+.listingSection .featuredSellers .cardText span small .date {
   margin-left: 1rem;
 }/*# sourceMappingURL=Listing.css.map */
