@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import Webcam from "react-webcam";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,8 @@ const Recognition = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [flowersData, setFlowersData] = useState({});
   const navigate = useNavigate();
+
+  const normalizeName = (name) => name.trim().toLowerCase();
 
   const flowerIdMap = {
     "red rose": 1,
@@ -29,14 +31,12 @@ const Recognition = () => {
     "white anthurium": 21,
   };
 
-  const classNames = Object.keys(flowerIdMap);
-
   useEffect(() => {
     axios
       .get("http://localhost:3002/flowers")
       .then((response) => {
         const flowers = response.data.reduce((acc, flower) => {
-          acc[flower.flower_name] = flower;
+          acc[normalizeName(flower.flower_name)] = flower;
           return acc;
         }, {});
         setFlowersData(flowers);
@@ -59,7 +59,7 @@ const Recognition = () => {
     return null;
   };
 
-  const detectFlowers = async (imageBlob) => {
+  const detectFlowers = useCallback(async (imageBlob) => {
     if (isDetecting) return;
     setIsDetecting(true);
 
@@ -70,52 +70,69 @@ const Recognition = () => {
       const response = await axios.post("http://127.0.0.1:8000/detect/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
       const detectionResults = response.data.detections || [];
-      if (detectionResults.length > 0) {
-        setDetections(detectionResults);
-        drawAnnotations(detectionResults);
-      } else {
-        setDetections([]);
-        clearCanvas();
-      }
+      const normalizedDetections = detectionResults.map((d) => ({
+        ...d,
+        flower_name: normalizeName(d.flower_name),
+      }));
+
+      setDetections(normalizedDetections);
+      drawAnnotations(normalizedDetections);
     } catch (error) {
       console.error("Error detecting flowers:", error);
+    } finally {
+      setIsDetecting(false);
     }
-
-    setIsDetecting(false);
-  };
+  }, [isDetecting]);
 
   const drawAnnotations = (detections) => {
-  const canvas = canvasRef.current;
-  const context = canvas.getContext("2d");
-
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
-  detections.forEach((detection) => {
-    const [x1, y1, x2, y2] = detection.bbox;
-    const flowerName = detection.flower_name || "Unknown"; // Fix this line
-
-    context.beginPath();
-    context.strokeStyle = "#FF0000";
-    context.lineWidth = 2;
-    context.rect(x1, y1, x2 - x1, y2 - y1);
-    context.stroke();
-
-    context.font = "14px Arial";
-    context.fillStyle = "#FF0000";
-    context.fillText(
-      `${flowerName} (${(detection.confidence * 100).toFixed(1)}%)`,
-      x1,
-      y1 - 5
-    );
-  });
-};
-
-
-  const clearCanvas = () => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
+
+    if (!canvas || !context || detections.length === 0) return;
+
+    // Ensure video and canvas dimensions match
+    const video = webcamRef.current.video;
+    if (!video) return;
+
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+
+    const scaleX = canvasWidth / videoWidth;
+    const scaleY = canvasHeight / videoHeight;
+
+    // Clear previous drawings
     context.clearRect(0, 0, canvas.width, canvas.height);
+
+    detections.forEach((detection) => {
+      const [x1, y1, x2, y2] = detection.bbox;
+      const flowerName = detection.flower_name || "Unknown";
+      const confidence = (detection.confidence * 100).toFixed(1);
+
+      // Scale coordinates
+      const boxX = x1 * scaleX;
+      const boxY = y1 * scaleY;
+      const boxWidth = (x2 - x1) * scaleX;
+      const boxHeight = (y2 - y1) * scaleY;
+
+      // Adjust bounding box Y position slightly upwards
+      const adjustedBoxY = boxY - boxHeight * 0.15;
+
+      // Draw bounding box
+      context.beginPath();
+      context.strokeStyle = "#FF0000";
+      context.lineWidth = 2;
+      context.rect(boxX, adjustedBoxY, boxWidth, boxHeight);
+      context.stroke();
+
+      // Draw label
+      context.fillStyle = "#FF0000";
+      context.font = "16px Arial";
+      context.fillText(`${flowerName} (${confidence}%)`, boxX, adjustedBoxY - 5);
+    });
   };
 
   const handleUpload = async (event) => {
@@ -123,8 +140,7 @@ const Recognition = () => {
     setSelectedFile(file);
 
     if (file) {
-      const imageBlob = new Blob([file], { type: file.type });
-      await detectFlowers(imageBlob);
+      await detectFlowers(file);
     }
   };
 
@@ -169,9 +185,8 @@ const Recognition = () => {
         <h2>Detected Flowers</h2>
         {detections.length > 0 ? (
           detections.map((detection, idx) => {
-  const flowerName = detection.flower_name; // Use detected name directly
-  const flowerId = flowerIdMap[flowerName] || null;
-
+            const flowerName = detection.flower_name;
+            const flowerId = flowerIdMap[flowerName] || null;
             const flowerDetails = flowersData[flowerName] || {};
 
             return (
@@ -186,9 +201,8 @@ const Recognition = () => {
                   <p><strong>Family:</strong> {flowerDetails.family || "N/A"}</p>
                   <p><strong>Uses on Events:</strong> {flowerDetails.uses_on_events || "N/A"}</p>
                   <p><strong>Symbolism:</strong> {flowerDetails.symbolism || "N/A"}</p>
-                
-                <div className="flower-image">
-                  <img src={flowerDetails.image_url || "default_image.jpg"} alt={flowerName} />
+                  <div className="flower-image">
+                    <img src={flowerDetails.image_url || "default_image.jpg"} alt={flowerName} />
                   </div>
                 </div>
               </div>

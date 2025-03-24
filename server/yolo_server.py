@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 # Load YOLO Model
-MODEL_PATH = "C:/Users/user/OneDrive/Documents/GitHub/Problema/train3/weights/best.pt"
+MODEL_PATH = "C:/Users/user/OneDrive/Documents/GitHub/Problema/train/weights/best.pt"
 model = YOLO(MODEL_PATH)
 
 # Database connection function
