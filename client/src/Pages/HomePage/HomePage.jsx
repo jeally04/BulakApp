@@ -24,11 +24,11 @@ const HomePage = () => {
       <Hero />
 
       {/* Main Content */}
-      <div class="container1">
+      <div className="container1">
         {/* <a href="#" class="btn1">Default Button</a>
         <a href="#" class="btn1 dark-btn">Dark Button</a> */}
         {/* Flower Recognition Section */}
-        <Title subTitle="Recognition" title="Flower Recognition" />
+      
         <Recognition />
 
         {/* Features Section */}

@@ -3,11 +3,11 @@ import shutil
 import os
 
 # Load the YOLO model with the pre-trained weights
-model = YOLO("C:/Users/user/OneDrive/Documents/GitHub/Problema/train3/weights/best.pt")
+model = YOLO("C:/Users/user/OneDrive/Documents/GitHub/Problema/train/weights/best.pt")
 
 # Perform inference on the video
 results = model(
-    "C:/Users/user/OneDrive/Desktop/randomflowers.jpg",
+    "C:/Users/user/OneDrive/Desktop/Desertrose.mp4",
     save=True,  # Save the results (annotated video)
     save_txt=True  # Save detection results in text files
 )

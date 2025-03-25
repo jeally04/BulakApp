@@ -37,7 +37,9 @@ const Contact = () => {
     <div className='contact'>
       <div className="contact-col">
         <h3>Send Us a Message <img src={messageicon} alt="" /></h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, ex.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, nulla. Consequatur cupiditate cum dolores hic neque repellat a! Ab, dolorum.</p>
+        <p>Dear Valued User, <br></br>
+
+Thank you for using BulakApp. If you have any questions, require assistance, or would like to share feedback, please feel free to reach out to us. We are committed to providing the best experience and are happy to assist you.</p>
         <ul>
           <li><img src={email_icon} alt="" />jealsotto@gmail.com</li>
           <li><img src={call_icon} alt="" />090909090909</li>

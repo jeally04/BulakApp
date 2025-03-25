@@ -1,98 +1,222 @@
-/* Recognition.css */
-
-.recognition-container {
-   padding: 20px;
-   text-align: center;
-   font-family: Arial, sans-serif;
-   background-color: #f9f9f9;
-}
-
-h1 {
-   color: #333;
-   margin-bottom: 20px;
-}
-
-.options-container {
+/* General Container */
+.container4 {
    display: flex;
    flex-direction: column;
-   gap: 15px;
    align-items: center;
-   margin-bottom: 30px;
-}
-
-.option-button {
-   background-color: #007BFF;
-   color: #fff;
-   border: none;
-   padding: 10px 20px;
-   font-size: 16px;
-   border-radius: 5px;
-   cursor: pointer;
-   transition: background-color 0.3s;
-}
-
-.option-button:hover {
-   background-color: #0056b3;
-}
-
-.camera-stream {
-   margin-top: 20px;
-   padding: 10px;
-   background-color: #ececec;
-   border: 2px dashed #ccc;
-   border-radius: 10px;
-   width: 100%;
-   max-width: 600px;
-   margin: 20px auto;
-}
-
-.uploaded-preview {
-   margin-top: 20px;
+   justify-content: center;
    text-align: center;
+   padding: 20px;
+   margin-top: 20px;
+   background: linear-gradient(to bottom right, #fef3c7, #fdba74);
 }
 
-.preview-image,
-.preview-video {
-   max-width: 100%;
-   height: auto;
-   border-radius: 10px;
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* Slider container */
+.slider4 {
+   display: flex;
+   align-items: center;
+   position: relative;
+   max-width: 700px;
+   width: 100%;
+   justify-content: center;
 }
 
-/* Responsive Design */
+/* Image card styling */
+.image-card4 {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   transition: transform 0.3s ease-in-out;
+}
 
-@media (min-width: 768px) {
-   .options-container {
-      flex-direction: row;
-      justify-content: center;
+.gallery-image4 {
+   object-fit: cover;
+   border-radius: 12px;
+   transition: transform 0.4s ease-in-out;
+}
+
+/* Image sizes for different devices */
+.desktop-image {
+   width: 510px;
+   height: 250px;
+}
+
+.tablet-image {
+   width: 400px;
+   height: 250px;
+}
+
+.phone-image {
+   width: 130px;
+   height: 250px;
+}
+
+/* Hover effect to enlarge center image */
+.image-card4:hover .gallery-image4 {
+   transform: scale(1.02);
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation buttons */
+.prev-btn4,
+.next-btn4 {
+   position: absolute;
+   background: rgba(0, 0, 0, 0.5);
+   color: white;
+   border: none;
+   padding: 10px;
+   cursor: pointer;
+   top: 50%;
+   transform: translateY(-50%);
+   border-radius: 50%;
+   transition: 0.3s;
+   font-size: 20px;
+}
+
+.prev-btn4 {
+   left: -50px;
+}
+
+.next-btn4 {
+   right: -50px;
+}
+
+.prev-btn4:hover,
+.next-btn4:hover {
+   background: rgba(0, 0, 0, 0.8);
+}
+
+/* Dots navigation */
+.dots {
+   display: flex;
+   justify-content: center;
+   margin-top: 10px;
+}
+
+.dot {
+   width: 12px;
+   height: 12px;
+   margin: 5px;
+   background: gray;
+   border-radius: 50%;
+   cursor: pointer;
+   transition: 0.3s;
+}
+
+.dot.active {
+   background: #d97706;
+   transform: scale(1.4);
+}
+
+/* Content styling */
+.content4 {
+   max-width: 600px;
+   margin-top: 20px;
+}
+
+.title4 {
+   font-size: 28px;
+   color: #92400e;
+   font-weight: bold;
+}
+
+.description4 {
+   color: #555;
+   margin: 10px 0;
+}
+
+/* Try Button */
+.try-btn4 {
+   background: #d97706;
+   color: white;
+   padding: 12px 24px;
+   border: none;
+   border-radius: 8px;
+   font-size: 18px;
+   cursor: pointer;
+   transition: 0.3s ease;
+}
+
+.try-btn4:hover {
+   background: #b45309;
+   transform: scale(1.1);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+
+   /* Tablets */
+   .desktop-image,
+   .tablet-image,
+   .phone-image {
+      width: auto;
+      height: 200px;
    }
 
-   .option-button {
-      margin: 0 10px;
+   .prev-btn4 {
+      left: 10px;
+   }
+
+   .next-btn4 {
+      right: 10px;
    }
 }
 
-@media (max-width: 767px) {
-   .recognition-container {
-      padding: 15px;
+@media (max-width: 768px) {
+
+   /* Phones */
+   .slider4 {
+      max-width: 100%;
    }
 
-   h1 {
-      font-size: 24px;
+   .gallery-image4 {
+      width: 100%;
+      height: auto;
    }
 
-   .option-button {
-      font-size: 14px;
-      padding: 8px 16px;
-   }
-
-   .camera-stream {
+   .prev-btn4,
+   .next-btn4 {
       padding: 8px;
-      border-width: 1px;
+      font-size: 18px;
    }
 
-   .preview-image,
-   .preview-video {
-      max-width: 90%;
+   .prev-btn4 {
+      left: 5px;
    }
+
+   .next-btn4 {
+      right: 5px;
+   }
+
+   .dot {
+      width: 10px;
+      height: 10px;
+   }
+   .phone-image{
+      height: 217px;
+   }
+   .tablet-image{
+      height: 217px;
+   }
+}
+
+@media (max-width: 480px) {
+
+   /* Small Phones */
+   .gallery-image4 {
+      max-width: 250px;
+   }
+
+   .try-btn4 {
+      width: 100%;
+      font-size: 16px;
+   }
+   .phone-image{
+      height: 130px;
+      width: 70px;
+   }
+   .tablet-image{
+      height: 130px;
+
+   }
+
 }
