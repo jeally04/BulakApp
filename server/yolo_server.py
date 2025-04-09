@@ -27,10 +27,11 @@ model = YOLO(MODEL_PATH)
 def get_db_connection():
     try:
         conn = mysql.connector.connect(
-            host="localhost",
+            host="ballast.proxy.rlwy.net",
+            port="44654",
             user="root",
-            password="",
-            database="bulakappdb"
+            password="eMfVbYefqRqlYSgSbfVkxlieFznmcYTP",
+            database="railway"
         )
         return conn
     except mysql.connector.Error as err:
