@@ -22,7 +22,7 @@ const Login = () => {
     setLoginStatus("");
 
     try {
-      const response = await Axios.post('http://localhost:3002/login', {
+      const response = await Axios.post('https://problema-qjrc.onrender.com/login', {
         loginEmail,
         loginPassword
       });

@@ -9,7 +9,7 @@ const FormData = require('form-data');
 
 // Middleware to parse JSON and handle CORS
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173" })); // Allow frontend to make requests
+app.use(cors({ origin: "https://bulakappclient.onrender.com/" })); // Allow frontend to make requests
 
 // 🔹 **Multer Storage Configuration (Fixes `upload is not defined` error)**
 const storage = multer.memoryStorage();
