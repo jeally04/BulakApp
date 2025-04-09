@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const cors = require('cors');
 const multer = require('multer');
 const axios = require('axios');
@@ -18,13 +18,17 @@ const upload = multer({ storage });
 
 
 // Connect to MySQL database
+require('dotenv').config();
+
 const db = mysql.createConnection({
-  user: 'root',
-  port:'44654',
-  host: 'ballast.proxy.rlwy.net',
-  password: 'eMfVbYefqRqlYSgSbfVkxlieFznmcYTP',
-  database: 'railway',
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
 });
+
+
 
 db.connect((err) => {
   if (err) {
