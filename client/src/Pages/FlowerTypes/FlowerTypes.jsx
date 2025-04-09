@@ -12,7 +12,7 @@ const FlowerTypes = () => {
 
   // Fetch flower sub-types based on the type
   useEffect(() => {
-    axios.get(`http://localhost:3002/flower-types/${typeName}`)
+    axios.get(`https://problema-qjrc.onrender.com/flower-types/${typeName}`)
       .then((response) => {
         setFlowerSubTypes(response.data);  // Set flower sub-types data
       })

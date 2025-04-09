@@ -25,7 +25,7 @@ const ProfileSettings = ({ isOpen, onClose }) => {
     }
 
     axios
-      .get(`http://localhost:3002/api/user/${userId}`)
+      .get(`https://problema-qjrc.onrender.com/api/user/${userId}`)
       .then((response) => {
         const userData = response.data;
         setEmail(userData.email || "");

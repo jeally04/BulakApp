@@ -21,7 +21,7 @@ const Register = () => {
   const createUser = (e) => {
     e.preventDefault();
 
-    Axios.post('http://localhost:3002/register', {
+    Axios.post('https://problema-qjrc.onrender.com/register', {
       email: email,
       username: username,
       password: password

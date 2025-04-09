@@ -12,7 +12,7 @@ const AllFlowers = () => {
 
   // Fetch all flowers from the backend
   useEffect(() => {
-    axios.get('http://localhost:3002/flowers')
+    axios.get('https://problema-qjrc.onrender.com/flowers')
       .then((response) => {
         setFlowers(response.data);  // Set flowers data
       })

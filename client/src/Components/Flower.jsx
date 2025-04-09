@@ -43,8 +43,8 @@ const Flower = () => {
     }
 
     const url = isFavorite 
-      ? "http://localhost:3002/favorites/remove"
-      : "http://localhost:3002/favorites/add";
+      ? "https://problema-qjrc.onrender.com/favorites/remove"
+      : "https://problema-qjrc.onrender.com/favorites/add";
 
     try {
       await axios.post(url, { user_id: userId, flower_id: id });

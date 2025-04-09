@@ -38,7 +38,7 @@ const UploadRecognition = () => {
   // Fetch flower data from the database
   const fetchFlowersData = async () => {
     try {
-      const response = await axios.get("http://localhost:3002/flowers");
+      const response = await axios.get("https://problema-qjrc.onrender.com/flowers");
       const flowers = response.data.reduce((acc, flower) => {
         acc[normalizeName(flower.flower_name)] = flower;
         return acc;

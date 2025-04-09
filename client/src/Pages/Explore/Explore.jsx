@@ -12,14 +12,14 @@ const Explore = () => {
 
   // Fetch data from the backend
   useEffect(() => {
-    axios.get('http://localhost:3002/flower-types')
+    axios.get('https://problema-qjrc.onrender.com/flower-types')
       .then((response) => setFlowerTypes(response.data))
       .catch((err) => {
         setError('Error fetching flower types.');
         console.error(err);
       });
 
-    axios.get('http://localhost:3002/flowers')
+    axios.get('https://problema-qjrc.onrender.com/flowers')
       .then((response) => setFlowers(response.data))
       .catch((err) => {
         setError('Error fetching flowers.');

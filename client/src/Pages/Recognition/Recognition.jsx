@@ -33,7 +33,7 @@ const Recognition = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3002/flowers")
+      .get("https://problema-qjrc.onrender.com/flowers")
       .then((response) => {
         const flowers = response.data.reduce((acc, flower) => {
           acc[normalizeName(flower.flower_name)] = flower;
