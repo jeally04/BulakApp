@@ -24,7 +24,7 @@ const Activity = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/history/${userId}`);
+        const response = await axios.get(`https://yolo-2ovj.onrender.com/history/${userId}`);
 
         if (response.data && Array.isArray(response.data.history) && response.data.history.length > 0) {
           setHistory(response.data.history.slice(0, 8)); // Show latest 8 entries
@@ -39,7 +39,7 @@ const Activity = () => {
 
     const fetchFlowersData = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/flowers");
+        const response = await axios.get("https://problema-qjrc.onrender.com/flowers");
         const flowers = response.data.reduce((acc, flower) => {
           acc[normalizeName(flower.flower_name)] = {
             image_url: flower.image_url || "/images/default.jpg",

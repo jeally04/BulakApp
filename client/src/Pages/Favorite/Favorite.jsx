@@ -6,16 +6,25 @@ import './Favorite.css';
 
 const Favorite = () => {
   const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const userId = localStorage.getItem("user_id");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userId) {
-      axios.get(`https://problema-qjrc.onrender.com/favorites/${userId}`)
-        .then((response) => setFavorites(response.data))
-        .catch((err) => console.error("Error fetching favorites:", err));
+    if (!userId) {
+      navigate("/login"); // Redirect if user ID is missing
+      return;
     }
-  }, [userId]);
+
+    axios.get(`http://problema-qjrc.onrender.com/favorites/${userId}`)
+      .then((response) => setFavorites(response.data))
+      .catch((err) => {
+        console.error("Error fetching favorites:", err);
+        setError("Failed to load favorites.");
+      })
+      .finally(() => setLoading(false));
+  }, [userId, navigate]);
 
   const handleFlowerClick = (flowerId) => {
     navigate(`/dashboard/flower/${flowerId}`);
@@ -25,7 +34,11 @@ const Favorite = () => {
     <div className="favorite-page11">
       <h2>MY FAVORITES</h2>
       <div className="favorite-grid11">
-        {favorites.length > 0 ? (
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p className="error-message">{error}</p>
+        ) : favorites.length > 0 ? (
           favorites.map((flower) => (
             <div key={flower.id} className="favorite-item11" onClick={() => handleFlowerClick(flower.flower_id)}>
               <AiFillHeart className="heart-icon11" />
