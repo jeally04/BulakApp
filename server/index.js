@@ -20,6 +20,7 @@ const upload = multer({ storage });
 // Connect to MySQL database
 const db = mysql.createConnection({
   user: 'root',
+  port:'44654',
   host: 'ballast.proxy.rlwy.net',
   password: 'eMfVbYefqRqlYSgSbfVkxlieFznmcYTP',
   database: 'railway',
