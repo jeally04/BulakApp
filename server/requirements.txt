@@ -4,3 +4,12 @@ mysql-connector-python
 Pillow
 ultralytics
 python-dotenv
+
+fastapi==0.95.2
+uvicorn==0.22.0
+torch==2.0.1
+ultralytics==8.0.0  # For YOLOv5 and model inference
+mysql-connector-python==8.0.31
+pillow==9.3.0
+numpy==1.24.2
+python-dotenv==0.21.0

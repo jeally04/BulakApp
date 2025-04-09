@@ -1,23 +1,25 @@
-# Step 1: Use an official lightweight Python image
+# Use official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Step 2: Set the working directory inside the container
+# Set the working directory in the container
 WORKDIR /app
 
-# Step 3: Install dependencies
-# Copy only the requirements first to leverage Docker layer caching
-COPY requirements.txt .
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the current directory contents into the container
+COPY . /app/
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Step 4: Copy the rest of the application files into the container
-COPY . .
-
-# Step 5: Expose port 8000 for FastAPI (Uvicorn)
+# Expose the FastAPI port
 EXPOSE 8000
 
-# Step 6: Start the FastAPI app with Uvicorn
+# Command to run the FastAPI server with Uvicorn
 CMD ["uvicorn", "yolo_server:app", "--host", "0.0.0.0", "--port", "8000"]
-
-

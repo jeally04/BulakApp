@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, Query
+from fastapi import FastAPI, File, UploadFile, HTTPException, Query, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from ultralytics import YOLO
 from PIL import Image, UnidentifiedImageError
@@ -6,6 +6,11 @@ import numpy as np
 import io
 import mysql.connector
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+
+# Load environment variables
+load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -20,23 +25,8 @@ app.add_middleware(
 )
 
 # Load YOLO Model
-MODEL_PATH = "C:/Users/user/OneDrive/Documents/GitHub/Problema/train/weights/best.pt"
+MODEL_PATH = "./weights/best.pt"  # Change to your model's path
 model = YOLO(MODEL_PATH)
-
-# Database connection function
-def get_db_connection():
-    try:
-        conn = mysql.connector.connect(
-            host="ballast.proxy.rlwy.net",
-            port="44654",
-            user="root",
-            password="eMfVbYefqRqlYSgSbfVkxlieFznmcYTP",
-            database="railway"
-        )
-        return conn
-    except mysql.connector.Error as err:
-        print(f"Database connection error: {err}")
-        raise HTTPException(status_code=500, detail="Database connection failed.")
 
 # Flower Class Mapping (Change these according to your trained model)
 CLASS_NAMES = {
@@ -54,6 +44,21 @@ CLASS_NAMES = {
     11: "Magenta Chrysanthemum",
     12: "White Anthurium",
 }
+
+# Database connection function
+def get_db_connection():
+    try:
+        conn = mysql.connector.connect(
+            host=os.getenv("DATABASE_HOST"),
+            port=os.getenv("DATABASE_PORT"),
+            user=os.getenv("DATABASE_USER"),
+            password=os.getenv("DATABASE_PASSWORD"),
+            database=os.getenv("DATABASE_NAME")
+        )
+        return conn
+    except mysql.connector.Error as err:
+        print(f"Database connection error: {err}")
+        raise HTTPException(status_code=500, detail="Database connection failed.")
 
 @app.post("/detect/")
 async def detect(
@@ -131,3 +136,31 @@ async def get_user_history(user_id: int):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred while retrieving history: {str(e)}")
+
+@app.websocket("/ws/live")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        frame = await websocket.receive_bytes()
+        try:
+            image = Image.open(io.BytesIO(frame)).convert("RGB")
+            image = image.resize((640, 640))
+            results = model.predict(image, conf=0.25, iou=0.4)
+
+            detections = []
+            for result in results:
+                for box in result.boxes:
+                    class_id = int(box.cls[0].item())
+                    confidence = float(box.conf[0].item())
+                    bbox = box.xyxy.tolist()[0]
+                    flower_name = CLASS_NAMES.get(class_id, "Unknown Flower")
+                    detections.append({
+                        "flower_name": flower_name,
+                        "confidence": confidence,
+                        "bbox": bbox
+                    })
+
+            await websocket.send_json({"detections": detections})
+
+        except Exception as e:
+            await websocket.send_json({"error": f"Error during detection: {str(e)}"})
