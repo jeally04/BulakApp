@@ -18,14 +18,14 @@ app = FastAPI()
 # CORS Configuration (Frontend Connection)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Allow frontend access
+    allow_origins=["https://bulakappclient.onrender.com/"],  # Allow frontend access
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Load YOLO Model
-MODEL_PATH = "./weights/best.pt"  # Change to your model's path
+MODEL_PATH = "./train/weights/best.pt"  # Change to your model's path
 model = YOLO(MODEL_PATH)
 
 # Flower Class Mapping (Change these according to your trained model)
