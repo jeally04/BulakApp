@@ -10,7 +10,7 @@ import Flower from '../Components/Flower'; // Import the Flower component
 import AllFlowers from '../Pages/AllFlowers/AllFlowers';
 import AllFlowerTypes from '../Pages/AllFlowerTypes/AllFlowerTypes';
 import FlowerTypes from '../Pages/FlowerTypes/FlowerTypes';
-import UploadRecognition from '../Pages/UploadRecognition/Uploadrecognition';
+import UploadRecognition from '../Pages/UploadRecognition/UploadRecognition'; 
 
 const Body = () => {
   return (
