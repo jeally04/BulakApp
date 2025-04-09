@@ -55,7 +55,7 @@ db.connect((err) => {
 
 // Start the server
 // Use Render's dynamic PORT environment variable
-const port = process.env.PORT || 3002;  // Fallback to 3002 if not set
+const port = process.env.PORT || 10000;  // Fallback to 3002 if not set
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
