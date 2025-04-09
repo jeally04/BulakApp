@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: Problema
+    env: node
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    envVars:
+      - key: PORT
+        value: "3002" # Or the port you intend to use

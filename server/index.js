@@ -39,9 +39,13 @@ db.connect((err) => {
 });
 
 // Start the server
-app.listen(3002, () => {
-  console.log('Server is running on port 3002');
+// Use Render's dynamic PORT environment variable
+const port = process.env.PORT || 3002;  // Fallback to 3002 if not set
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
+
 
 // ************** USER AUTHENTICATION ************
 
@@ -200,8 +204,11 @@ app.get('/api/user/:id', (req, res) => {
   });
 });
 
+//USER PROFILE//
+const bcrypt = require('bcrypt');
+
 // ✅ API: Update User Profile
-app.put("/api/update-profile/:id", upload.single("profileImage"), (req, res) => {
+app.put("/api/update-profile/:id", upload.single("profileImage"), async (req, res) => {
   const userId = req.params.id;
   const { email, username, password } = req.body;
   const profileImage = req.file ? req.file.filename : null;
@@ -210,8 +217,10 @@ app.put("/api/update-profile/:id", upload.single("profileImage"), (req, res) => 
   let values = [email, username];
 
   if (password) {
+    // Hash the new password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
     sql += ", password = ?";
-    values.push(password);
+    values.push(hashedPassword);
   }
 
   if (profileImage) {
@@ -222,6 +231,9 @@ app.put("/api/update-profile/:id", upload.single("profileImage"), (req, res) => 
   sql += " WHERE id = ?";
   values.push(userId);
 
+  // Determine the image URL dynamically based on the environment
+  const imageUrl = profileImage ? `https://your-domain.com/uploads/${profileImage}` : null;
+
   db.query(sql, values, (err, result) => {
     if (err) {
       console.error("Error updating profile:", err);
@@ -229,11 +241,12 @@ app.put("/api/update-profile/:id", upload.single("profileImage"), (req, res) => 
     } else {
       res.json({
         message: "Profile updated successfully!",
-        newImageUrl: profileImage ? `http://localhost:3002/uploads/${profileImage}` : null,
+        newImageUrl: imageUrl,
       });
     }
   });
 });
+
 
 
 // ************** DETECTION HISTORY ROUTES ************
