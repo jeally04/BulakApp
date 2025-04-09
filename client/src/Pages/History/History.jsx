@@ -42,7 +42,7 @@ const History = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/history/${userId}`);
+        const response = await axios.get(`https://yolo-2ovj.onrender.com/history/${userId}`);
         if (response.data.history.length > 0) {
           setHistoryItems(response.data.history);
         } else {
@@ -58,7 +58,7 @@ const History = () => {
 
     const fetchFlowersData = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/flowers");
+        const response = await axios.get("https://problema-qjrc.onrender.com/flowers");
         const flowers = response.data.reduce((acc, flower) => {
           acc[normalizeName(flower.flower_name)] = {
             id: flowerIdMap[normalizeName(flower.flower_name)] || null,
