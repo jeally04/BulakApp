@@ -15,7 +15,7 @@ const Flower = () => {
 
   useEffect(() => {
     // Fetch flower details
-    axios.get(`http://localhost:3002/flower/${id}`)
+    axios.get(`https://problema-qjrc.onrender.com/flower/${id}`)
       .then((response) => {
         setFlower(response.data);
       })
@@ -26,7 +26,7 @@ const Flower = () => {
 
     // Check if flower is in user's favorites
     if (userId) {
-      axios.get(`http://localhost:3002/favorites/${userId}`)
+      axios.get(`https://problema-qjrc.onrender.com/favorites/${userId}`)
         .then((response) => {
           const favoriteIds = response.data.map(fav => fav.flower_id);
           setIsFavorite(favoriteIds.includes(parseInt(id)));
