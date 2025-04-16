@@ -11,11 +11,10 @@ const Recognition = () => {
   const [isDetecting, setIsDetecting] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [flowersData, setFlowersData] = useState({});
-  const [useFrontCam, setUseFrontCam] = useState(false); // state for switching cameras
   const navigate = useNavigate();
 
   const videoConstraints = {
-    facingMode: useFrontCam ? "user" : "environment", // toggle between front and back camera
+    facingMode: "environment", // Use back camera on mobile
   };
 
   const normalizeName = (name) => name.trim().toLowerCase();
@@ -163,18 +162,6 @@ const Recognition = () => {
   return (
     <div className="recognition-container">
       <h1 className="title">Flower Recognition</h1>
-
-      <div className="camera-toggle">
-        <span>{useFrontCam ? "Front Camera" : "Back Camera"}</span>
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={useFrontCam}
-            onChange={() => setUseFrontCam((prev) => !prev)}
-          />
-          <span className="slider round"></span>
-        </label>
-      </div>
 
       <div className="webcam-wrapper">
         <div className="webcam-square">
