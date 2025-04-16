@@ -160,10 +160,9 @@ const Recognition = () => {
   }, [selectedFile, detectFlowers]);
 
   return (
-    <div className="recognition-container">
-      <h1 className="title">Flower Recognition</h1>
-
+    <div>
       <div className="recognition-container">
+        <h1 className="title">Flower Recognition</h1>
 
 
       <div className="camera-toggle">
