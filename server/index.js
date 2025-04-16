@@ -160,7 +160,7 @@ app.get('/api/flowers', (req, res) => {
 // ======================================================
 
 // 🔹 **Live Detection (No Database Storage)**
-app.post("/detect/live/", upload.single("image"), async (req, res) => {
+app.post("/detect/", upload.single("image"), async (req, res) => {
   try {
     if (!req.file) return res.status(400).send({ message: "No image uploaded." });
 
@@ -179,7 +179,7 @@ app.post("/detect/live/", upload.single("image"), async (req, res) => {
 });
 
 // 🔹 **Upload Detection (Saves to History)**
-app.post("/detect/upload/", upload.single("image"), async (req, res) => {
+app.post("/detect/", upload.single("image"), async (req, res) => {
   try {
     if (!req.file || !req.body.user_id) return res.status(400).send({ message: "Missing data." });
 

@@ -67,9 +67,12 @@ const UploadRecognition = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(`https://yolov8-v1.onrender.com/detect?user_id=${userId}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post("https://yolov8-v1.onrender.com/detect?user_id=1", formData, {
+  headers: {
+    "Content-Type": "multipart/form-data"
+  },
+  withCredentials: true
+})
 
       const detectionResults = response.data.detections || [];
       const normalizedDetections = detectionResults.map((d) => ({
