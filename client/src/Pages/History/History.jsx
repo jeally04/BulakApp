@@ -42,7 +42,7 @@ const History = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(`https:192.168.100.231:8000/history/${userId}`);
+        const response = await axios.get(`https://yolo-2ovj.onrender.com/history/${userId}`);
         if (response.data.history.length > 0) {
           setHistoryItems(response.data.history);
         } else {

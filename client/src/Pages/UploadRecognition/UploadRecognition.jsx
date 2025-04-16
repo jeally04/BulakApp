@@ -67,7 +67,7 @@ const UploadRecognition = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(`https:192.168.100.231:8000/detect?user_id=${userId}`, formData, {
+      const response = await axios.post(`https://yolo-2ovj.onrender.com/detect?user_id=${userId}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
