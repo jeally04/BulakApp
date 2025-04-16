@@ -18,7 +18,10 @@ app = FastAPI()
 # CORS Configuration (Frontend Connection)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow frontend access
+    allow_origins=[
+        "http://localhost:5173",  # for local dev
+        "https://bulakappclient.onrender.com"  # your deployed frontend
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
