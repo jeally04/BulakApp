@@ -24,7 +24,7 @@ const Activity = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(`https://yolo-2ovj.onrender.com/history/${userId}`);
+        const response = await axios.get(`https://yolov8-v1.onrender.com/history/${userId}`);
 
         if (response.data && Array.isArray(response.data.history) && response.data.history.length > 0) {
           setHistory(response.data.history.slice(0, 8)); // Show latest 8 entries
