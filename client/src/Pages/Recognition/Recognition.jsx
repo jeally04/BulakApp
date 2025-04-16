@@ -160,7 +160,7 @@ const Recognition = () => {
   }, [selectedFile, detectFlowers]);
 
   return (
-    <div>
+   
       <div className="recognition-container">
         <h1 className="title">Flower Recognition</h1>
 
@@ -187,7 +187,7 @@ const Recognition = () => {
         />
         <div className="overlay" />
       </div>
-    </div>
+   
 
       <div className="detections">
         <h2>Detected Flowers</h2>
