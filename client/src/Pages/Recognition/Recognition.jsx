@@ -11,10 +11,11 @@ const Recognition = () => {
   const [isDetecting, setIsDetecting] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [flowersData, setFlowersData] = useState({});
+  const [useFrontCam, setUseFrontCam] = useState(false); // state for switching cameras
   const navigate = useNavigate();
 
   const videoConstraints = {
-    facingMode: "environment", // Use back camera on mobile
+    facingMode: useFrontCam ? "user" : "environment", // toggle between front and back camera
   };
 
   const normalizeName = (name) => name.trim().toLowerCase();
@@ -160,10 +161,8 @@ const Recognition = () => {
   }, [selectedFile, detectFlowers]);
 
   return (
-   
-      <div className="recognition-container">
-        <h1 className="title">Flower Recognition</h1>
-
+    <div className="recognition-container">
+      <h1 className="title">Flower Recognition</h1>
 
       <div className="camera-toggle">
         <span>{useFrontCam ? "Front Camera" : "Back Camera"}</span>
@@ -177,17 +176,23 @@ const Recognition = () => {
         </label>
       </div>
 
-      <div className="webcam-container">
-        <Webcam
-          ref={webcamRef}
-          className="webcam"
-          audio={false}
-          screenshotFormat="image/jpeg"
-          videoConstraints={videoConstraints}
-        />
-        <div className="overlay" />
+      <div className="webcam-wrapper">
+        <div className="webcam-square">
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+            className="webcam"
+          />
+          <canvas
+            ref={canvasRef}
+            className="overlay"
+            width={640}
+            height={640}
+          ></canvas>
+        </div>
       </div>
-   
 
       <div className="detections">
         <h2>Detected Flowers</h2>
