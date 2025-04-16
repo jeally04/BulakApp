@@ -13,6 +13,10 @@ const Recognition = () => {
   const [flowersData, setFlowersData] = useState({});
   const navigate = useNavigate();
 
+  const videoConstraints = {
+    facingMode: "environment", // Use back camera on mobile
+  };
+
   const normalizeName = (name) => name.trim().toLowerCase();
 
   const flowerIdMap = {
@@ -92,7 +96,6 @@ const Recognition = () => {
 
     if (!canvas || !context || detections.length === 0) return;
 
-    // Ensure video and canvas dimensions match
     const video = webcamRef.current.video;
     if (!video) return;
 
@@ -104,7 +107,6 @@ const Recognition = () => {
     const scaleX = canvasWidth / videoWidth;
     const scaleY = canvasHeight / videoHeight;
 
-    // Clear previous drawings
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     detections.forEach((detection) => {
@@ -112,23 +114,18 @@ const Recognition = () => {
       const flowerName = detection.flower_name || "Unknown";
       const confidence = (detection.confidence * 100).toFixed(1);
 
-      // Scale coordinates
       const boxX = x1 * scaleX;
       const boxY = y1 * scaleY;
       const boxWidth = (x2 - x1) * scaleX;
       const boxHeight = (y2 - y1) * scaleY;
-
-      // Adjust bounding box Y position slightly upwards
       const adjustedBoxY = boxY - boxHeight * 0.15;
 
-      // Draw bounding box
       context.beginPath();
       context.strokeStyle = "#FF0000";
       context.lineWidth = 2;
       context.rect(boxX, adjustedBoxY, boxWidth, boxHeight);
       context.stroke();
 
-      // Draw label
       context.fillStyle = "#FF0000";
       context.font = "16px Arial";
       context.fillText(`${flowerName} (${confidence}%)`, boxX, adjustedBoxY - 5);
@@ -166,19 +163,22 @@ const Recognition = () => {
     <div className="recognition-container">
       <h1 className="title">Flower Recognition</h1>
 
-      <div className="webcam-container">
-        <Webcam
-          audio={false}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          className="webcam"
-        />
-        <canvas
-          ref={canvasRef}
-          className="overlay"
-          width={640}
-          height={480}
-        ></canvas>
+      <div className="webcam-wrapper">
+        <div className="webcam-square">
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+            className="webcam"
+          />
+          <canvas
+            ref={canvasRef}
+            className="overlay"
+            width={640}
+            height={640}
+          ></canvas>
+        </div>
       </div>
 
       <div className="detections">

@@ -25,7 +25,7 @@ app.add_middleware(
 )
 
 # Load YOLO Model
-MODEL_PATH = "./train/weights/best.pt"  # Change to your model's path
+MODEL_PATH = "C:/Users/user/OneDrive/Documents/GitHub/Problema/best.onnx"  # Change to your model's path
 model = YOLO(MODEL_PATH)
 
 # Flower Class Mapping (Change these according to your trained model)
