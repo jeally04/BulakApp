@@ -167,7 +167,7 @@ app.post("/detect/live/", upload.single("image"), async (req, res) => {
     const formData = new FormData();
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
 
-    const response = await axios.post("https://problema-qjrc.onrender.com/detect/", formData, {
+    const response = await axios.post("https:192.168.100.231:8000/detect/", formData, {
       headers: formData.getHeaders(),
     });
 
@@ -187,7 +187,7 @@ app.post("/detect/upload/", upload.single("image"), async (req, res) => {
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
     formData.append("user_id", req.body.user_id);
 
-    const response = await axios.post("https://problema-qjrc.onrender.com/detect/", formData, {
+    const response = await axios.post("https:192.168.100.231:8000/detect/", formData, {
       headers: formData.getHeaders(),
     });
 
