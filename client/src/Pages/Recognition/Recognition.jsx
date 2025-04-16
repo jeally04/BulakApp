@@ -163,23 +163,32 @@ const Recognition = () => {
     <div className="recognition-container">
       <h1 className="title">Flower Recognition</h1>
 
-      <div className="webcam-wrapper">
-        <div className="webcam-square">
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            videoConstraints={videoConstraints}
-            className="webcam"
+      <div className="recognition-container">
+
+
+      <div className="camera-toggle">
+        <span>{useFrontCam ? "Front Camera" : "Back Camera"}</span>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={useFrontCam}
+            onChange={() => setUseFrontCam((prev) => !prev)}
           />
-          <canvas
-            ref={canvasRef}
-            className="overlay"
-            width={640}
-            height={640}
-          ></canvas>
-        </div>
+          <span className="slider round"></span>
+        </label>
       </div>
+
+      <div className="webcam-container">
+        <Webcam
+          ref={webcamRef}
+          className="webcam"
+          audio={false}
+          screenshotFormat="image/jpeg"
+          videoConstraints={videoConstraints}
+        />
+        <div className="overlay" />
+      </div>
+    </div>
 
       <div className="detections">
         <h2>Detected Flowers</h2>
