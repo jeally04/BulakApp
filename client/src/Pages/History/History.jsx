@@ -4,15 +4,19 @@ import { useNavigate } from "react-router-dom";
 import "./History.css";
 
 const History = () => {
-  const [userId, setUserId] = useState(null);
   const [historyItems, setHistoryItems] = useState([]);
   const [flowersData, setFlowersData] = useState({});
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  // Retrieve logged-in user ID
+  const userId = localStorage.getItem("user_id");
+
+  // Normalize flower names for mapping
   const normalizeName = (name) => name.trim().toLowerCase();
 
+  // Flower name to ID mapping
   const flowerIdMap = {
     "red rose": 1,
     "pink rose": 12,
@@ -28,11 +32,6 @@ const History = () => {
     "magenta chrysanthemum": 20,
     "white anthurium": 21,
   };
-
-  useEffect(() => {
-    const storedUserId = localStorage.getItem("user_id");
-    setUserId(storedUserId);
-  }, []);
 
   useEffect(() => {
     if (!userId) {
@@ -77,6 +76,7 @@ const History = () => {
     fetchFlowersData();
   }, [userId]);
 
+  // Navigate to flower details page
   const handleFlowerClick = (flowerName) => {
     const flower = flowersData[normalizeName(flowerName)];
     if (flower?.id) {
@@ -104,6 +104,7 @@ const History = () => {
                 className="history-item"
                 onClick={() => handleFlowerClick(item.flower_name)}
               >
+                {/* Flower Image */}
                 <div className="history-image-container">
                   <img
                     src={flower.image_url || "/images/default.jpg"}
@@ -111,6 +112,8 @@ const History = () => {
                     className="history-image"
                   />
                 </div>
+
+                {/* Flower Name & Date */}
                 <div className="history-info">
                   <span className="history-name">{item.flower_name}</span>
                   <span className="history-date">{new Date(item.detected_at).toLocaleString()}</span>

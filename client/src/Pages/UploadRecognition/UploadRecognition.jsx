@@ -18,11 +18,19 @@ const UploadRecognition = () => {
   const normalizeName = (name) => name.trim().toLowerCase();
 
   const flowerIdMap = {
-    "red rose": 1, "pink rose": 12, "white rose": 13,
-    "desert rose": 14, "sunflower": 5, "gumamela": 15,
-    "yellow rose": 2, "anthurium": 16, "yellow alder": 22,
-    "chrysanthemum": 18, "yellow chrysanthemum": 19,
-    "magenta chrysanthemum": 20, "white anthurium": 21,
+    "red rose": 1,
+    "pink rose": 12,
+    "white rose": 13,
+    "desert rose": 14,
+    "sunflower": 5,
+    "gumamela": 15,
+    "yellow rose": 2,
+    "anthurium": 16,
+    "yellow alder": 22,
+    "chrysanthemum": 18,
+    "yellow chrysanthemum": 19,
+    "magenta chrysanthemum": 20,
+    "white anthurium": 21,
   };
 
   const fetchFlowersData = async () => {
@@ -55,14 +63,10 @@ const UploadRecognition = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(
-        `https://844a-110-54-229-173.ngrok-free.app/detect?user_id=${userId}`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post("https://844a-110-54-229-173.ngrok-free.app/detect?user_id=1", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      });
 
       const detectionResults = response.data.detections || [];
       const normalizedDetections = detectionResults.map((d) => ({
@@ -71,12 +75,17 @@ const UploadRecognition = () => {
       }));
 
       setDetections(normalizedDetections);
+      setTimeout(drawBoundingBoxes, 100);
     } catch (error) {
       console.error("Error uploading file:", error);
       setErrorMessage("Error detecting flowers. Please try again.");
     } finally {
       setIsDetecting(false);
     }
+  };
+
+  const handleFlowerClick = (flowerId) => {
+    navigate(`/dashboard/flower/${flowerId}`);
   };
 
   const drawBoundingBoxes = () => {
@@ -92,8 +101,6 @@ const UploadRecognition = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     detections.forEach((det) => {
-      if (!det.box || det.box.length !== 4) return;
-
       const { box, confidence, flower_name } = det;
       const [x, y, w, h] = box;
 
@@ -119,15 +126,6 @@ const UploadRecognition = () => {
     fetchFlowersData();
   }, []);
 
-  useEffect(() => {
-    if (selectedFile) {
-      const img = document.getElementById("uploaded-img");
-      if (img) {
-        img.onload = () => drawBoundingBoxes();
-      }
-    }
-  }, [detections, selectedFile]);
-
   return (
     <div className="upload-container">
       <h1 className="upload-title">Flower Recognition - Upload Image</h1>
@@ -147,6 +145,7 @@ const UploadRecognition = () => {
               id="uploaded-img"
               src={URL.createObjectURL(selectedFile)}
               alt="Selected"
+              onLoad={drawBoundingBoxes}
               className="preview-image"
             />
             <canvas id="overlay-canvas" className="overlay-canvas"></canvas>
@@ -186,10 +185,7 @@ const UploadRecognition = () => {
         )}
       </div>
 
-      <button className="upload-btn" onClick={() => {
-        setSelectedFile(null);
-        setDetections([]);
-      }}>
+      <button className="upload-btn" onClick={() => setSelectedFile(null)}>
         <FaRegTimesCircle size={20} /> Clear Upload
       </button>
     </div>

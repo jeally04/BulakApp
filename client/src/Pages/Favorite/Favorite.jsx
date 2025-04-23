@@ -8,14 +8,8 @@ const Favorite = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [userId, setUserId] = useState(null); // Use state to store the user ID
+  const userId = localStorage.getItem("user_id");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Get user ID after component mounts
-    const storedUserId = localStorage.getItem("user_id");
-    setUserId(storedUserId); // Set the user ID in the state
-  }, []);
 
   useEffect(() => {
     if (!userId) {
@@ -23,7 +17,7 @@ const Favorite = () => {
       return;
     }
 
-    // Fetch favorites only if userId is available
+    // Make sure the backend URL is correct
     axios.get(`http://problema-qjrc.onrender.com/favorites/${userId}`)
       .then((response) => {
         setFavorites(response.data);  // Set favorites data
@@ -35,7 +29,7 @@ const Favorite = () => {
       .finally(() => {
         setLoading(false);  // Set loading state to false after fetching
       });
-  }, [userId, navigate]); // Re-run if userId or navigate changes
+  }, [userId, navigate]);
 
   const handleFlowerClick = (flowerId) => {
     navigate(`/dashboard/flower/${flowerId}`);  // Navigate to the flower detail page
