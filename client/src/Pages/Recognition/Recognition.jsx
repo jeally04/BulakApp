@@ -72,7 +72,7 @@ const Recognition = () => {
     formData.append("file", imageBlob, "image.jpg");
 
     try {
-      const response = await axios.post("https://c790-110-54-229-173.ngrok-free.app/detect/", formData, {
+      const response = await axios.post("https://844a-110-54-229-173.ngrok-free.app/detect/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
