@@ -42,7 +42,7 @@ const History = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(`https://yolov8-v1.onrender.com/history/${userId}`);
+        const response = await axios.get(`https://171e-110-54-229-173.ngrok-free.app /history/${userId}`);
         if (response.data.history.length > 0) {
           setHistoryItems(response.data.history);
         } else {

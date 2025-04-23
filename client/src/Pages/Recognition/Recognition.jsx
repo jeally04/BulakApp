@@ -72,7 +72,7 @@ const Recognition = () => {
     formData.append("file", imageBlob, "image.jpg");
 
     try {
-      const response = await axios.post("https://yolov8-v1.onrender.com/detect/", formData, {
+      const response = await axios.post("https://171e-110-54-229-173.ngrok-free.app /detect/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

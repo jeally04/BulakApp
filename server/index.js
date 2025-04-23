@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Update CORS configuration to allow requests from your frontend
 app.use(cors({
-  origin: 'https://bulakappclient.onrender.com', // Allow only your frontend's origin
+  origin: '*', // Allow only your frontend's origin
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
   credentials: true // If your requests include credentials like cookies or HTTP authentication
@@ -167,7 +167,7 @@ app.post("/detect/", upload.single("image"), async (req, res) => {
     const formData = new FormData();
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
 
-    const response = await axios.post("https://yolov8-v1.onrender.com/detect/", formData, {
+    const response = await axios.post("https://171e-110-54-229-173.ngrok-free.app /detect/", formData, {
       headers: formData.getHeaders(),
     });
 
@@ -187,7 +187,7 @@ app.post("/detect/", upload.single("image"), async (req, res) => {
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
     formData.append("user_id", req.body.user_id);
 
-    const response = await axios.post("https://yolov8-v1.onrender.com/detect/", formData, {
+    const response = await axios.post("https://171e-110-54-229-173.ngrok-free.app /detect/", formData, {
       headers: formData.getHeaders(),
     });
 

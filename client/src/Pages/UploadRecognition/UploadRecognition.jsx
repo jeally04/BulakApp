@@ -67,7 +67,7 @@ const UploadRecognition = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post("https://yolov8-v1.onrender.com/detect?user_id=1", formData, {
+      const response = await axios.post("https://171e-110-54-229-173.ngrok-free.app /detect?user_id=1", formData, {
   headers: {
     "Content-Type": "multipart/form-data"
   },
