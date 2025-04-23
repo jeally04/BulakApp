@@ -92,46 +92,43 @@ const Recognition = () => {
   }, [isDetecting]);
 
   const drawAnnotations = (detections) => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
+  const canvas = canvasRef.current;
+  const context = canvas.getContext("2d");
 
-    if (!canvas || !context || detections.length === 0) return;
+  if (!canvas || !context || detections.length === 0) return;
 
-    const video = webcamRef.current.video;
-    if (!video) return;
+  const video = webcamRef.current.video;
+  if (!video) return;
 
-    const videoWidth = video.videoWidth;
-    const videoHeight = video.videoHeight;
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
+  // Match canvas size to actual video dimensions for accurate scaling
+  const videoWidth = video.videoWidth;
+  const videoHeight = video.videoHeight;
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
 
-    const scaleX = canvasWidth / videoWidth;
-    const scaleY = canvasHeight / videoHeight;
+  context.clearRect(0, 0, canvas.width, canvas.height);
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
+  detections.forEach((detection) => {
+    const [x1, y1, x2, y2] = detection.bbox;
 
-    detections.forEach((detection) => {
-      const [x1, y1, x2, y2] = detection.bbox;
-      const flowerName = detection.flower_name || "Unknown";
-      const confidence = (detection.confidence * 100).toFixed(1);
+    const boxWidth = x2 - x1;
+    const boxHeight = y2 - y1;
 
-      const boxX = x1 * scaleX;
-      const boxY = y1 * scaleY;
-      const boxWidth = (x2 - x1) * scaleX;
-      const boxHeight = (y2 - y1) * scaleY;
-      const adjustedBoxY = boxY - boxHeight * 0.15;
+    context.beginPath();
+    context.strokeStyle = "#FF0000";
+    context.lineWidth = 2;
+    context.rect(x1, y1, boxWidth, boxHeight);
+    context.stroke();
 
-      context.beginPath();
-      context.strokeStyle = "#FF0000";
-      context.lineWidth = 2;
-      context.rect(boxX, adjustedBoxY, boxWidth, boxHeight);
-      context.stroke();
+    const flowerName = detection.flower_name || "Unknown";
+    const confidence = (detection.confidence * 100).toFixed(1);
 
-      context.fillStyle = "#FF0000";
-      context.font = "16px Arial";
-      context.fillText(`${flowerName} (${confidence}%)`, boxX, adjustedBoxY - 5);
-    });
-  };
+    context.fillStyle = "#FF0000";
+    context.font = "16px Arial";
+    context.fillText(`${flowerName} (${confidence}%)`, x1, y1 > 20 ? y1 - 5 : y1 + 15);
+  });
+};
+
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];
