@@ -67,7 +67,7 @@ const ProfileSettings = ({ isOpen, onClose }) => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3002/api/update-profile/${userId}`,
+        `http://problema-qjrc.onrender.com/api/update-profile/${userId}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

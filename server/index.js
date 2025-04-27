@@ -6,6 +6,7 @@ const multer = require('multer');
 const axios = require('axios');
 const path = require('path');
 const FormData = require('form-data');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware to parse JSON and handle CORS
 app.use(express.json());
@@ -247,7 +248,7 @@ app.put("/api/update-profile/:id", upload.single("profileImage"), async (req, re
   values.push(userId);
 
   // Determine the image URL dynamically based on the environment
-  const imageUrl = profileImage ? `https://your-domain.com/uploads/${profileImage}` : null;
+  const imageUrl = profileImage ? `http://problema-qjrc.onrender.com/uploads/${profileImage}` : null;
 
   db.query(sql, values, (err, result) => {
     if (err) {
