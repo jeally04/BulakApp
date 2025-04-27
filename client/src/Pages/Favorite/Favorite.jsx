@@ -18,7 +18,7 @@ const Favorite = () => {
     }
 
     // Make sure the backend URL is correct
-    axios.get(`http://problema-qjrc.onrender.com/favorites/${userId}`)
+    axios.get(`https://problema-qjrc.onrender.com/favorites/${userId}`)
       .then((response) => {
         setFavorites(response.data);  // Set favorites data
       })

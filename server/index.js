@@ -7,9 +7,9 @@ const axios = require('axios');
 const path = require('path');
 const FormData = require('form-data');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Middleware to parse JSON and handle CORS
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 // Update CORS configuration to allow requests from your frontend
 app.use(cors({
@@ -168,7 +168,7 @@ app.post("/detect/", upload.single("image"), async (req, res) => {
     const formData = new FormData();
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
 
-    const response = await axios.post("https://844a-110-54-229-173.ngrok-free.app/detect/", formData, {
+    const response = await axios.post("https://312f-180-190-50-152.ngrok-free.app/detect/", formData, {
       headers: formData.getHeaders(),
     });
 
@@ -188,7 +188,7 @@ app.post("/detect/", upload.single("image"), async (req, res) => {
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
     formData.append("user_id", req.body.user_id);
 
-    const response = await axios.post("https://844a-110-54-229-173.ngrok-free.app/detect/", formData, {
+    const response = await axios.post("https://312f-180-190-50-152.ngrok-free.app/detect/", formData, {
       headers: formData.getHeaders(),
     });
 
@@ -248,7 +248,7 @@ app.put("/api/update-profile/:id", upload.single("profileImage"), async (req, re
   values.push(userId);
 
   // Determine the image URL dynamically based on the environment
-  const imageUrl = profileImage ? `http://problema-qjrc.onrender.com/uploads/${profileImage}` : null;
+  const imageUrl = profileImage ? `https://problema-qjrc.onrender.com/uploads/${profileImage}` : null;
 
   db.query(sql, values, (err, result) => {
     if (err) {

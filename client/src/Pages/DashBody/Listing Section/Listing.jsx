@@ -18,7 +18,7 @@ const Listing = () => {
       return;
     }
 
-    axios.get(`http://localhost:3002/favorites/${userId}`)
+    axios.get(`https://problema-qjrc.onrender.com/favorites/${userId}`)
       .then((response) => {
         setFavorites(response.data);
       })
