@@ -14,6 +14,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [picture, setPicture] = useState(null);
   const [popupMessage, setPopupMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
@@ -21,10 +22,18 @@ const Register = () => {
   const createUser = (e) => {
     e.preventDefault();
 
-    Axios.post('https://problema-qjrc.onrender.com/register', {
-      email: email,
-      username: username,
-      password: password
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('username', username);
+    formData.append('password', password);
+    if (picture) {
+      formData.append('picture', picture);
+    }
+
+    Axios.post('https://problema-qjrc.onrender.com/register', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     }).then(() => {
       setPopupMessage("Registration successful!");
       setShowPopup(true);
@@ -33,6 +42,7 @@ const Register = () => {
       setEmail("");
       setUsername("");
       setPassword("");
+      setPicture(null);
 
       setTimeout(() => {
         setShowPopup(false);
@@ -73,13 +83,13 @@ const Register = () => {
             <h3>Let Us Know You!</h3>
           </div>
 
-          {/* Close button */}
           <button className="closeBtn" onClick={() => navigate('/')}>
             <AiOutlineSwapRight className="closeIcon" />
           </button>
 
           <form className='form grid' onSubmit={createUser}>
             <div className="inputDiv">
+              {/* Email input */}
               <label htmlFor="email">Email</label>
               <div className="input flex">
                 <MdMarkEmailRead className='icon' />
@@ -93,6 +103,7 @@ const Register = () => {
                 />
               </div>
 
+              {/* Username input */}
               <label htmlFor="username">Username</label>
               <div className="input flex">
                 <FaUserShield className='icon' />
@@ -106,6 +117,7 @@ const Register = () => {
                 />
               </div>
 
+              {/* Password input */}
               <label htmlFor="password">Password</label>
               <div className="input flex">
                 <BsFillShieldLockFill className='icon' />
@@ -116,6 +128,17 @@ const Register = () => {
                   required
                   value={password}
                   onChange={(event) => setPassword(event.target.value)} 
+                />
+              </div>
+
+              {/* Profile picture upload */}
+              <label htmlFor="picture">Profile Picture</label>
+              <div className="input flex">
+                <input 
+                  type="file" 
+                  id="picture" 
+                  accept="image/*"
+                  onChange={(event) => setPicture(event.target.files[0])} 
                 />
               </div>
             </div>

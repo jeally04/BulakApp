@@ -27,8 +27,8 @@ app.options('*', cors({
 }));
 
 // 🔹 **Multer Storage Configuration (Fixes `upload is not defined` error)**
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+
+
 
 
 
@@ -65,14 +65,31 @@ app.listen(port, () => {
 // ************** USER AUTHENTICATION ************
 
 // Route to handle user registration
-app.post('/register', (req, res) => {
-  const { email, username, password } = req.body;
+// Setup multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Make sure this folder exists!
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 
-  const SQL = 'INSERT INTO users (email, username, password) VALUES (?, ?, ?)';
-  db.query(SQL, [email, username, password], (err, result) => {
+// Route to handle user registration with file upload
+app.post('/register', upload.single('picture'), (req, res) => {
+  const { email, username, password } = req.body;
+  const picture = req.file ? req.file.filename : null;
+
+  const SQL = 'INSERT INTO users (email, username, password, picture) VALUES (?, ?, ?, ?)';
+  db.query(SQL, [email, username, password, picture], (err, result) => {
     if (err) {
-      console.error('Error inserting user:', err);
-      res.status(500).send({ message: 'Error: Could not register user.' });
+      if (err.code === 'ER_DUP_ENTRY') {
+        res.status(400).send({ message: 'Email already exists.' });
+      } else {
+        console.error('Error inserting user:', err);
+        res.status(500).send({ message: 'Error: Could not register user.' });
+      }
     } else {
       res.status(201).send({ message: 'User registered successfully!' });
     }
