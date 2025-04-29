@@ -68,7 +68,7 @@ const UploadRecognition = () => {
 
     try {
       const response = await axios.post(
-  `https://af2f-110-54-174-189.ngrok-free.app/detect/?user_id=${userId}`,
+  `https://af2f-110-54-174-189.ngrok-free.app/detectupload/?user_id=${userId}`,
   formData,
   {
     headers: { "Content-Type": "multipart/form-data" },
