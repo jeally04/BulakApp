@@ -168,7 +168,7 @@ app.post("/detect/", upload.single("image"), async (req, res) => {
     const formData = new FormData();
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
 
-    const response = await axios.post("https://312f-180-190-50-152.ngrok-free.app/detect/", formData, {
+    const response = await axios.post("https://af2f-110-54-174-189.ngrok-free.app/detect/", formData, {
       headers: formData.getHeaders(),
     });
 
@@ -188,7 +188,7 @@ app.post("/detect/", upload.single("image"), async (req, res) => {
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
     formData.append("user_id", req.body.user_id);
 
-    const response = await axios.post("https://312f-180-190-50-152.ngrok-free.app/detect/", formData, {
+    const response = await axios.post("https://af2f-110-54-174-189.ngrok-free.app/detect/", formData, {
       headers: formData.getHeaders(),
     });
 

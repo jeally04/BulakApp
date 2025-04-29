@@ -13,8 +13,10 @@ const UploadRecognition = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  // Retrieve logged-in user ID
   const userId = localStorage.getItem("user_id");
 
+  // Normalize flower names for mapping
   const normalizeName = (name) => name.trim().toLowerCase();
 
   const flowerIdMap = {
@@ -33,6 +35,7 @@ const UploadRecognition = () => {
     "white anthurium": 21,
   };
 
+  // Fetch flower data from the database
   const fetchFlowersData = async () => {
     try {
       const response = await axios.get("https://problema-qjrc.onrender.com/flowers");
@@ -46,6 +49,7 @@ const UploadRecognition = () => {
     }
   };
 
+  // Handle image upload and detection
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -63,9 +67,8 @@ const UploadRecognition = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post("https://312f-180-190-50-152.ngrok-free.app/detect?user_id=1", formData, {
+      const response = await axios.post(`https://af2f-110-54-174-189.ngrok-free.app/detect?user_id=${userId}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
       });
 
       const detectionResults = response.data.detections || [];
@@ -75,7 +78,6 @@ const UploadRecognition = () => {
       }));
 
       setDetections(normalizedDetections);
-      setTimeout(drawBoundingBoxes, 100);
     } catch (error) {
       console.error("Error uploading file:", error);
       setErrorMessage("Error detecting flowers. Please try again.");
@@ -84,42 +86,9 @@ const UploadRecognition = () => {
     }
   };
 
+  // Navigate to flower details page
   const handleFlowerClick = (flowerId) => {
     navigate(`/dashboard/flower/${flowerId}`);
-  };
-
-  const drawBoundingBoxes = () => {
-    const img = document.getElementById("uploaded-img");
-    const canvas = document.getElementById("overlay-canvas");
-
-    if (!img || !canvas || detections.length === 0) return;
-
-    canvas.width = img.clientWidth;
-    canvas.height = img.clientHeight;
-
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    detections.forEach((det) => {
-      const { box, confidence, flower_name } = det;
-      const [x, y, w, h] = box;
-
-      const scaleX = canvas.width / img.naturalWidth;
-      const scaleY = canvas.height / img.naturalHeight;
-
-      const drawX = x * scaleX;
-      const drawY = y * scaleY;
-      const drawW = w * scaleX;
-      const drawH = h * scaleY;
-
-      ctx.strokeStyle = "#ff6b6b";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(drawX, drawY, drawW, drawH);
-
-      ctx.fillStyle = "rgba(255, 107, 107, 0.85)";
-      ctx.font = "14px Arial";
-      ctx.fillText(`${flower_name} (${(confidence * 100).toFixed(1)}%)`, drawX, drawY > 20 ? drawY - 5 : drawY + 15);
-    });
   };
 
   useEffect(() => {
@@ -139,18 +108,7 @@ const UploadRecognition = () => {
           </div>
         </label>
 
-        {selectedFile && (
-          <div className="image-preview-container">
-            <img
-              id="uploaded-img"
-              src={URL.createObjectURL(selectedFile)}
-              alt="Selected"
-              onLoad={drawBoundingBoxes}
-              className="preview-image"
-            />
-            <canvas id="overlay-canvas" className="overlay-canvas"></canvas>
-          </div>
-        )}
+        {selectedFile && <img src={URL.createObjectURL(selectedFile)} alt="Selected" />}
       </div>
 
       {isDetecting && (
