@@ -69,7 +69,7 @@ formData.append("user_id", userId); // ✅ important!
 
 try {
   const response = await axios.post(
-    "https://af2f-110-54-174-189.ngrok-free.app/detect/upload",
+    "https://af2f-110-54-174-189.ngrok-free.app/detect/",
     formData,
     {
       headers: { "Content-Type": "multipart/form-data" },
