@@ -41,22 +41,20 @@ const History = () => {
     }
 
     const fetchHistory = async () => {
-  try {
-    const response = await axios.get(`https://af2f-110-54-174-189.ngrok-free.app/history/${userId}`);
-    
-    if (response.data.history && response.data.history.length > 0) {
-      setHistoryItems(response.data.history);
-    } else {
-      setErrorMessage("No detection history found.");
-    }
-  } catch (error) {
-    console.error("Error fetching history:", error);
-    setErrorMessage("Failed to retrieve history.");
-  } finally {
-    setLoading(false);
-  }
-};
-
+      try {
+        const response = await axios.get(`https://af2f-110-54-174-189.ngrok-free.app/history/${userId}`);
+        if (response.data.history.length > 0) {
+          setHistoryItems(response.data.history);
+        } else {
+          setErrorMessage("No detection history found.");
+        }
+      } catch (error) {
+        console.error("Error fetching history:", error);
+        setErrorMessage("Failed to retrieve history.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
     const fetchFlowersData = async () => {
       try {
