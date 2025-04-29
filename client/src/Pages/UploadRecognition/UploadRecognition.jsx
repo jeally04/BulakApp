@@ -63,17 +63,19 @@ const UploadRecognition = () => {
     setErrorMessage("");
     setIsDetecting(true);
 
-    const formData = new FormData();
-    formData.append("file", file);
+   const formData = new FormData();
+formData.append("file", file);
+formData.append("user_id", userId); // ✅ important!
 
-    try {
-      const response = await axios.post(
-  `https://af2f-110-54-174-189.ngrok-free.app/detect/upload/?user_id=${userId}`,
-  formData,
-  {
-    headers: { "Content-Type": "multipart/form-data" },
-  }
-);
+try {
+  const response = await axios.post(
+    "https://af2f-110-54-174-189.ngrok-free.app/detect/upload",
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    }
+  );
+
 
 
       const detectionResults = response.data.detections || [];
