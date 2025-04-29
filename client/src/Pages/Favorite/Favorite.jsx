@@ -8,17 +8,17 @@ const Favorite = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const userId = localStorage.getItem("user_id");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userId) {
-      navigate("/login"); // Redirect if user ID is missing
+    const storedUserId = parseInt(localStorage.getItem("user_id"), 10);
+
+    if (!storedUserId || isNaN(storedUserId)) {
+      navigate("/login"); // Redirect if user ID is missing or invalid
       return;
     }
 
-    // Make sure the backend URL is correct
-    axios.get(`https://problema-qjrc.onrender.com/favorites/${userId}`)
+    axios.get(`https://problema-qjrc.onrender.com/favorites/${storedUserId}`)
       .then((response) => {
         setFavorites(response.data);  // Set favorites data
       })
@@ -29,7 +29,7 @@ const Favorite = () => {
       .finally(() => {
         setLoading(false);  // Set loading state to false after fetching
       });
-  }, [userId, navigate]);
+  }, [navigate]);
 
   const handleFlowerClick = (flowerId) => {
     navigate(`/dashboard/flower/${flowerId}`);  // Navigate to the flower detail page
@@ -40,15 +40,15 @@ const Favorite = () => {
       <h2>MY FAVORITES</h2>
       <div className="favorite-grid11">
         {loading ? (
-          <p>Loading...</p>  // Loading state
+          <p>Loading...</p>
         ) : error ? (
-          <p className="error-message">{error}</p>  // Error message if fetching fails
+          <p className="error-message">{error}</p>
         ) : favorites.length > 0 ? (
           favorites.map((flower) => (
             <div 
-              key={flower.id} 
+              key={flower.flower_id} 
               className="favorite-item11" 
-              onClick={() => handleFlowerClick(flower.flower_id)}  // Flower click handling
+              onClick={() => handleFlowerClick(flower.flower_id)}
             >
               <AiFillHeart className="heart-icon11" />
               <img src={flower.image_url} alt={flower.flower_name} className="favorite-image11" />
@@ -56,7 +56,7 @@ const Favorite = () => {
             </div>
           ))
         ) : (
-          <p>No favorites yet.</p>  // No favorites message
+          <p>No favorites yet.</p>
         )}
       </div>
     </div>
