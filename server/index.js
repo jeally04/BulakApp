@@ -283,20 +283,30 @@ app.get('/history/:user_id', (req, res) => {
 
 
 
-// *********************** FAVORITES *************************//
-// Route to add a flower to favorites
 app.post('/favorites/add', (req, res) => {
   const { user_id, flower_id } = req.body;
+
+  if (!user_id || !flower_id) {
+    return res.status(400).json({ message: 'Missing user_id or flower_id' });
+  }
 
   const sql = 'INSERT INTO favorites (user_id, flower_id) VALUES (?, ?)';
   db.query(sql, [user_id, flower_id], (err, result) => {
     if (err) {
       console.error('Error adding favorite:', err);
+      
+      // Handle duplicate entry error
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({ message: 'Favorite already exists' });
+      }
+
       return res.status(500).json({ message: 'Error adding to favorites' });
     }
     res.status(200).json({ message: 'Added to favorites' });
   });
 });
+
+
 
 // Route to remove a flower from favorites
 app.post('/favorites/remove', (req, res) => {
