@@ -89,12 +89,8 @@ h2 {
   top: 12px;
   right: 12px;
   font-size: 22px;
-  color: gray;
+  color: #e44d7d;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.heart-icon11.filled {
-  color: red;
 }
 
 .favorite-item11:hover .heart-icon11 {
