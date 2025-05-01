@@ -180,24 +180,55 @@ app.post("/detect/", upload.single("image"), async (req, res) => {
 });
 
 // 🔹 **Upload Detection (Saves to History)**
+// 🔹 **Upload Detection (Saves to History)**
 app.post("/detect/upload", upload.single("image"), async (req, res) => {
   try {
+    // Check for missing data
     if (!req.file || !req.body.user_id) return res.status(400).send({ message: "Missing data." });
 
+    // Prepare FormData for YOLO API request
     const formData = new FormData();
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
     formData.append("user_id", req.body.user_id);
 
+    // Call YOLO API for flower detection
     const response = await axios.post("https://6d85-222-127-189-186.ngrok-free.app", formData, {
       headers: formData.getHeaders(),
     });
 
-    res.status(200).send(response.data);
+    // Extract flower detection results from the YOLO API response (adjust this based on the actual response format)
+    const detections = response.data.detections; // Assuming this contains an array of detected flowers
+    const userId = req.body.user_id;
+    const detectedAt = new Date();
+
+    // Insert detection data into the database (saving each detected flower)
+    const sql = 'INSERT INTO detection_history (user_id, flower_name, confidence, detected_at) VALUES ?';
+    const values = detections.map(detection => [
+      userId,
+      detection.name,           // Flower name detected
+      detection.confidence,     // Confidence score (0 to 1)
+      detectedAt                // Timestamp when the detection occurred
+    ]);
+
+    // Insert detection history records
+    db.query(sql, [values], (err, results) => {
+      if (err) {
+        console.error('Error saving detection history:', err);
+        return res.status(500).send({ message: 'Failed to save detection history' });
+      }
+
+      // Send response back with detection results
+      res.status(200).send({
+        message: "Detection successful",
+        detections: detections
+      });
+    });
   } catch (error) {
     console.error("Detection error:", error);
     res.status(500).send({ message: "Detection failed." });
   }
 });
+
 
 
 
@@ -267,17 +298,25 @@ app.put("/api/update-profile/:id", upload.single("profileImage"), async (req, re
 
 // ************** DETECTION HISTORY ROUTES ************
 // Route to get detection history for a specific user
+// Route to get detection history for a specific user
 app.get('/history/:user_id', (req, res) => {
   const userId = req.params.user_id;
 
+  // Query to get history from the database
   const sql = 'SELECT * FROM detection_history WHERE user_id = ? ORDER BY detected_at DESC';
   db.query(sql, [userId], (err, results) => {
     if (err) {
       console.error('Error fetching history:', err);
-      res.status(500).json({ message: 'Failed to retrieve history' });
-    } else {
-      res.status(200).json(results);
+      return res.status(500).json({ message: 'Failed to retrieve history' });
     }
+
+    // If no results, return a message
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No history found for this user.' });
+    }
+
+    // Return detection history
+    res.status(200).json(results);
   });
 });
 

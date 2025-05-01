@@ -1,9 +1,7 @@
-
 .history-page {
    padding: 20px;
    max-width: 800px;
    margin: 0 auto;
-   
 }
 
 h2 {
@@ -54,6 +52,7 @@ h2 {
 .history-image {
    width: 100%;
    height: 100%;
+   -o-object-fit: cover;
    object-fit: cover;
 }
 
@@ -82,6 +81,18 @@ h2 {
    font-size: 14px;
    color: #666;
    white-space: nowrap;
+}
+
+/* Confidence */
+.history-confidence {
+   font-size: 14px;
+   color: #4CAF50;
+   /* Green color for nature feel */
+   font-weight: 500;
+   margin-left: 10px;
+   /* Adds space between confidence and name/date */
+   white-space: nowrap;
+   text-align: right;
 }
 
 /* Responsive Design */

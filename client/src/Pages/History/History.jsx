@@ -87,44 +87,48 @@ const History = () => {
   };
 
   return (
-    <div className="history-page">
-      <h2>HISTORY</h2>
+  <div className="history-page">
+    <h2>HISTORY</h2>
 
-      {loading ? (
-        <p>Loading history...</p>
-      ) : errorMessage ? (
-        <p className="error-message">{errorMessage}</p>
-      ) : (
-        <ul className="history-list">
-          {historyItems.map((item) => {
-            const flower = flowersData[normalizeName(item.flower_name)] || {};
-            return (
-              <li
-                key={item.id}
-                className="history-item"
-                onClick={() => handleFlowerClick(item.flower_name)}
-              >
-                {/* Flower Image */}
-                <div className="history-image-container">
-                  <img
-                    src={flower.image_url || "/images/default.jpg"}
-                    alt={item.flower_name}
-                    className="history-image"
-                  />
-                </div>
+    {loading ? (
+      <p>Loading history...</p>
+    ) : errorMessage ? (
+      <p className="error-message">{errorMessage}</p>
+    ) : (
+      <ul className="history-list">
+        {historyItems.map((item) => {
+          const flower = flowersData[normalizeName(item.flower_name)] || {};
+          return (
+            <li
+              key={item.id}
+              className="history-item"
+              onClick={() => handleFlowerClick(item.flower_name)}
+            >
+              {/* Flower Image */}
+              <div className="history-image-container">
+                <img
+                  src={flower.image_url || "/images/default.jpg"}
+                  alt={item.flower_name}
+                  className="history-image"
+                />
+              </div>
 
-                {/* Flower Name & Date */}
-                <div className="history-info">
-                  <span className="history-name">{item.flower_name}</span>
-                  <span className="history-date">{new Date(item.detected_at).toLocaleString()}</span>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </div>
-  );
+              {/* Flower Name, Date & Confidence */}
+              <div className="history-info">
+                <span className="history-name">{item.flower_name}</span>
+                <span className="history-date">{new Date(item.detected_at).toLocaleString()}</span>
+                {/* Confidence Display */}
+                <span className="history-confidence">
+                  Confidence: {Math.round(item.confidence * 100)}%
+                </span>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+  </div>
+);
 };
 
 export default History;

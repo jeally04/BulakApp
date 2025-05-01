@@ -53,7 +53,7 @@ h2 {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 /* Name & Date Wrapper */
@@ -83,6 +83,18 @@ h2 {
   white-space: nowrap;
 }
 
+/* Confidence */
+.history-confidence {
+  font-size: 14px;
+  color: #4CAF50;
+  /* Green color for nature feel */
+  font-weight: 500;
+  margin-left: 10px;
+  /* Adds space between confidence and name/date */
+  white-space: nowrap;
+  text-align: right;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .history-item {
@@ -90,19 +102,23 @@ h2 {
     align-items: center;
     justify-content: flex-start;
   }
+
   .history-image-container {
     width: 50px;
     height: 50px;
   }
+
   .history-info {
     flex-direction: column;
     /* Stack name and date */
     align-items: flex-start;
   }
+
   .history-name {
     font-size: 1rem;
   }
+
   .history-date {
     font-size: 12px;
   }
-}/*# sourceMappingURL=History.css.map */
+}
