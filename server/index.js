@@ -287,40 +287,50 @@ app.post('/favorites/add', (req, res) => {
   const { user_id, flower_id } = req.body;
 
   if (!user_id || !flower_id) {
+    console.error('Missing user_id or flower_id', req.body);
     return res.status(400).json({ message: 'Missing user_id or flower_id' });
   }
 
   const sql = 'INSERT INTO favorites (user_id, flower_id) VALUES (?, ?)';
   db.query(sql, [user_id, flower_id], (err, result) => {
     if (err) {
-      console.error('Error adding favorite:', err);
-      
-      // Handle duplicate entry error
+      console.error('Error adding favorite:', err);  // This will show the exact SQL error in the terminal
+
       if (err.code === 'ER_DUP_ENTRY') {
         return res.status(409).json({ message: 'Favorite already exists' });
       }
 
-      return res.status(500).json({ message: 'Error adding to favorites' });
+      return res.status(500).json({ message: 'Error adding to favorites', error: err });
     }
+
     res.status(200).json({ message: 'Added to favorites' });
   });
 });
 
 
-
-// Route to remove a flower from favorites
 app.post('/favorites/remove', (req, res) => {
   const { user_id, flower_id } = req.body;
+
+  if (!user_id || !flower_id) {
+    console.error('Missing user_id or flower_id:', req.body);
+    return res.status(400).json({ message: 'Missing user_id or flower_id' });
+  }
 
   const sql = 'DELETE FROM favorites WHERE user_id = ? AND flower_id = ?';
   db.query(sql, [user_id, flower_id], (err, result) => {
     if (err) {
       console.error('Error removing favorite:', err);
-      return res.status(500).json({ message: 'Error removing from favorites' });
+      return res.status(500).json({ message: 'Error removing from favorites', error: err });
     }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Favorite not found' });
+    }
+
     res.status(200).json({ message: 'Removed from favorites' });
   });
 });
+
 
 // Route to fetch the user's favorite flowers
 app.get('/favorites/:user_id', (req, res) => {
