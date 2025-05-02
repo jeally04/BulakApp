@@ -42,7 +42,7 @@ const History = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(`https://8907-222-127-189-186.ngrok-free.app/history/${userId}`);
+        const response = await axios.get(`https://aaec-122-54-115-96.ngrok-free.app/history/${userId}`);
         if (response.data.history.length > 0) {
           setHistoryItems(response.data.history);
         } else {

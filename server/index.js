@@ -192,7 +192,7 @@ app.post("/detect/upload", upload.single("image"), async (req, res) => {
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
     formData.append("user_id", user_id);
 
-    const response = await axios.post("https://8907-222-127-189-186.ngrok-free.app", formData, {
+    const response = await axios.post("https://aaec-122-54-115-96.ngrok-free.app", formData, {
       headers: formData.getHeaders(),
     });
 
