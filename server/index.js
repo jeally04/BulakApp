@@ -168,7 +168,7 @@ app.post("/detect/", upload.single("image"), async (req, res) => {
     const formData = new FormData();
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
 
-    const response = await axios.post("https://6d85-222-127-189-186.ngrok-free.app/detect/", formData, {
+    const response = await axios.post("https://8907-222-127-189-186.ngrok-free.app/detect/", formData, {
       headers: formData.getHeaders(),
     });
 
@@ -192,7 +192,7 @@ app.post("/detect/upload", upload.single("image"), async (req, res) => {
     formData.append("user_id", req.body.user_id);
 
     // Call YOLO API for flower detection
-    const response = await axios.post("https://6d85-222-127-189-186.ngrok-free.app", formData, {
+    const response = await axios.post("https://8907-222-127-189-186.ngrok-free.app", formData, {
       headers: formData.getHeaders(),
     });
 

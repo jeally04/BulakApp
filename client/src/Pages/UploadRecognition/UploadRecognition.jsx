@@ -69,7 +69,7 @@ formData.append("user_id", userId); // ✅ important!
 
 try {
  const response = await axios.post(
-  `https://6d85-222-127-189-186.ngrok-free.app/detect/?live=false`,
+  `https://8907-222-127-189-186.ngrok-free.app/detect/?live=false`,
   formData,
   {
     headers: { "Content-Type": "multipart/form-data" },

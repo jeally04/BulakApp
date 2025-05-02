@@ -24,7 +24,7 @@ const Activity = () => {
 
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(`https://6d85-222-127-189-186.ngrok-free.app/history/${userId}`);
+        const response = await axios.get(`https://8907-222-127-189-186.ngrok-free.app/history/${userId}`);
 
         if (response.data && Array.isArray(response.data.history) && response.data.history.length > 0) {
           setHistory(response.data.history.slice(0, 8)); // Show latest 8 entries
