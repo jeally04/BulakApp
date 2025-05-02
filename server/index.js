@@ -179,25 +179,38 @@ app.post("/detect/", upload.single("image"), async (req, res) => {
   }
 });
 
-// 🔹 **Upload Detection (Saves to History)**
+/// 🔹 Upload Detection (Saves to History)
 app.post("/detect/upload", upload.single("image"), async (req, res) => {
   try {
-    if (!req.file || !req.body.user_id) return res.status(400).send({ message: "Missing data." });
+    const { user_id } = req.body;
+
+    if (!req.file || !user_id) {
+      return res.status(400).json({ message: "Missing image or user ID." });
+    }
 
     const formData = new FormData();
     formData.append("file", req.file.buffer, { filename: "image.jpg" });
-    formData.append("user_id", req.body.user_id);
+    formData.append("user_id", user_id);
 
     const response = await axios.post("https://8907-222-127-189-186.ngrok-free.app", formData, {
       headers: formData.getHeaders(),
     });
 
-    res.status(200).send(response.data);
+    // Optional: Ensure `detections` is always returned as an array
+    const data = response.data || {};
+    const detections = Array.isArray(data.detections) ? data.detections : [];
+
+    res.status(200).json({
+      message: "Detection completed",
+      detections,
+      saved: true,
+    });
   } catch (error) {
-    console.error("Detection error:", error);
-    res.status(500).send({ message: "Detection failed." });
+    console.error("Detection error:", error.message);
+    res.status(500).json({ message: "Detection failed", error: error.message });
   }
 });
+
 
 
 
