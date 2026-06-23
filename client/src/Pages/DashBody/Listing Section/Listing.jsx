@@ -18,7 +18,7 @@ const Listing = () => {
       return;
     }
 
-    axios.get(`https://problema-qjrc.onrender.com/favorites/${userId}`)
+    axios.get(`/favorites/${userId}`)
       .then((response) => {
         setFavorites(response.data);
       })
@@ -34,11 +34,11 @@ const Listing = () => {
       const isFavorited = favorites.some(fav => fav.id === flowerId);
 
       if (isFavorited) {
-        await axios.delete(`https://problema-qjrc.onrender.com/favorites/${userId}/${flowerId}`);
+        await axios.delete(`/favorites/${userId}/${flowerId}`);
         setFavorites(favorites.filter(fav => fav.id !== flowerId)); // Remove from UI
       } else {
-        await axios.post(`https://problema-qjrc.onrender.com/favorites`, { user_id: userId, flower_id: flowerId });
-        axios.get(`https://problema-qjrc.onrender.com/favorites/${userId}`).then((response) => {
+        await axios.post(`/favorites`, { user_id: userId, flower_id: flowerId });
+        axios.get(`/favorites/${userId}`).then((response) => {
           setFavorites(response.data); // Refresh list
         });
       }

@@ -11,21 +11,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// Update CORS configuration to allow requests from your frontend
-app.use(cors({
-  origin: '*', // Allow only your frontend's origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  credentials: true // If your requests include credentials like cookies or HTTP authentication
-}));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'https://bulakappclient.onrender.com',
+];
 
-// Handle preflight requests
-app.options('*', cors({
-  origin: 'https://bulakappclient.onrender.com', // Allow preflight requests from your frontend
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // 🔹 **Multer Storage Configuration (Fixes `upload is not defined` error)**
 const storage = multer.memoryStorage();

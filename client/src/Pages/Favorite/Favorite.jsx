@@ -11,7 +11,7 @@ const Favorite = () => {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`https://problema-qjrc.onrender.com/favorites/${userId}`)
+      axios.get(`/favorites/${userId}`)
         .then((response) => setFavorites(response.data))
         .catch((err) => console.error("Error fetching favorites:", err));
     }

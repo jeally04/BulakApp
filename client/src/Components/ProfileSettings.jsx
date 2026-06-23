@@ -25,7 +25,7 @@ const ProfileSettings = ({ isOpen, onClose }) => {
     }
 
     axios
-      .get(`https://problema-qjrc.onrender.com/api/update-profile/${userId}`)
+      .get(`/api/update-profile/${userId}`)
       .then((response) => {
         const userData = response.data;
         setEmail(userData.email || "");
@@ -67,7 +67,7 @@ const ProfileSettings = ({ isOpen, onClose }) => {
 
     try {
       const response = await axios.put(
-        `http://problema-qjrc.onrender.com/api/update-profile/${userId}`,
+        `/api/update-profile/${userId}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

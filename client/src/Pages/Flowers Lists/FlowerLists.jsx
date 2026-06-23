@@ -10,7 +10,7 @@ const FlowerLists = () => {
 
   useEffect(() => {
     // Fetch flowers based on the flower type
-    axios.get(`https://problema-qjrc.onrender.com/flowers?type=${flower_type_id}`) // Assuming the API endpoint supports querying by type
+    axios.get(`/flowers?type=${flower_type_id}`) // Assuming the API endpoint supports querying by type
       .then((response) => {
         setFlowers(response.data);  // Set flowers data
       })

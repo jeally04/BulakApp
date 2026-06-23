@@ -58,7 +58,7 @@ const History = () => {
 
     const fetchFlowersData = async () => {
       try {
-        const response = await axios.get("https://problema-qjrc.onrender.com/flowers");
+        const response = await axios.get("/flowers");
         const flowers = response.data.reduce((acc, flower) => {
           acc[normalizeName(flower.flower_name)] = {
             id: flowerIdMap[normalizeName(flower.flower_name)] || null,

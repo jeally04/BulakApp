@@ -15,7 +15,7 @@ const Flower = () => {
 
   useEffect(() => {
     // Fetch flower details
-    axios.get(`https://problema-qjrc.onrender.com/flower/${id}`)
+    axios.get(`/flower/${id}`)
       .then((response) => {
         setFlower(response.data);
       })
@@ -26,7 +26,7 @@ const Flower = () => {
 
     // Check if flower is in user's favorites
     if (userId) {
-      axios.get(`https://problema-qjrc.onrender.com/favorites/${userId}`)
+      axios.get(`/favorites/${userId}`)
         .then((response) => {
           const favoriteIds = response.data.map(fav => fav.flower_id);
           setIsFavorite(favoriteIds.includes(parseInt(id)));
@@ -43,8 +43,8 @@ const Flower = () => {
     }
 
     const url = isFavorite 
-      ? "https://problema-qjrc.onrender.com/favorites/remove"
-      : "https://problema-qjrc.onrender.com/favorites/add";
+      ? "/favorites/remove"
+      : "/favorites/add";
 
     try {
       await axios.post(url, { user_id: userId, flower_id: id });

@@ -11,7 +11,7 @@ const AllFlowerTypes = () => {
 
   // Fetch all flower types from the backend
   useEffect(() => {
-    axios.get('https://problema-qjrc.onrender.com/flower-types')
+    axios.get('/flower-types')
       .then((response) => {
         setFlowerTypes(response.data);  
       })

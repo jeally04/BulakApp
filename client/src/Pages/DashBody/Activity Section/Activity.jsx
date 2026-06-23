@@ -39,7 +39,7 @@ const Activity = () => {
 
     const fetchFlowersData = async () => {
       try {
-        const response = await axios.get("https://problema-qjrc.onrender.com/flowers");
+        const response = await axios.get("/flowers");
         const flowers = response.data.reduce((acc, flower) => {
           acc[normalizeName(flower.flower_name)] = {
             image_url: flower.image_url || "/images/default.jpg",
