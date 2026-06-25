@@ -1,12 +1,20 @@
-.bottom {
+.mainContent {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Responsive adjustments */
+.bottom {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem 2rem;
+  align-items: flex-start;
+}
+
 @media screen and (max-width: 768px) {
   .bottom {
     flex-direction: column;
-    gap: 10px;
+    padding: 1rem;
+    gap: 1rem;
   }
-}/*# sourceMappingURL=Dashbody.css.map */
+}

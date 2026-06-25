@@ -11,11 +11,11 @@ const Recognition = () => {
   const [isDetecting, setIsDetecting] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [flowersData, setFlowersData] = useState({});
-  const [useFrontCam, setUseFrontCam] = useState(false); // state for switching cameras
+  const [useFrontCam, setUseFrontCam] = useState(false);
   const navigate = useNavigate();
 
   const videoConstraints = {
-    facingMode: useFrontCam ? "user" : "environment", // toggle between front and back camera
+    facingMode: useFrontCam ? "user" : "environment",
   };
 
   const normalizeName = (name) => name.trim().toLowerCase();
@@ -92,48 +92,51 @@ const Recognition = () => {
   }, [isDetecting]);
 
   const drawAnnotations = (detections) => {
-  const canvas = canvasRef.current;
-  const context = canvas.getContext("2d");
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
 
-  if (!canvas || !context || detections.length === 0) return;
+    if (!canvas || !context || detections.length === 0) return;
 
-  const video = webcamRef.current.video;
-  if (!video) return;
+    const video = webcamRef.current.video;
+    if (!video) return;
 
-  // Match canvas size to actual video dimensions for accurate scaling
-  const videoWidth = video.videoWidth;
-  const videoHeight = video.videoHeight;
-  canvas.width = videoWidth;
-  canvas.height = videoHeight;
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
+    canvas.width = videoWidth;
+    canvas.height = videoHeight;
 
-  context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
-  detections.forEach((detection) => {
-    const [x1, y1, x2, y2] = detection.bbox;
+    detections.forEach((detection) => {
+      const [x1, y1, x2, y2] = detection.bbox;
+      const boxWidth = x2 - x1;
+      const boxHeight = y2 - y1;
 
-    const boxWidth = x2 - x1;
-    const boxHeight = y2 - y1;
+      context.beginPath();
+      context.strokeStyle = "#e91e8c";
+      context.lineWidth = 2.5;
+      context.rect(x1, y1, boxWidth, boxHeight);
+      context.stroke();
 
-    context.beginPath();
-    context.strokeStyle = "#FF0000";
-    context.lineWidth = 2;
-    context.rect(x1, y1, boxWidth, boxHeight);
-    context.stroke();
+      const flowerName = detection.flower_name || "Unknown";
+      const confidence = (detection.confidence * 100).toFixed(1);
 
-    const flowerName = detection.flower_name || "Unknown";
-    const confidence = (detection.confidence * 100).toFixed(1);
+      const label = `${flowerName} (${confidence}%)`;
+      const labelY = y1 > 24 ? y1 - 8 : y1 + 18;
 
-    context.fillStyle = "#FF0000";
-    context.font = "16px Arial";
-    context.fillText(`${flowerName} (${confidence}%)`, x1, y1 > 20 ? y1 - 5 : y1 + 15);
-  });
-};
+      context.fillStyle = "rgba(233, 30, 140, 0.85)";
+      const textWidth = context.measureText(label).width;
+      context.fillRect(x1 - 1, labelY - 14, textWidth + 8, 18);
 
+      context.fillStyle = "#fff";
+      context.font = "bold 13px Poppins, sans-serif";
+      context.fillText(label, x1 + 3, labelY);
+    });
+  };
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-
     if (file) {
       await detectFlowers(file);
     }
@@ -159,18 +162,27 @@ const Recognition = () => {
 
   return (
     <div className="recognition-container">
-      <h1 className="title">Flower Recognition</h1>
+      <div className="recognition-header">
+        <h1 className="rec-title">Live Flower Recognition</h1>
+        <p className="rec-subtitle">Real-time AI-powered flower identification</p>
+      </div>
 
-      <div className="camera-toggle">
-        <span>{useFrontCam ? "Front Camera" : "Back Camera"}</span>
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={useFrontCam}
-            onChange={() => setUseFrontCam((prev) => !prev)}
-          />
-          <span className="slider round"></span>
-        </label>
+      <div className="camera-controls">
+        <div className="camera-toggle">
+          <span className="toggle-label">{useFrontCam ? "Front Camera" : "Back Camera"}</span>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={useFrontCam}
+              onChange={() => setUseFrontCam((prev) => !prev)}
+            />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        <div className={`scan-status ${isDetecting ? "scanning" : "ready"}`}>
+          <span className="status-dot"></span>
+          <span className="status-text">{isDetecting ? "Scanning..." : "Live"}</span>
+        </div>
       </div>
 
       <div className="webcam-wrapper">
@@ -187,39 +199,71 @@ const Recognition = () => {
             className="overlay"
             width={640}
             height={640}
-          ></canvas>
+          />
+          <div className="scan-corners">
+            <span className="corner tl"></span>
+            <span className="corner tr"></span>
+            <span className="corner bl"></span>
+            <span className="corner br"></span>
+          </div>
         </div>
       </div>
 
-      <div className="detections">
-        <h2>Detected Flowers</h2>
-        {detections.length > 0 ? (
-          detections.map((detection, idx) => {
-            const flowerName = detection.flower_name;
-            const flowerId = flowerIdMap[flowerName] || null;
-            const flowerDetails = flowersData[flowerName] || {};
+      <div className="detections-section">
+        <div className="detections-header">
+          <h2>Detected Flowers</h2>
+          {detections.length > 0 && (
+            <span className="detection-badge">{detections.length} found</span>
+          )}
+        </div>
 
-            return (
-              <div
-                key={idx}
-                className="detection-card"
-                onClick={() => handleFlowerClick(flowerId)}
-              >
-                <div className="detection-item">
-                  <p><strong>Name:</strong> {flowerName}</p>
-                  <p><strong>Scientific Name:</strong> {flowerDetails.scientific_name || "N/A"}</p>
-                  <p><strong>Family:</strong> {flowerDetails.family || "N/A"}</p>
-                  <p><strong>Uses on Events:</strong> {flowerDetails.uses_on_events || "N/A"}</p>
-                  <p><strong>Symbolism:</strong> {flowerDetails.symbolism || "N/A"}</p>
-                  <div className="flower-image">
+        {detections.length > 0 ? (
+          <div className="detection-grid">
+            {detections.map((detection, idx) => {
+              const flowerName = detection.flower_name;
+              const flowerId = flowerIdMap[flowerName] || null;
+              const flowerDetails = flowersData[flowerName] || {};
+              const confidence = (detection.confidence * 100).toFixed(0);
+              const confLevel = parseInt(confidence) >= 80 ? "high" : parseInt(confidence) >= 60 ? "medium" : "low";
+
+              return (
+                <div
+                  key={idx}
+                  className="detection-card"
+                  onClick={() => handleFlowerClick(flowerId)}
+                >
+                  <div className="card-image">
                     <img src={flowerDetails.image_url || "default_image.jpg"} alt={flowerName} />
                   </div>
+                  <div className="card-info">
+                    <h3 className="flower-name">{flowerName}</h3>
+                    <p>
+                      <span className="info-label">Scientific</span>
+                      {flowerDetails.scientific_name || "N/A"}
+                    </p>
+                    <p>
+                      <span className="info-label">Family</span>
+                      {flowerDetails.family || "N/A"}
+                    </p>
+                    <p>
+                      <span className="info-label">Symbolism</span>
+                      {flowerDetails.symbolism || "N/A"}
+                    </p>
+                  </div>
+                  <div className={`confidence-badge ${confLevel}`}>
+                    <span className="conf-value">{confidence}%</span>
+                    <span className="conf-label">Match</span>
+                  </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })}
+          </div>
         ) : (
-          <p>No flowers detected.</p>
+          <div className="empty-state">
+            <div className="empty-icon">🌸</div>
+            <p className="empty-text">No flowers detected yet</p>
+            <p className="empty-hint">Point your camera at a flower</p>
+          </div>
         )}
       </div>
     </div>

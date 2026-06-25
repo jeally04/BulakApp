@@ -78,4 +78,38 @@ h2 {
   margin-top: 10px;
   color: #333;
   font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .all-flower-types-container {
+    padding: 12px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .flower-type-container {
+    width: 140px;
+  }
+
+  .flower-type-box {
+    height: 110px;
+  }
+}
+
+@media (max-width: 400px) {
+  .flower-type-container {
+    width: 120px;
+  }
+
+  .flower-type-box {
+    height: 100px;
+  }
 }/*# sourceMappingURL=AllFlowerTypes.css.map */

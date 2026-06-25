@@ -1,132 +1,267 @@
 @charset "UTF-8";
-/* Favorite Page Styling */
-.favorite-page11 {
-  padding: 20px;
-  text-align: center;
-  background: linear-gradient(135deg, hsl(113, 11%, 85%), hsl(113, 11%, 75%));
-  min-height: 100vh;
+
+/* ── Page wrapper ── */
+.fav-page {
+  padding: 1.5rem 2rem;
+  min-height: 100%;
+}
+
+/* ── White card section ── */
+.fav-section {
+  background: var(--whiteColor);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Section heading ── */
+.fav-heading {
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--inputColor);
+  margin-bottom: 1.25rem;
+}
+
+.fav-heading h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--blackColor);
+  margin: 0;
+}
+
+.fav-count-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--paleGreen);
+  color: hsl(94, 55%, 32%);
+  padding: 0.1rem 0.5rem;
+  border-radius: 20px;
+  line-height: 1.6;
+}
+
+/* ── Loading ── */
+.fav-state {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem 1rem;
+  color: var(--textColor);
+  font-size: var(--smallFontSize);
 }
 
-/* Header */
-h2 {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 20px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.fav-spin {
+  animation: fav-rotate 0.8s linear infinite;
 }
 
-/* Favorite Grid Layout */
-.favorite-grid11 {
+@keyframes fav-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Empty state ── */
+.fav-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.fav-empty-icon {
+  color: var(--primary-color);
+  opacity: 0.25;
+  margin-bottom: 0.75rem;
+}
+
+.fav-empty-title {
+  font-size: var(--normalFontSize);
+  font-weight: 700;
+  color: var(--blackColor);
+  margin: 0 0 0.35rem;
+}
+
+.fav-empty-sub {
+  font-size: var(--smallFontSize);
+  color: var(--greyText);
+  margin: 0;
+  max-width: 260px;
+  line-height: 1.5;
+}
+
+/* ── Grid — mirrors .listingSection .secContainer ── */
+.fav-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-  justify-content: center;
-  max-width: 1000px;
-  width: 100%;
-  padding: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
 }
 
-/* Favorite Item Styling */
-.favorite-item11 {
+/* ── Card — mirrors .listingSection .singleItem ── */
+.fav-card {
   position: relative;
-  background: white;
-  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0.75rem 0.75rem;
   border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--inputColor);
   text-align: center;
   cursor: pointer;
+  transition: 0.25s ease;
   overflow: hidden;
-  max-width: 100%;
 }
 
-.favorite-item11:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+.fav-card:hover {
+  background: var(--itemCardHover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
-/* Favorite Image - Ensures 1:1 Aspect Ratio */
-.favorite-image11 {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1/1;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 10px;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.favorite-item11:hover .favorite-image11 {
-  transform: scale(1.05);
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-/* Flower Name - Adjusts text size dynamically */
-.flower-name11 {
-  margin-top: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #444;
-  text-align: center;
-  word-wrap: break-word;
-  max-width: 90%;
-  transition: color 0.3s ease-in-out;
-}
-
-.favorite-item11:hover .flower-name11 {
-  color: #e44d7d;
-}
-
-/* Heart Icon */
-.heart-icon11 {
+/* heart icon — top-right, same position as .listingSection .icon */
+.fav-heart-icon {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 22px;
-  color: #e44d7d;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  top: 8px;
+  right: 8px;
+  font-size: 1.05rem;
+  color: var(--primary-color);
+  transition: transform 0.2s ease;
 }
 
-.favorite-item11:hover .heart-icon11 {
+.fav-card:hover .fav-heart-icon {
   transform: scale(1.2);
-  opacity: 0.9;
 }
 
-/* ==================== 🔹 RESPONSIVE DESIGN 🔹 ==================== */
-/* Tablets (max-width: 768px) */
+/* image wrapper */
+.fav-img-wrap {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.fav-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.fav-card:hover .fav-img-wrap img {
+  transform: scale(1.05);
+}
+
+/* remove overlay */
+.fav-img-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.2s ease;
+}
+
+.fav-card:hover .fav-img-overlay {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.fav-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: rgba(229, 57, 53, 0.88);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.fav-card:hover .fav-remove-btn {
+  opacity: 1;
+}
+
+.fav-remove-btn:hover {
+  background: #c62828;
+}
+
+.fav-remove-btn.removing {
+  opacity: 1;
+}
+
+/* card text info */
+.fav-card-info {
+  width: 100%;
+  padding-top: 0.5rem;
+}
+
+.fav-name {
+  font-size: var(--smallFontSize);
+  font-weight: 600;
+  color: var(--blackColor);
+  margin: 0 0 0.15rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fav-sci {
+  font-size: 0.68rem;
+  color: var(--textColor);
+  font-style: italic;
+  margin: 0 0 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fav-family {
+  font-size: 0.65rem;
+  color: var(--greyText);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fav-fam-tag {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-right: 0.25rem;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
-  .favorite-grid11 {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 15px;
+  .fav-page {
+    padding: 1rem;
   }
-  h2 {
-    font-size: 1.8rem;
+
+  .fav-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .fav-remove-btn {
+    opacity: 1;
   }
 }
-/* Phones (max-width: 480px) */
+
 @media (max-width: 480px) {
-  .favorite-grid11 {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
+  .fav-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
-  h2 {
-    font-size: 1.6rem;
-  }
-  .favorite-item11 {
-    padding: 8px;
-  }
-  .flower-name11 {
-    font-size: 0.85rem;
-  }
-  .heart-icon11 {
-    font-size: 18px;
-    top: 8px;
-    right: 8px;
-  }
-}/*# sourceMappingURL=Favorite.css.map */
+}

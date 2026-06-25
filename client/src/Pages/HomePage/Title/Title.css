@@ -13,3 +13,14 @@
    margin-top: 5px;
    text-transform: none;
 }
+
+@media (max-width: 600px) {
+   .title {
+      margin: 40px 0 20px;
+      font-size: 13px;
+   }
+
+   .title h2 {
+      font-size: 22px;
+   }
+}

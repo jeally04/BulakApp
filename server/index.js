@@ -285,11 +285,18 @@ app.put("/api/update-profile/:id", upload.single("profileImage"), async (req, re
 
 
 // ************** DETECTION HISTORY ROUTES ************
-// Route to get detection history for a specific user
+// Route to get detection history for a specific user (JOINs flowers for image/details)
 app.get('/history/:user_id', (req, res) => {
   const userId = req.params.user_id;
 
-  const sql = 'SELECT * FROM detection_history WHERE user_id = ? ORDER BY detected_at DESC';
+  const sql = `
+    SELECT dh.id, dh.user_id, dh.flower_name, dh.confidence, dh.detected_at,
+           f.image_url, f.scientific_name, f.family, f.id AS flower_id
+    FROM detection_history dh
+    LEFT JOIN flowers f ON LOWER(TRIM(dh.flower_name)) = LOWER(TRIM(f.flower_name))
+    WHERE dh.user_id = ?
+    ORDER BY dh.detected_at DESC
+  `;
   db.query(sql, [userId], (err, results) => {
     if (err) {
       console.error('Error fetching history:', err);
@@ -297,6 +304,48 @@ app.get('/history/:user_id', (req, res) => {
     } else {
       res.status(200).json(results);
     }
+  });
+});
+
+// Route to add a history entry (from Node server-side detection)
+app.post('/history', (req, res) => {
+  const { user_id, flower_name, confidence } = req.body;
+  if (!user_id || !flower_name) {
+    return res.status(400).json({ message: 'Missing user_id or flower_name' });
+  }
+  const sql = 'INSERT INTO detection_history (user_id, flower_name, confidence) VALUES (?, ?, ?)';
+  db.query(sql, [user_id, flower_name, confidence || 0], (err, result) => {
+    if (err) {
+      console.error('Error adding history:', err);
+      return res.status(500).json({ message: 'Error adding history' });
+    }
+    res.status(201).json({ message: 'History added', id: result.insertId });
+  });
+});
+
+// Route to clear all history for a user (must be before /:id to avoid matching "clear" as an id)
+app.delete('/history/clear/:user_id', (req, res) => {
+  const userId = req.params.user_id;
+  const sql = 'DELETE FROM detection_history WHERE user_id = ?';
+  db.query(sql, [userId], (err, result) => {
+    if (err) {
+      console.error('Error clearing history:', err);
+      return res.status(500).json({ message: 'Error clearing history' });
+    }
+    res.status(200).json({ message: 'History cleared', deleted: result.affectedRows });
+  });
+});
+
+// Route to delete a single history item
+app.delete('/history/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = 'DELETE FROM detection_history WHERE id = ?';
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error('Error deleting history item:', err);
+      return res.status(500).json({ message: 'Error deleting history item' });
+    }
+    res.status(200).json({ message: 'History item deleted' });
   });
 });
 
@@ -345,10 +394,11 @@ app.post('/favorites/remove', (req, res) => {
 app.get('/favorites/:user_id', (req, res) => {
   const user_id = req.params.user_id;
 
-  const sql = `SELECT f.*, fl.flower_name, fl.image_url 
-               FROM favorites f 
-               JOIN flowers fl ON f.flower_id = fl.id 
-               WHERE f.user_id = ?`;
+  const sql = `SELECT f.*, fl.flower_name, fl.image_url, fl.scientific_name, fl.family, fl.symbolism
+               FROM favorites f
+               JOIN flowers fl ON f.flower_id = fl.id
+               WHERE f.user_id = ?
+               ORDER BY f.created_at DESC`;
 
   db.query(sql, [user_id], (err, results) => {
     if (err) {

@@ -9,15 +9,17 @@ import { BsQuestionCircle } from "react-icons/bs";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 const SideBar = () => {
-  const [isOpen, setIsOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
   const sidebarRef = useRef(null); 
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (!mobile) setIsOpen(true);
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -45,11 +47,14 @@ const SideBar = () => {
 
   return (
     <>
-      {isMobile && ( 
+      {isMobile && (
+        <div className={`sidebar-overlay ${isOpen ? 'active' : ''}`} onClick={toggleSidebar} />
+      )}
+      {isMobile && (
         <div className="hamburger" onClick={toggleSidebar}>
           {isOpen ? <FaTimes className="close-icon" /> : <FaBars className="hamburger-icon" />}
         </div>
-      )} 
+      )}
 
       <div 
         ref={sidebarRef} 

@@ -109,17 +109,15 @@ h2 {
 }
 
 .search-input {
-  width: 200px;
+  width: 100%;
+  min-width: 0;
   padding: 10px;
-  /* Increased padding inside the input */
   border: none;
   border-radius: 30px;
-  /* Match the border radius */
   outline: none;
   font-size: 1rem;
   color: #333;
   background-color: transparent;
-  /* Transparent background */
   transition: all 0.3s ease;
 }
 
@@ -140,5 +138,44 @@ h2 {
 
 .search-icon:hover {
   color: #4285f4;
-  /* Icon color changes on hover */
+}
+
+@media (max-width: 600px) {
+  .all-flowers-container {
+    padding: 12px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .search-container {
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .flower-container1 {
+    min-width: 140px;
+  }
+
+  .flower-box {
+    width: 140px;
+    height: 110px;
+  }
+}
+
+@media (max-width: 400px) {
+  .flower-container1 {
+    min-width: 120px;
+  }
+
+  .flower-box {
+    width: 120px;
+    height: 100px;
+  }
 }/*# sourceMappingURL=AllFlowers.css.map */

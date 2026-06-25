@@ -9,8 +9,8 @@
 .dashboard-body {
   flex: 1;
   overflow-y: auto;
-  padding: 1rem;
-  background-color: #f8f9fa;
+  background-color: var(--bgColor);
+  min-width: 0;
 }
 
 /* Hamburger button */

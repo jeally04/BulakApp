@@ -31,13 +31,13 @@ const Listing = () => {
   // Handle favorite toggle (add/remove)
   const toggleFavorite = async (flowerId) => {
     try {
-      const isFavorited = favorites.some(fav => fav.id === flowerId);
+      const isFavorited = favorites.some(fav => fav.flower_id === flowerId);
 
       if (isFavorited) {
-        await axios.delete(`/favorites/${userId}/${flowerId}`);
-        setFavorites(favorites.filter(fav => fav.id !== flowerId)); // Remove from UI
+        await axios.post(`/favorites/remove`, { user_id: userId, flower_id: flowerId });
+        setFavorites(favorites.filter(fav => fav.flower_id !== flowerId)); // Remove from UI
       } else {
-        await axios.post(`/favorites`, { user_id: userId, flower_id: flowerId });
+        await axios.post(`/favorites/add`, { user_id: userId, flower_id: flowerId });
         axios.get(`/favorites/${userId}`).then((response) => {
           setFavorites(response.data); // Refresh list
         });
@@ -61,11 +61,11 @@ const Listing = () => {
       <div className="secContainer flex">
         {favorites.length > 0 ? (
           favorites.slice(0, 4).map((flower) => (
-            <div key={flower.id} className="singleItem">
-              {favorites.some(fav => fav.id === flower.id) ? (
-                <AiFillHeart className="icon heart-filled" onClick={() => toggleFavorite(flower.id)} />
+            <div key={flower.flower_id} className="singleItem">
+              {favorites.some(fav => fav.flower_id === flower.flower_id) ? (
+                <AiFillHeart className="icon heart-filled" onClick={() => toggleFavorite(flower.flower_id)} />
               ) : (
-                <AiOutlineHeart className="icon heart-outline" onClick={() => toggleFavorite(flower.id)} />
+                <AiOutlineHeart className="icon heart-outline" onClick={() => toggleFavorite(flower.flower_id)} />
               )}
               <img src={flower.image_url} alt={flower.flower_name} />
               <h3>{flower.flower_name}</h3>

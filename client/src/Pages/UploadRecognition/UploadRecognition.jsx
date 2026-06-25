@@ -7,16 +7,16 @@ import "./UploadRecognition.css";
 
 const UploadRecognition = () => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
   const [detections, setDetections] = useState([]);
   const [isDetecting, setIsDetecting] = useState(false);
   const [flowersData, setFlowersData] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
+  const [isDragActive, setIsDragActive] = useState(false);
   const navigate = useNavigate();
 
-  // Retrieve logged-in user ID
   const userId = localStorage.getItem("user_id");
 
-  // Normalize flower names for mapping
   const normalizeName = (name) => name.trim().toLowerCase();
 
   const flowerIdMap = {
@@ -35,7 +35,6 @@ const UploadRecognition = () => {
     "white anthurium": 21,
   };
 
-  // Fetch flower data from the database
   const fetchFlowersData = async () => {
     try {
       const response = await axios.get("/flowers");
@@ -49,9 +48,7 @@ const UploadRecognition = () => {
     }
   };
 
-  // Handle image upload and detection
-  const handleUpload = async (event) => {
-    const file = event.target.files[0];
+  const processFile = async (file) => {
     if (!file) return;
 
     if (!userId) {
@@ -59,26 +56,25 @@ const UploadRecognition = () => {
       return;
     }
 
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    const newPreview = URL.createObjectURL(file);
+
     setSelectedFile(file);
+    setPreviewUrl(newPreview);
     setErrorMessage("");
+    setDetections([]);
     setIsDetecting(true);
 
-   const formData = new FormData();
-formData.append("file", file);
-formData.append("user_id", userId); // ✅ important!
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("user_id", userId);
 
-try {
- const response = await axios.post(
-  `https://aaec-122-54-115-96.ngrok-free.app/detect/?live=false`,
-  formData,
-  {
-    headers: { "Content-Type": "multipart/form-data" },
-  }
-);
-
-  
-
-
+    try {
+      const response = await axios.post(
+        `https://aaec-122-54-115-96.ngrok-free.app/detect/?live=false`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
       const detectionResults = response.data.detections || [];
       const normalizedDetections = detectionResults.map((d) => ({
@@ -95,66 +91,179 @@ try {
     }
   };
 
-  // Navigate to flower details page
+  const handleUpload = (event) => {
+    processFile(event.target.files[0]);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragActive(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragActive(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragActive(false);
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith("image/")) {
+      processFile(file);
+    }
+  };
+
+  const handleClear = () => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    setDetections([]);
+    setErrorMessage("");
+  };
+
   const handleFlowerClick = (flowerId) => {
     navigate(`/dashboard/flower/${flowerId}`);
   };
 
   useEffect(() => {
     fetchFlowersData();
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
   }, []);
 
   return (
     <div className="upload-container">
-      <h1 className="upload-title">Flower Recognition - Upload Image</h1>
-
-      <div className="upload-box">
-        <label className="upload-label">
-          <input type="file" accept="image/*" onChange={handleUpload} className="file-input" />
-          <div className="upload-text">
-            <FaCloudUploadAlt size={40} />
-            <span>{selectedFile ? `File selected: ${selectedFile.name}` : "Click to choose a file"}</span>
-          </div>
-        </label>
-
-        {selectedFile && <img src={URL.createObjectURL(selectedFile)} alt="Selected" />}
+      <div className="upload-header">
+        <h1 className="upload-title">Flower Recognition</h1>
+        <p className="upload-subtitle">Upload an image to identify flowers instantly</p>
       </div>
 
+      <div
+        className={`upload-zone ${isDragActive ? "drag-active" : ""} ${selectedFile ? "has-file" : ""}`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
+        <label className="upload-label" htmlFor="file-input">
+          {selectedFile && previewUrl ? (
+            <div className="preview-content">
+              <img src={previewUrl} alt="Selected flower" className="preview-img" />
+              <div className="preview-overlay">
+                <FaCloudUploadAlt size={28} />
+                <span className="change-hint">Click or drop to change</span>
+              </div>
+            </div>
+          ) : (
+            <div className="upload-prompt">
+              <FaCloudUploadAlt size={52} className="upload-icon" />
+              <p className="upload-main-text">
+                {isDragActive ? "Drop it here!" : "Drop your image here"}
+              </p>
+              <p className="upload-sub-text">or click to browse files</p>
+              <span className="file-types">JPG · PNG · WEBP supported</span>
+            </div>
+          )}
+        </label>
+        <input
+          id="file-input"
+          type="file"
+          accept="image/*"
+          onChange={handleUpload}
+          className="file-input"
+        />
+      </div>
+
+      {selectedFile && (
+        <div className="file-info-bar">
+          <span className="file-name-text">{selectedFile.name}</span>
+          <button className="clear-btn" onClick={handleClear}>
+            <FaRegTimesCircle size={14} />
+            Clear
+          </button>
+        </div>
+      )}
+
       {isDetecting && (
-        <div className="loading">
-          <AiOutlineLoading3Quarters size={30} className="spin" /> Detecting flowers...
+        <div className="loading-state">
+          <AiOutlineLoading3Quarters size={22} className="spin" />
+          <span>Analyzing image...</span>
         </div>
       )}
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <div className="detections">
-        <h2>Detected Flowers</h2>
-        {detections.length > 0 ? (
-          detections.map((detection, idx) => {
-            const flowerName = detection.flower_name;
-            const flowerId = flowerIdMap[flowerName] || "Unknown";
-            const flowerDetails = flowersData[flowerName] || {};
+      <div className="detections-section">
+        <div className="detections-header">
+          <h2>Detected Flowers</h2>
+          {detections.length > 0 && (
+            <span className="detection-badge">{detections.length} found</span>
+          )}
+        </div>
 
-            return (
-              <div key={idx} className="detection-item" onClick={() => handleFlowerClick(flowerId)}>
-                <p><strong>Name:</strong> {flowerName}</p>
-                <p><strong>Scientific Name:</strong> {flowerDetails.scientific_name || "N/A"}</p>
-                <p><strong>Family:</strong> {flowerDetails.family || "N/A"}</p>
-                <p><strong>Uses on Events:</strong> {flowerDetails.uses_on_events || "N/A"}</p>
-                <p><strong>Symbolism:</strong> {flowerDetails.symbolism || "N/A"}</p>
-                <img src={flowerDetails.image_url || "default_image.jpg"} alt={flowerName} />
-              </div>
-            );
-          })
-        ) : (
-          <p className="no-detection">No flowers detected. Please upload another image.</p>
+        {detections.length > 0 ? (
+          <div className="detection-list">
+            {detections.map((detection, idx) => {
+              const flowerName = detection.flower_name;
+              const flowerId = flowerIdMap[flowerName] || "Unknown";
+              const flowerDetails = flowersData[flowerName] || {};
+              const confidence = (detection.confidence * 100).toFixed(0);
+              const confLevel = parseInt(confidence) >= 80 ? "high" : parseInt(confidence) >= 60 ? "medium" : "low";
+
+              return (
+                <div
+                  key={idx}
+                  className="detection-card"
+                  onClick={() => handleFlowerClick(flowerId)}
+                >
+                  <div className="card-img-wrap">
+                    <img src={flowerDetails.image_url || "default_image.jpg"} alt={flowerName} />
+                  </div>
+                  <div className="card-details">
+                    <h3 className="flower-name">{flowerName}</h3>
+                    <p>
+                      <span className="detail-tag">Scientific</span>
+                      {flowerDetails.scientific_name || "N/A"}
+                    </p>
+                    <p>
+                      <span className="detail-tag">Family</span>
+                      {flowerDetails.family || "N/A"}
+                    </p>
+                    <p>
+                      <span className="detail-tag">Uses</span>
+                      {flowerDetails.uses_on_events || "N/A"}
+                    </p>
+                    <p>
+                      <span className="detail-tag">Symbolism</span>
+                      {flowerDetails.symbolism || "N/A"}
+                    </p>
+                  </div>
+                  <div className={`confidence-badge ${confLevel}`}>
+                    <span className="conf-value">{confidence}%</span>
+                    <span className="conf-label">Match</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : !isDetecting && (
+          <div className="empty-detect">
+            {selectedFile ? (
+              <>
+                <div className="empty-icon">🔍</div>
+                <p>No flowers detected in this image</p>
+                <p className="empty-hint">Try uploading a clearer flower photo</p>
+              </>
+            ) : (
+              <>
+                <div className="empty-icon">🌸</div>
+                <p>Upload an image to get started</p>
+              </>
+            )}
+          </div>
         )}
       </div>
-
-      <button className="upload-btn" onClick={() => setSelectedFile(null)}>
-        <FaRegTimesCircle size={20} /> Clear Upload
-      </button>
     </div>
   );
 };

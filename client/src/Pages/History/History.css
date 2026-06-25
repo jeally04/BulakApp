@@ -1,124 +1,291 @@
+/* ── Page wrapper (lives inside .dashboard-body which has --bgColor) ── */
 .history-page {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  min-height: 100%;
 }
 
-h2 {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
+/* ── White card section ── */
+.history-section {
+  background: var(--whiteColor);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
-.history-list {
-  list-style-type: none;
-  padding: 0;
+/* ── Section heading ── */
+.hist-heading {
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--inputColor);
+  margin-bottom: 1rem;
+}
+
+.hist-heading h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--blackColor);
   margin: 0;
 }
 
-.history-item {
+.hist-count-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--paleGreen);
+  color: hsl(94, 55%, 32%);
+  padding: 0.1rem 0.5rem;
+  border-radius: 20px;
+  line-height: 1.6;
+}
+
+.hist-clear-btn {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  /* Pushes name & date apart */
-  background-color: #F9F9F9;
-  padding: 15px;
-  margin-bottom: 10px;
+  gap: 0.35rem;
+  font-size: var(--smallFontSize);
+  font-weight: 500;
+  color: var(--textColor);
+  background: none;
+  border: 1px solid var(--inputColor);
   border-radius: 8px;
-  font-size: 18px;
+  padding: 0.38rem 0.75rem;
   cursor: pointer;
-  transition: background 0.3s ease-in-out, transform 0.2s;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: inherit;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
 
-.history-item:hover {
-  background-color: #EAEAEA;
-  transform: scale(1.02);
+.hist-clear-btn:hover {
+  color: #e53935;
+  border-color: rgba(229, 57, 53, 0.3);
+  background: rgba(229, 57, 53, 0.05);
 }
 
-/* Flower Image Container */
-.history-image-container {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 15px;
+.hist-clear-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Loading / error states ── */
+.hist-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1rem;
+  color: var(--textColor);
+  font-size: var(--smallFontSize);
+}
+
+.hist-spin {
+  animation: hist-rotate 0.8s linear infinite;
+}
+
+@keyframes hist-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.hist-error {
+  color: #e53935;
+  font-size: var(--smallFontSize);
+  margin: 0;
+}
+
+/* ── Empty state ── */
+.hist-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.hist-empty-icon {
+  font-size: 2.5rem;
+  opacity: 0.35;
+  margin-bottom: 0.75rem;
+}
+
+.hist-empty-title {
+  font-size: var(--normalFontSize);
+  font-weight: 700;
+  color: var(--blackColor);
+  margin: 0 0 0.35rem;
+}
+
+.hist-empty-sub {
+  font-size: var(--smallFontSize);
+  color: var(--greyText);
+  margin: 0;
+  max-width: 260px;
+  line-height: 1.5;
+}
+
+/* ── Date groups ── */
+.hist-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hist-group-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--greyText);
+  margin: 0 0 0.4rem;
+}
+
+/* ── List ── */
+.hist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Single row ── */
+.hist-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid var(--inputColor);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.hist-row:last-child {
+  border-bottom: none;
+}
+
+.hist-row:hover {
+  background: var(--inputColor);
+}
+
+/* thumbnail */
+.hist-thumb {
   flex-shrink: 0;
-  border: 2px solid #4CAF50;
-  /* Green border for a nature feel */
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--inputColor);
+  border: 1.5px solid var(--itemCardColor);
 }
 
-/* Flower Image */
-.history-image {
+.hist-thumb img {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
+  display: block;
 }
 
-/* Name & Date Wrapper */
-.history-info {
+/* text info */
+.hist-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.hist-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--blackColor);
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hist-sci {
+  font-size: 0.72rem;
+  color: var(--textColor);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hist-time {
+  font-size: 0.68rem;
+  color: var(--greyText);
+}
+
+/* right side */
+.hist-meta {
   display: flex;
   align-items: center;
-  flex-grow: 1;
-  /* Allows it to take up space */
-  justify-content: space-between;
-  /* Ensures name & date are apart */
-  width: 100%;
+  gap: 0.4rem;
+  flex-shrink: 0;
 }
 
-/* Flower Name */
-.history-name {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-  flex-grow: 1;
-  /* Pushes name to the left */
-}
-
-/* Date & Time */
-.history-date {
-  font-size: 14px;
-  color: #666;
+/* confidence pill — matches activitySection confBadge style */
+.hist-conf-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  line-height: 1.5;
   white-space: nowrap;
 }
 
-/* Confidence */
-.history-confidence {
-  font-size: 14px;
-  color: #4CAF50;
-  /* Green color for nature feel */
-  font-weight: 500;
-  margin-left: 10px;
-  /* Adds space between confidence and name/date */
-  white-space: nowrap;
-  text-align: right;
+.conf-high {
+  background: var(--paleGreen);
+  color: hsl(94, 55%, 30%);
 }
 
-/* Responsive Design */
+.conf-medium {
+  background: hsl(45, 90%, 90%);
+  color: hsl(35, 80%, 35%);
+}
+
+.conf-low {
+  background: var(--inputColor);
+  color: var(--textColor);
+  border: 1px solid var(--itemCardColor);
+}
+
+/* delete button */
+.hist-del-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: none;
+  color: var(--greyText);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
+}
+
+.hist-row:hover .hist-del-btn {
+  opacity: 1;
+}
+
+.hist-del-btn:hover {
+  color: #e53935;
+  background: rgba(229, 57, 53, 0.08);
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
-  .history-item {
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+  .history-page {
+    padding: 1rem;
   }
 
-  .history-image-container {
-    width: 50px;
-    height: 50px;
-  }
-
-  .history-info {
-    flex-direction: column;
-    /* Stack name and date */
-    align-items: flex-start;
-  }
-
-  .history-name {
-    font-size: 1rem;
-  }
-
-  .history-date {
-    font-size: 12px;
+  .hist-del-btn {
+    opacity: 1;
   }
 }

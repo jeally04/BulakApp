@@ -1,109 +1,256 @@
+/* ─────────────────────────────────────────
+   Top Navigation Bar
+   Matches the dashboard card aesthetic:
+   white bg · 1rem shadow · inputColor dividers
+   primary-color (green) accents · same font sizes
+───────────────────────────────────────── */
+
 .topNavContainer {
-  background-color: hsl(113, 11%, 85%);
-  padding: 0;
-  box-sizing: border-box;
-  top: 14px;
-  z-index: 1000;
-  border-top-right-radius: 1rem;
-  margin-top: -60px;
-  margin-left: -50px;
-  margin-right: -50px;
-  margin-bottom: 5px;
+  background: var(--whiteColor);
+  padding: 0.9rem 2rem;
+  border-bottom: 1px solid var(--inputColor);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .headerSection {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 0;
-  margin-left: 30px;
-  margin-right: 30px;
-  
+  gap: 1.5rem;
 }
 
-.headerSection .title {
+/* ── Left: greeting ──────────────────── */
+.navTitle {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  margin-left: 0;
+  gap: 0.15rem;
 }
 
-.headerSection .title h1 {
-  font-size: 1.7rem;
-  color: black;
-  font-weight: 700;
+.navTitle h1 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  line-height: 1;
   text-transform: none;
+  letter-spacing: -0.3px;
 }
 
-.headerSection .title p {
-  font-size: 1rem;
-  color: var(--textColor);
-  font-weight: 500;
-  text-transform: none;
-  
-}
-
-.searchBar {
+.navTitle p {
   display: flex;
-  /* Use flexbox to align items */
-  
-  /* Adjusted padding */
-  background: var(--whiteColor);
-  border-radius: 5px;
+  align-items: center;
   gap: 0.5rem;
-  padding-top: 10px;
-  padding-bottom: -10px;
-  /* Optional: Adjusts spacing between elements */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 30%;
-  /* Ensures the search bar takes full width */
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--textColor);
+  text-transform: none;
+  line-height: 1.2;
 }
 
-.searchBar input {
+.greetName {
+  color: var(--blackColor);
+  font-weight: 600;
+}
+
+.greetDate::before {
+  content: '·';
+  margin-right: 0.5rem;
+  color: var(--greyText);
+}
+
+/* ── Center: search ──────────────────── */
+.navSearch {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--inputColor);
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  border: 1.5px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.navSearch:focus-within {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px hsla(94, 55%, 56%, 0.12);
+  background: var(--whiteColor);
+}
+
+.navSearchIcon {
+  color: var(--textColor);
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+
+.navSearch:focus-within .navSearchIcon {
+  color: var(--primary-color);
+}
+
+.navSearch input {
   border: none;
   outline: none;
   background: none;
   flex: 1;
-  /* This allows the input to take the available space */
+  font-size: 0.85rem;
+  color: var(--blackColor);
+  font-family: inherit;
 }
 
-.searchBar .icon {
-  color: var(--textColor);
-  margin-left: 0.25rem;
-  /* Add some space before the icon */
-  align-self: center;
-
-  
-  /* Center icon vertically if needed */
+.navSearch input::placeholder {
+  color: var(--greyText);
 }
 
-.profileDiv {
+/* ── Right: actions ─────────────────── */
+.navActions {
   display: flex;
   align-items: center;
-  gap: 1rem;
-    margin-right: 60px;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
-.profileDiv .icon {
-  font-size: 2.5rem;
-  border-radius: 5px;
-  padding: 5px;
+/* notification button */
+.navIconBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--inputColor);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.navIconBtn:hover {
+  background: var(--paleGreen);
+}
+
+.navIconBtn:hover .navIcon {
+  color: var(--primary-color);
+}
+
+.navIcon {
+  font-size: 1.25rem;
   color: var(--textColor);
+  transition: color 0.2s ease;
 }
 
-.profileDiv .profileImage {
-  border: 3px solid var(--whiteColor);
+/* notification dot */
+.notifDot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  width: 40px;
-  /* Adjust size if needed */
-  height: 40px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--primary-color);
+  border: 1.5px solid var(--whiteColor);
 }
 
-.profileDiv .profileImage img {
+/* vertical divider */
+.navDivider {
+  width: 1px;
+  height: 32px;
+  background: var(--inputColor);
+  border-radius: 2px;
+  margin: 0 0.2rem;
+}
+
+/* profile chip */
+.navProfile {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0.75rem 0.3rem 0.3rem;
+  border-radius: 50px;
+  border: 1.5px solid var(--inputColor);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  background: var(--whiteColor);
+}
+
+.navProfile:hover {
+  border-color: var(--primary-color);
+  background: var(--paleGreen);
+  box-shadow: 0 2px 8px hsla(94, 55%, 56%, 0.15);
+}
+
+.navAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--primary-color);
+  flex-shrink: 0;
+}
+
+.navAvatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px;
+}
+
+.navUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1.2;
+}
+
+.navUsername {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--blackColor);
+  white-space: nowrap;
+}
+
+.navRole {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  white-space: nowrap;
+}
+
+/* ── Responsive ──────────────────────── */
+@media (max-width: 900px) {
+  .navUserInfo {
+    display: none;
+  }
+
+  .navProfile {
+    padding: 0.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .topNavContainer {
+    padding: 0.75rem 1rem 0.75rem 4rem;
+  }
+
+  .headerSection {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .navSearch {
+    max-width: 100%;
+    order: 3;
+    flex-basis: 100%;
+    margin: 0;
+  }
+
+  .navTitle h1 {
+    font-size: 1.05rem;
+  }
+
+  .greetDate {
+    display: none;
+  }
 }

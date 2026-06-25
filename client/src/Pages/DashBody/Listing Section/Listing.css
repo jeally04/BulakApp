@@ -1,145 +1,108 @@
-@charset "UTF-8";
 .listingSection {
-  flex-basis: 70%;
-  gap: 2rem;
-  /* 🟢 Ensure all items maintain the same size */
-  /* 🟢 Seller Section */
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--whiteColor);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
+
 .listingSection .heading {
   width: 100%;
   justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--inputColor);
 }
+
 .listingSection .heading h1 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   color: var(--blackColor);
   font-weight: 700;
 }
+
 .listingSection .heading .btn {
   border: 1px solid transparent;
   font-weight: 500;
+  font-size: 0.813rem;
+  padding: 0.4rem 0.8rem;
 }
+
 .listingSection .heading .btn:hover {
   border: 1px solid var(--primary-color);
 }
+
 .listingSection .secContainer {
   width: 100%;
-  margin: 1rem 0;
+  margin-top: 1.25rem;
   gap: 1rem;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
+
 .listingSection .singleItem {
   position: relative;
-  width: 150px;
-  height: 170px;
+  flex: 1;
+  min-width: 120px;
+  max-width: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 1rem;
-  border-radius: 10px;
-  background: #f1f1f1;
+  padding: 1rem 0.75rem 0.75rem;
+  border-radius: 12px;
+  background: var(--inputColor);
   text-align: center;
-  transition: 0.3s ease-in-out;
-  /* 🟢 Keep images square (1:1 aspect ratio) */
-  /* 🟢 Fix heart icon position */
-  /* 🟢 Improve text alignment */
+  transition: 0.25s ease;
+  cursor: pointer;
 }
+
 .listingSection .singleItem:hover {
   background: var(--itemCardHover);
-  box-shadow: 0 2px 2px var(--inputColor);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
+
 .listingSection .singleItem img {
-  width: 100px;
-  /* Same width */
-  height: 100px;
-  /* Same height */
-  -o-object-fit: cover;
-     object-fit: cover;
-  /* Ensures no distortion */
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
   border-radius: 10px;
 }
+
 .listingSection .singleItem .icon {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 8px;
+  right: 8px;
   color: var(--primary-color);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease;
 }
+
+.listingSection .singleItem .icon:hover {
+  transform: scale(1.2);
+}
+
 .listingSection .singleItem h3 {
-  font-size: 1rem;
+  font-size: 0.813rem;
   color: var(--blackColor);
   padding-top: 0.5rem;
   margin: 0;
   text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-weight: 600;
 }
-.listingSection .seller {
-  width: 100%;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: flex-start;
-  margin-top: 2rem;
+
+.listingSection .error-message {
+  color: var(--textColor);
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  text-align: center;
 }
-.listingSection .topSeller,
-.listingSection .featuredSellers {
-  /* 🟢 Fix user profile images */
+
+@media screen and (max-width: 768px) {
+  .listingSection {
+    flex: unset;
+    width: 100%;
+  }
 }
-.listingSection .topSeller .heading,
-.listingSection .featuredSellers .heading {
-  padding: 1rem 0;
-}
-.listingSection .topSeller .heading h3,
-.listingSection .featuredSellers .heading h3 {
-  margin-left: 3rem;
-}
-.listingSection .topSeller .heading .btn,
-.listingSection .featuredSellers .heading .btn {
-  padding: 0.5rem 1rem;
-}
-.listingSection .topSeller .card,
-.listingSection .featuredSellers .card {
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
-  background: var(--whiteColor);
-  gap: 1rem;
-  box-shadow: 0 2px 4px var(--inputColor);
-  display: flex;
-  align-items: center;
-}
-.listingSection .topSeller .users,
-.listingSection .featuredSellers .users {
-  padding-right: 1rem;
-  border-right: 2px solid hsl(0, 0%, 75%);
-}
-.listingSection .topSeller .users img,
-.listingSection .featuredSellers .users img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border: 2px solid var(--inputColor);
-  transition: 0.5s ease;
-}
-.listingSection .topSeller .users img:hover,
-.listingSection .featuredSellers .users img:hover {
-  transform: translateY(-5px);
-}
-.listingSection .topSeller .cardText span,
-.listingSection .featuredSellers .cardText span {
-  color: var(--blackColor);
-  font-weight: 500;
-}
-.listingSection .topSeller .cardText span small,
-.listingSection .featuredSellers .cardText span small {
-  font-weight: 400;
-}
-.listingSection .topSeller .cardText span small .date,
-.listingSection .featuredSellers .cardText span small .date {
-  margin-left: 1rem;
-}/*# sourceMappingURL=Listing.css.map */

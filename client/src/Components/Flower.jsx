@@ -1,30 +1,26 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaArrowLeft, FaHeart } from 'react-icons/fa';
 import './Styles/Flower.css';
 
 const Flower = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [flower, setFlower] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [error, setError] = useState('');
-  
+
   const navigate = useNavigate();
-  const userId = localStorage.getItem("user_id"); // Get logged-in user ID
+  const userId = localStorage.getItem("user_id");
 
   useEffect(() => {
-    // Fetch flower details
     axios.get(`/flower/${id}`)
-      .then((response) => {
-        setFlower(response.data);
-      })
+      .then((response) => setFlower(response.data))
       .catch((err) => {
         setError('Error fetching flower data.');
         console.error(err);
       });
 
-    // Check if flower is in user's favorites
     if (userId) {
       axios.get(`/favorites/${userId}`)
         .then((response) => {
@@ -35,17 +31,9 @@ const Flower = () => {
     }
   }, [id, userId]);
 
-  // Toggle favorite
   const toggleFavorite = async () => {
-    if (!userId) {
-      alert("Please log in to save favorites.");
-      return;
-    }
-
-    const url = isFavorite 
-      ? "/favorites/remove"
-      : "/favorites/add";
-
+    if (!userId) { alert("Please log in to save favorites."); return; }
+    const url = isFavorite ? "/favorites/remove" : "/favorites/add";
     try {
       await axios.post(url, { user_id: userId, flower_id: id });
       setIsFavorite(!isFavorite);
@@ -60,58 +48,88 @@ const Flower = () => {
     <div className="flower-page">
       {flower ? (
         <>
-          {/* Fixed Header with icons */}
+          {/* Sticky header */}
           <div className="header">
             <FaArrowLeft className="icon-back" onClick={() => navigate(-1)} />
             <FaHeart className={`icon-favorite ${isFavorite ? 'favorite' : ''}`} onClick={toggleFavorite} />
           </div>
 
-          {/* First section with image and basic details */}
+          {/* Image + identity */}
           <div className="flower-section" id="section-1">
             <div className="flower-image-container">
               <img className="flower-image" src={flower.image_url} alt={flower.flower_name} />
             </div>
             <div className="flower-info">
               <h1 className="flower-name">{flower.flower_name}</h1>
-              <p className="flower-family"><strong>Family:</strong> {flower.family}</p>
-              <p className="flower-aka"><strong>Also known as:</strong> {flower.other_names}</p>
-              <p className="flower-scientific"><strong>Scientific Name:</strong> <i>{flower.scientific_name}</i></p>
+              <p className="flower-scientific"><i>{flower.scientific_name}</i></p>
+              <div className="flower-meta">
+                {flower.family && (
+                  <span className="flower-meta-item">
+                    <span className="meta-label">Family</span>
+                    <span className="meta-value">{flower.family}</span>
+                  </span>
+                )}
+                {flower.other_names && (
+                  <span className="flower-meta-item">
+                    <span className="meta-label">Also known as</span>
+                    <span className="meta-value">{flower.other_names}</span>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Second section for characteristics */}
+          {/* Characteristics */}
           <div className="flower-section" id="section-2">
             <h2 className="section-title">Characteristics</h2>
-            <div className="flower-details1">
-              <p><strong>Life Span:</strong> {flower.lifespan}</p>
-              <p><strong>Flower Size:</strong> {flower.flower_size}</p>
-              <p><strong>Bloom Time:</strong> {flower.bloom_time}</p>
-              <p><strong>Flower Color:</strong> {flower.flower_color}</p>
+            <div className="char-grid">
+              {flower.lifespan && (
+                <div className="char-item">
+                  <span className="char-label">Life Span</span>
+                  <span className="char-value">{flower.lifespan}</span>
+                </div>
+              )}
+              {flower.flower_size && (
+                <div className="char-item">
+                  <span className="char-label">Flower Size</span>
+                  <span className="char-value">{flower.flower_size}</span>
+                </div>
+              )}
+              {flower.bloom_time && (
+                <div className="char-item">
+                  <span className="char-label">Bloom Time</span>
+                  <span className="char-value">{flower.bloom_time}</span>
+                </div>
+              )}
+              {flower.flower_color && (
+                <div className="char-item">
+                  <span className="char-label">Flower Color</span>
+                  <span className="char-value">{flower.flower_color}</span>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Description section */}
+          {/* Description */}
           <div className="flower-section" id="section-3">
             <h2 className="section-title">Description</h2>
             <p className="flower-description">{flower.description}</p>
           </div>
 
-          {/* Additional sections for symbolism, garden use, interesting facts */}
+          {/* Extra details */}
           <div className="flower-section" id="section-4">
-            <h2 className="section-title">Symbolism</h2>
-            <p>{flower.symbolism}</p>
-
-            <h2 className="section-title">Garden Use</h2>
-            <p>{flower.garden_use}</p>
-
-            <h2 className="section-title">Interesting Facts</h2>
-            <p>{flower.interesting_facts}</p>
-
-            <h2 className="section-title">Name Story</h2>
-            <p>{flower.name_story}</p>
-
-            <h2 className='section-title'>Uses on Events</h2>
-            <p>{flower.uses_on_events}</p>
+            {[
+              { title: 'Symbolism',         content: flower.symbolism },
+              { title: 'Garden Use',        content: flower.garden_use },
+              { title: 'Interesting Facts', content: flower.interesting_facts },
+              { title: 'Name Story',        content: flower.name_story },
+              { title: 'Uses on Events',    content: flower.uses_on_events },
+            ].filter(s => s.content).map((s) => (
+              <div className="detail-block" key={s.title}>
+                <h2 className="section-title">{s.title}</h2>
+                <p className="detail-text">{s.content}</p>
+              </div>
+            ))}
           </div>
         </>
       ) : (

@@ -14,7 +14,7 @@ import UploadRecognition from '../Pages/UploadRecognition/UploadRecognition';
 
 const Body = () => {
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
       <Routes>
         {/* Redirect the root path to dashbody */}
         <Route path="/" element={<Navigate to="dashbody" />} />

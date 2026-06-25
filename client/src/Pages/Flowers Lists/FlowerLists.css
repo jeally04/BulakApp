@@ -7,22 +7,35 @@
 
 .search-bar {
   margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
 }
 
 #search {
-  padding: 8px;
-  width: 300px;
+  padding: 8px 12px;
+  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+#search:focus {
+  border-color: #86c232;
 }
 
 .flowers-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 20px;
+  width: 100%;
   justify-items: center;
 }
 
 .flower-card {
-  width: 200px;
+  width: 100%;
+  max-width: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,11 +43,13 @@
 
 .flower-box {
   position: relative;
+  width: 100%;
 }
 
 .flower-image {
   width: 100%;
   height: auto;
+  border-radius: 8px;
 }
 
 .heart-icon {
@@ -48,4 +63,22 @@
 .flower-name {
   margin-top: 10px;
   text-align: center;
+}
+
+@media (max-width: 600px) {
+  .flower-lists-container {
+    padding: 12px;
+  }
+
+  .flowers-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .flowers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
 }/*# sourceMappingURL=FlowerLists.css.map */
