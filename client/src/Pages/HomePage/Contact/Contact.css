@@ -1,17 +1,18 @@
-.contact{
+.contact {
    margin: 80px auto;
    max-width: 90%;
    display: flex;
    align-content: center;
    justify-content: space-between;
+   gap: 40px;
 }
 
-.contact-col{
+.contact-col {
    flex-basis: 48%;
    color: #676767;
 }
 
-.contact-col h3{
+.contact-col h3 {
    color: #000f39;
    font-weight: 500;
    font-size: 25px;
@@ -20,52 +21,123 @@
    margin-bottom: 20px;
 }
 
-.contact-col h3 img{
+.contact-col h3 img {
    width: 35px;
    margin-left: 10px;
 }
 
-.contact-col p{
+.contact-col p {
    max-width: 450px;
-   list-style: 0.3;
+   line-height: 1.7;
 }
 
-.contact-col ul li{
+.contact-col ul {
+   padding: 0;
+}
+
+.contact-col ul li {
    display: flex;
    align-items: center;
    margin: 20px 0;
+   list-style: none;
 }
 
-.contact-col ul li img{
+.contact-col ul li img {
    width: 25px;
    margin-right: 10px;
+   flex-shrink: 0;
 }
 
-.contact form input, .contact form textarea{
+.contact form label {
+   display: block;
+   font-size: 14px;
+   font-weight: 500;
+   color: #444;
+   margin-bottom: 4px;
+}
+
+.contact form input,
+.contact form textarea {
    display: block;
    width: 100%;
    background: #ebecfe;
-   padding: 15px;
+   padding: 13px 15px;
    border: 0;
    outline: 0;
    margin-bottom: 15px;
-   margin-top: 5px;
+   margin-top: 4px;
    resize: none;
+   border-radius: 6px;
+   font-size: 14px;
+   font-family: inherit;
 }
 
-.contact-col span{
+.contact form input:focus,
+.contact form textarea:focus {
+   background: #dfe0fc;
+}
+
+.contact-col span {
    display: block;
-   margin: 20px 0;
+   margin: 12px 0;
+   font-size: 14px;
+   color: #212ea0;
 }
 
-
-/* -------------- media query -------------- */
-
-@media (max-width: 700px){
-   .contact{
-      display: block;
+/* -------------- Tablet -------------- */
+@media (max-width: 900px) {
+   .contact {
+      gap: 24px;
    }
-   .contact-col{
-      padding: 20px;
+
+   .contact-col h3 {
+      font-size: 20px;
+   }
+}
+
+/* -------------- Mobile -------------- */
+@media (max-width: 700px) {
+   .contact {
+      flex-direction: column;
+      margin: 40px auto;
+      max-width: 100%;
+      gap: 32px;
+   }
+
+   .contact-col {
+      flex-basis: 100%;
+      padding: 0;
+   }
+
+   .contact-col h3 {
+      font-size: 20px;
+   }
+
+   .contact-col p {
+      max-width: 100%;
+      font-size: 14px;
+   }
+}
+
+/* -------------- Small phones -------------- */
+@media (max-width: 480px) {
+   .contact {
+      margin: 24px auto;
+   }
+
+   .contact-col h3 {
+      font-size: 18px;
+   }
+
+   .contact form input,
+   .contact form textarea {
+      padding: 11px 12px;
+      font-size: 13px;
+   }
+
+   .contact form .btn1 {
+      width: 100%;
+      justify-content: center;
+      font-size: 15px;
    }
 }

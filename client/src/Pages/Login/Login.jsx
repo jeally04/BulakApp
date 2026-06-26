@@ -3,10 +3,10 @@ import './Login.css';
 import video from '../../Assets/Flowers - Video Background HD 1080p.mp4';
 import logo from '../../Assets/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaEnvelope } from "react-icons/fa";
+import { FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 import { BsFillShieldLockFill } from "react-icons/bs";
 import { AiOutlineSwapRight } from "react-icons/ai";
-import { IoClose } from "react-icons/io5"; 
+import { IoClose } from "react-icons/io5";
 import Axios from 'axios';
 
 const Login = () => {
@@ -14,6 +14,7 @@ const Login = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -28,13 +29,11 @@ const Login = () => {
       });
 
       if (response.data.success) {
-        // Save user info to localStorage
         localStorage.setItem('user_id', response.data.user.id);
         localStorage.setItem('username', response.data.user.username);
 
         setLoginStatus("Login successful!");
-        
-        // Redirect after a short delay
+
         setTimeout(() => {
           navigate('/dashboard');
         }, 1500);
@@ -71,45 +70,52 @@ const Login = () => {
 
         {/* Right Side - Login Form */}
         <div className="formDiv flex">
+          <button className="closeBtn" onClick={() => navigate('/')}>
+            <IoClose className="closeIcon" />
+          </button>
+
           <div className="headerDiv">
             <img src={logo} alt="Logo" />
             <h3>Welcome Back!</h3>
           </div>
-
-          {/* Close button */}
-          <button className="closeBtn" onClick={() => navigate('/')}>
-            <IoClose className="closeIcon" />
-          </button>
 
           <form className='form grid' onSubmit={handleLogin}>
             <div className="inputDiv">
               <label htmlFor="email">Email</label>
               <div className="input flex">
                 <FaEnvelope className='icon' />
-                <input 
-                  type="email" 
-                  id="email" 
-                  placeholder='Enter Email' 
+                <input
+                  type="email"
+                  id="email"
+                  placeholder='Enter your email'
                   required
-                  onChange={(event) => setLoginEmail(event.target.value)}
+                  onChange={(e) => setLoginEmail(e.target.value)}
                 />
               </div>
 
               <label htmlFor="password">Password</label>
               <div className="input flex">
                 <BsFillShieldLockFill className='icon' />
-                <input 
-                  type="password" 
-                  id="password" 
-                  placeholder='Enter Password' 
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  placeholder='Enter your password'
                   required
-                  onChange={(event) => setLoginPassword(event.target.value)}
+                  onChange={(e) => setLoginPassword(e.target.value)}
                 />
+                <button
+                  type="button"
+                  className="togglePassword"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
             </div>
 
             <button type='submit' className='btn flex' disabled={loading}>
-              {loading ? "Logging in..." : <><span>Login</span> <AiOutlineSwapRight className='icon' /></>}
+              {loading ? "Logging in…" : <><span>Login</span><AiOutlineSwapRight className='icon' /></>}
             </button>
 
             {loginStatus && (
@@ -119,7 +125,7 @@ const Login = () => {
             )}
 
             <span className='forgotPassword'>
-              Forgot your Password? <a href="#">Click Here</a>
+              Forgot your password? <a href="#">Click Here</a>
             </span>
           </form>
         </div>

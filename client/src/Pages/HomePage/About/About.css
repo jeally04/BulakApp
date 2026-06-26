@@ -88,27 +88,51 @@
    .about {
       flex-direction: column;
       gap: 1.5rem;
-      /* Adjust spacing for stacked layout */
+      margin: 60px auto;
    }
 
    .about-left {
       flex-basis: 100%;
-      margin: 20px 0;
+      margin: 0;
       order: 2;
    }
 
    .about-right {
       flex-basis: 100%;
+      text-align: center;
    }
 
    .about h2 {
       font-size: 1.8rem;
-      /* Adjust font size for smaller screens */
    }
 
    .about p {
       font-size: 0.95rem;
-      /* Adjust text size for better readability */
+      margin: 0 auto 15px;
+   }
+}
+
+@media (max-width: 480px) {
+   .about {
+      margin: 40px auto;
+      width: 100%;
+   }
+
+   .about h3 {
+      font-size: 14px;
+      justify-content: center;
+   }
+
+   .about h2 {
+      font-size: 1.5rem;
+   }
+
+   .about p {
+      font-size: 0.9rem;
+   }
+
+   .play-icon {
+      width: 50px;
    }
 }
 

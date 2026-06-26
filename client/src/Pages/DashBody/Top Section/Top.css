@@ -4,28 +4,24 @@
 
 .topSection .cardSection {
   gap: 1.5rem;
+  align-items: stretch;
 }
+
+/* ======== Hero / Video Card ======== */
 
 .topSection .cardSection .rightCard {
   position: relative;
   flex: 3;
-  height: 200px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 2rem;
+  min-height: 220px;
   border-radius: 1rem;
   overflow: hidden;
+  /* flex children stacked via heroContent absolute */
 }
 
 .topSection .cardSection .rightCard .videoDiv {
   position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
+  z-index: 0;
 }
 
 .topSection .cardSection .rightCard .videoDiv video {
@@ -34,46 +30,93 @@
   object-fit: cover;
 }
 
-.topSection .cardSection .rightCard h1,
-.topSection .cardSection .rightCard p,
-.topSection .cardSection .rightCard .btn {
-  z-index: 100;
+/* Gradient overlay for text readability */
+.topSection .cardSection .rightCard .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.42) 55%,
+    rgba(0, 0, 0, 0.12) 100%
+  );
+  z-index: 1;
 }
 
-.topSection .cardSection .rightCard h1 {
-  font-size: var(--h1FontSize);
+.topSection .cardSection .rightCard .heroContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 2.25rem;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+}
+
+.topSection .cardSection .rightCard .heroContent h1 {
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
   color: var(--whiteColor);
   font-weight: 800;
+  line-height: 1.3;
+  max-width: 480px;
 }
 
-.topSection .cardSection .rightCard p {
-  padding: 0.75rem 0;
-  color: var(--paleGreen);
-  font-weight: 500;
+.topSection .cardSection .rightCard .heroContent p {
+  padding: 0.6rem 0 1.1rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+  font-weight: 400;
+  max-width: 400px;
+  line-height: 1.6;
 }
 
 .topSection .cardSection .rightCard .buttons {
   gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .topSection .cardSection .rightCard .buttons .btn {
-  box-shadow: none;
-  padding: 0.6rem 1.2rem;
-  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 8px;
   border: 2px solid transparent;
-  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.22s ease;
 }
 
-.topSection .cardSection .rightCard .buttons .transparent {
-  background: none;
-  border: 2px solid var(--paleGreen);
-  color: var(--paleGreen);
+.topSection .cardSection .rightCard .buttons .btn .btnIcon {
+  font-size: 1rem;
 }
 
-.topSection .cardSection .rightCard .buttons .transparent:hover {
-  background: var(--paleGreen);
+.topSection .cardSection .rightCard .buttons .btn.solid {
+  background: var(--whiteColor);
   color: var(--primary-color);
 }
+
+.topSection .cardSection .rightCard .buttons .btn.solid:hover {
+  background: var(--paleGreen);
+  transform: translateY(-1px);
+}
+
+.topSection .cardSection .rightCard .buttons .btn.outline {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.65);
+  color: var(--whiteColor);
+}
+
+.topSection .cardSection .rightCard .buttons .btn.outline:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--whiteColor);
+  transform: translateY(-1px);
+}
+
+/* ======== Stats Card ======== */
 
 .topSection .cardSection .leftCard {
   flex: 2;
@@ -82,73 +125,124 @@
 
 .topSection .cardSection .leftCard .main {
   position: relative;
-  padding: 2rem 1.5rem;
-  height: 200px;
+  padding: 1.75rem 1.5rem;
+  height: 100%;
+  min-height: 220px;
   border-radius: 1rem;
   justify-content: space-between;
+  align-items: flex-end;
   overflow: hidden;
   width: 100%;
+  box-sizing: border-box;
 }
 
+/* Card background */
 .topSection .cardSection .leftCard .main::before {
   content: "";
   position: absolute;
-  height: 100%;
-  width: 100%;
+  inset: 0;
   background: var(--paleGreen);
-  left: 0;
-  bottom: 0;
   border-radius: 1rem;
+  z-index: 0;
+}
+
+/* Decorative circle */
+.topSection .cardSection .leftCard .main::after {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.38);
+  border-radius: 50%;
+  right: -50px;
+  bottom: -60px;
+  z-index: 0;
 }
 
 .topSection .cardSection .leftCard .main .textDiv {
-  z-index: 100;
+  position: relative;
+  z-index: 2;
+  flex: 1;
 }
 
 .topSection .cardSection .leftCard .main .textDiv h1 {
-  font-size: var(--h1FontSize);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
   padding-bottom: 0.75rem;
   color: var(--blackColor);
+  font-weight: 700;
 }
 
-.topSection .cardSection .leftCard .main .textDiv .flex {
-  gap: 1.25rem;
+.topSection .cardSection .leftCard .main .textDiv .statsRow {
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.topSection .cardSection .leftCard .main .textDiv .statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.topSection .cardSection .leftCard .main .textDiv .statLabel {
+  font-size: 0.75rem;
   font-weight: 500;
-  color: var(--blackColor);
+  color: var(--textColor);
 }
 
-.topSection .cardSection .leftCard .main .textDiv .flex small {
+.topSection .cardSection .leftCard .main .textDiv .statValue {
   font-size: var(--normalFontSize);
-  display: block;
+  font-weight: 700;
   color: var(--primary-color);
-  font-weight: 500;
-  padding: 0.4rem 0;
 }
 
 .topSection .cardSection .leftCard .main .textDiv .link {
-  margin-top: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin-top: 1.25rem;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 0.825rem;
   font-weight: 600;
   color: var(--blackColor);
+  transition: color 0.2s ease;
 }
 
 .topSection .cardSection .leftCard .main .textDiv .link:hover {
   color: var(--primary-color);
 }
 
+.topSection .cardSection .leftCard .main .textDiv .link .icon {
+  font-size: 1.2rem;
+  transition: transform 0.25s ease;
+}
+
 .topSection .cardSection .leftCard .main .textDiv .link:hover .icon {
-  transform: translateX(6px);
-  transition: 0.3s ease;
+  transform: translateX(5px);
 }
 
 .topSection .cardSection .leftCard .imgDiv {
-  z-index: 100;
-  transform: translateY(-16px);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
 }
 
 .topSection .cardSection .leftCard .imgDiv img {
-  width: 160px;
+  width: clamp(90px, 12vw, 155px);
+  display: block;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.14));
+  transform: translateY(-14px);
+}
+
+/* ======== RESPONSIVE ======== */
+
+@media screen and (max-width: 1024px) {
+  .topSection {
+    padding: 1.25rem 1.5rem 0;
+  }
+
+  .topSection .cardSection .leftCard .imgDiv img {
+    width: 110px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -158,20 +252,139 @@
 
   .topSection .cardSection {
     flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
   }
 
+  /* Hero card: full width, compact */
   .topSection .cardSection .rightCard {
     flex: unset;
     width: 100%;
+    min-height: 200px;
   }
 
+  .topSection .cardSection .rightCard .overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0.68) 100%
+    );
+  }
+
+  .topSection .cardSection .rightCard .heroContent {
+    padding: 1.75rem 1.5rem;
+    min-height: 200px;
+  }
+
+  .topSection .cardSection .rightCard .heroContent h1 {
+    font-size: 1.2rem;
+    max-width: 100%;
+  }
+
+  .topSection .cardSection .rightCard .heroContent p {
+    font-size: 0.82rem;
+    max-width: 100%;
+    padding: 0.5rem 0 0.9rem;
+  }
+
+  .topSection .cardSection .rightCard .buttons .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+  }
+
+  /* Stats card: full width */
   .topSection .cardSection .leftCard {
     flex: unset;
     width: 100%;
   }
 
   .topSection .cardSection .leftCard .main {
-    height: auto;
-    min-height: 180px;
+    min-height: 160px;
+    padding: 1.5rem;
+    align-items: center;
+  }
+
+  .topSection .cardSection .leftCard .main::after {
+    width: 140px;
+    height: 140px;
+    right: -25px;
+    bottom: -35px;
+  }
+
+  .topSection .cardSection .leftCard .imgDiv img {
+    width: 100px;
+    transform: translateY(-8px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .topSection {
+    padding: 0.75rem 0.75rem 0;
+  }
+
+  .topSection .cardSection {
+    gap: 0.75rem;
+  }
+
+  .topSection .cardSection .rightCard {
+    min-height: 175px;
+    border-radius: 0.85rem;
+  }
+
+  .topSection .cardSection .rightCard .heroContent {
+    padding: 1.25rem;
+    min-height: 175px;
+  }
+
+  .topSection .cardSection .rightCard .heroContent h1 {
+    font-size: 1.05rem;
+  }
+
+  .topSection .cardSection .rightCard .heroContent p {
+    font-size: 0.75rem;
+    padding: 0.4rem 0 0.75rem;
+    line-height: 1.5;
+  }
+
+  .topSection .cardSection .rightCard .buttons {
+    gap: 0.5rem;
+  }
+
+  .topSection .cardSection .rightCard .buttons .btn {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.73rem;
+    border-radius: 6px;
+  }
+
+  .topSection .cardSection .leftCard .main {
+    min-height: 140px;
+    padding: 1.25rem;
+    border-radius: 0.85rem;
+  }
+
+  .topSection .cardSection .leftCard .main .textDiv h1 {
+    font-size: 0.95rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .topSection .cardSection .leftCard .main .textDiv .statsRow {
+    gap: 1rem;
+  }
+
+  .topSection .cardSection .leftCard .main .textDiv .link {
+    margin-top: 0.9rem;
+    font-size: 0.75rem;
+  }
+
+  .topSection .cardSection .leftCard .imgDiv img {
+    width: 78px;
+    transform: translateY(-6px);
+  }
+
+  .topSection .cardSection .leftCard .main::after {
+    width: 110px;
+    height: 110px;
+    right: -15px;
+    bottom: -25px;
   }
 }

@@ -37,6 +37,18 @@ a:hover {
    }
 }
 
+@media (max-width: 768px) {
+   .container1 {
+      padding: 1rem 4%;
+   }
+}
+
+@media (max-width: 480px) {
+   .container1 {
+      padding: 1rem 16px;
+   }
+}
+
 /* Button Styling */
 .btn1 {
    background: #fff;

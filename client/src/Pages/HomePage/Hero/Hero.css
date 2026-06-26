@@ -48,3 +48,24 @@
       margin: 15px auto 30px;
    }
 }
+
+@media (max-width: 480px) {
+   .hero {
+      padding: 0 16px;
+      min-height: 100svh;
+   }
+   .hero-text h1 {
+      font-size: 26px;
+      max-width: 100%;
+   }
+   .hero-text p {
+      font-size: 13px;
+      margin: 12px auto 24px;
+   }
+}
+
+@media (max-width: 360px) {
+   .hero-text h1 {
+      font-size: 22px;
+   }
+}

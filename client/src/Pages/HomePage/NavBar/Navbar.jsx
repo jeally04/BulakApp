@@ -51,12 +51,12 @@ const Navbar = () => {
       <img src={logo} alt="Logo" className="logo" />
       
       <ul ref={menuRef} className={`nav-links ${mobileMenu ? 'mobile-menu' : ''}`}>
-        <li><Link to="hero" smooth={true} offset={0} duration={500}>Home</Link></li>
-        <li><Link to="Recognition" smooth={true} offset={-260} duration={500}>Recognition</Link></li>
-        <li><Link to="programs" smooth={true} offset={-260} duration={500}>Features</Link></li>
-        <li><Link to="about" smooth={true} offset={-150} duration={500}>About Us</Link></li>
-        <li><Link to="testimonials" smooth={true} offset={-260} duration={500}>Testimonials</Link></li>
-        <li><Link to="contact" smooth={true} offset={-260} duration={500}>Contact Us</Link></li>
+        <li><Link to="hero" smooth={true} offset={0} duration={500} onClick={() => setMobileMenu(false)}>Home</Link></li>
+        <li><Link to="Recognition" smooth={true} offset={-260} duration={500} onClick={() => setMobileMenu(false)}>Recognition</Link></li>
+        <li><Link to="programs" smooth={true} offset={-260} duration={500} onClick={() => setMobileMenu(false)}>Features</Link></li>
+        <li><Link to="about" smooth={true} offset={-150} duration={500} onClick={() => setMobileMenu(false)}>About Us</Link></li>
+        <li><Link to="testimonials" smooth={true} offset={-260} duration={500} onClick={() => setMobileMenu(false)}>Testimonials</Link></li>
+        <li><Link to="contact" smooth={true} offset={-260} duration={500} onClick={() => setMobileMenu(false)}>Contact Us</Link></li>
         <li><Link to="contact" smooth={true} offset={-260} duration={500} className="btn1" onClick={handleLogin}>Login</Link></li>
       </ul>
 

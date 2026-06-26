@@ -4,10 +4,11 @@ import '../../App.css';
 import video from '../../Assets/Flowers - Video Background HD 1080p.mp4';
 import logo from '../../Assets/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUserShield } from "react-icons/fa";
+import { FaUserShield, FaEye, FaEyeSlash } from "react-icons/fa";
 import { BsFillShieldLockFill } from "react-icons/bs";
 import { AiOutlineSwapRight } from "react-icons/ai";
 import { MdMarkEmailRead } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
 import Axios from 'axios';
 
 const Register = () => {
@@ -16,36 +17,36 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const createUser = (e) => {
-    e.preventDefault(); 
+  const showNotification = (message, success) => {
+    setPopupMessage(message);
+    setIsSuccess(success);
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000);
+  };
 
-    Axios.post('/register', {
-      email: email,
-      username: username,
-      password: password
-    }).then(() => {
-      setPopupMessage("Registration successful!");
-      setShowPopup(true);
+  const createUser = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-      // Clear the input fields after successful registration
+    try {
+      await Axios.post('/register', { email, username, password });
       setEmail("");
       setUsername("");
       setPassword("");
-
-      setTimeout(() => {
-        setShowPopup(false);
-      }, 3000);
-    }).catch((err) => {
+      showNotification("Registration successful! You can now log in.", true);
+      setTimeout(() => navigate('/login'), 2000);
+    } catch (err) {
       console.error("Error creating user:", err);
-      setPopupMessage("Error: Could not register.");
-      setShowPopup(true);
-
-      setTimeout(() => {
-        setShowPopup(false);
-      }, 3000);
-    });
+      const msg = err.response?.data?.message || "Registration failed. Please try again.";
+      showNotification(msg, false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -68,72 +69,77 @@ const Register = () => {
         </div>
 
         <div className="formDiv flex">
+          <button className="closeBtn" onClick={() => navigate('/')}>
+            <IoClose className="closeIcon" />
+          </button>
+
           <div className="headerDiv">
-            <img src={logo} alt="" />
+            <img src={logo} alt="BulakApp logo" />
             <h3>Let Us Know You!</h3>
           </div>
-
-          {/* Close button */}
-          <button className="closeBtn" onClick={() => navigate('/')}>
-            <AiOutlineSwapRight className="closeIcon" />
-          </button>
 
           <form className='form grid' onSubmit={createUser}>
             <div className="inputDiv">
               <label htmlFor="email">Email</label>
               <div className="input flex">
                 <MdMarkEmailRead className='icon' />
-                <input 
-                  type="email" 
-                  id="email" 
-                  placeholder='Enter Email' 
+                <input
+                  type="email"
+                  id="email"
+                  placeholder='Enter your email'
                   required
                   value={email}
-                  onChange={(event) => setEmail(event.target.value)} 
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
               <label htmlFor="username">Username</label>
               <div className="input flex">
                 <FaUserShield className='icon' />
-                <input 
-                  type="text" 
-                  id="username" 
-                  placeholder='Enter Username' 
+                <input
+                  type="text"
+                  id="username"
+                  placeholder='Choose a username'
                   required
                   value={username}
-                  onChange={(event) => setUsername(event.target.value)} 
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
 
               <label htmlFor="password">Password</label>
               <div className="input flex">
                 <BsFillShieldLockFill className='icon' />
-                <input 
-                  type="password" 
-                  id="password" 
-                  placeholder='Enter Password' 
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  placeholder='Create a password'
                   required
                   value={password}
-                  onChange={(event) => setPassword(event.target.value)} 
+                  onChange={(e) => setPassword(e.target.value)}
                 />
+                <button
+                  type="button"
+                  className="togglePassword"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
             </div>
 
-            <button type='submit' className='btn btnRegister flex'>
-              <span>Register </span>
-              <AiOutlineSwapRight className='icon' />
+            <button type='submit' className='btn btnRegister flex' disabled={loading}>
+              {loading ? "Creating account…" : <><span>Create Account</span><AiOutlineSwapRight className='icon' /></>}
             </button>
           </form>
-
-          {/* Popup message */}
-          {showPopup && (
-            <div className="popupMessage">
-              <p>{popupMessage}</p>
-            </div>
-          )}
         </div>
       </div>
+
+      {showPopup && (
+        <div className={`popupMessage ${isSuccess ? '' : 'error'}`}>
+          <p>{popupMessage}</p>
+        </div>
+      )}
     </div>
   );
 };

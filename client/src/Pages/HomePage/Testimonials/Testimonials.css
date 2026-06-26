@@ -1,109 +1,249 @@
-.testimonials{
-   margin: 80px auto;
-   padding: 0 80px;
-   position: relative;
+/* ===== Section ===== */
+.t-section {
+  padding: 20px 60px 60px;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 60%, #fde68a 100%);
+  position: relative;
 }
 
-.next-btn, .back-btn{
-   position: absolute;
-   top: 50%;
-   right: 0;
-   transform: translateY(-50%);
-   padding: 15px;
-   width: 50px;
-   border-radius: 50%;
-   cursor: pointer;
-   background: rgb(224, 224, 224);
+/* ===== Slider row ===== */
+.t-slider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
-.back-btn{
-   right: auto;
-   left: 0;
+/* ===== Track ===== */
+.t-track-outer {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
-.slider{
-   overflow: hidden;
+.t-track {
+  display: flex;
+  width: 400%;        /* 4 slides × 25% each = 100% of outer */
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.slider ul{
-   display: flex;
-   width: 200%;
-   overflow-x: hidden;
-   transition: 0.5s;
+.t-slide {
+  width: 25%;         /* 25% of 400% = 100% of the outer container */
+  padding: 4px 6px;
+  box-sizing: border-box;
 }
 
-.slider ul li{
-   list-style: none;
-   width: 50%;
-   padding: 20px;
+/* ===== Card ===== */
+.t-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 36px 32px 28px;
+  box-shadow:
+    0 4px 24px rgba(180, 83, 9, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(217, 119, 6, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
 }
 
-.slide{
-   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-   padding: 40px;
-   border-radius: 10px;
-   color: #676767;
-   line-height: 1.4;
+/* Accent line on the left edge */
+.t-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #f59e0b, #d97706);
+  border-radius: 20px 0 0 20px;
 }
 
-.slide img{
-   width: 65px;
-   border-radius: 50%;
-   margin-right: 10px;
-   border: 4px solid #212ea0;
+/* ===== Decorative quote mark ===== */
+.t-quote-mark {
+  font-size: 80px;
+  line-height: 0.6;
+  color: #fde68a;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 900;
+  user-select: none;
+  margin-bottom: 4px;
 }
 
-.user-info{
-   display: flex;
-   align-items: center;
-   margin-bottom: 20px;
-   font-size: 15px;
+/* ===== Stars ===== */
+.t-stars {
+  display: flex;
+  gap: 3px;
 }
 
-.user-info h3{
-   color: #212ea0;
-   font-size: 16px;
-   margin-left: 0;
+.t-star-filled {
+  color: #f59e0b;
+  fill: #f59e0b;
 }
 
-.user-info img{
-   height: 30px;
-   width: 30px;
+.t-star-empty {
+  color: #e5e7eb;
+  fill: #e5e7eb;
 }
 
-/* -------------- media query -------------- */
-
-@media (max-width: 800px) {
-   .testimonials{
-      padding: 0 40px;
-   }
-   .next-btn, .back-btn{
-      padding: 10px;
-      width: 35px;
-   }
-   .testimonials ul li{
-      padding: 10px;
-   }
-   .slide{
-      padding: 10px;
-   }
-   .slide img{
-      width: 50px;
-      border: 3px solid #212ea0;
-   }
+/* ===== Quote text ===== */
+.t-quote {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #57534e;
+  font-style: italic;
+  margin: 0;
+  flex: 1;
 }
 
-@media (max-width: 600px){
-   .user-info{
-      display: block;
-      margin-bottom: 10px;
-      font-size: 12px;
-   }
-   .user-info h3{
-      font-size: 16px;
-   }
-   .slider p{
-      font-size: 12px;
-   }
+/* ===== User info ===== */
+.t-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 20px;
+  border-top: 1px solid #fef3c7;
+  margin-top: 4px;
 }
 
+.t-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  border: 3px solid #f59e0b;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.t-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.t-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #92400e;
+  margin: 0;
+}
+
+.t-role {
+  font-size: 13px;
+  color: #a16207;
+}
+
+/* ===== Nav buttons ===== */
+.t-nav {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+  background: #ffffff;
+  color: #d97706;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.t-nav:hover {
+  background: #d97706;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4);
+  transform: scale(1.08);
+}
+
+/* ===== Dot indicators ===== */
+.t-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.t-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: #d1b899;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.25s ease, width 0.25s ease, transform 0.25s ease;
+}
+
+.t-dot:hover {
+  background: #d97706;
+  transform: scale(1.2);
+}
+
+.t-dot-active {
+  background: #d97706;
+  width: 24px;
+  border-radius: 999px;
+  transform: none;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .t-section {
+    padding: 16px 24px 48px;
+  }
+
+  .t-slider {
+    gap: 10px;
+  }
+
+  .t-nav {
+    width: 36px;
+    height: 36px;
+  }
+
+  .t-card {
+    padding: 24px 20px 20px;
+  }
+
+  .t-quote {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .t-section {
+    padding: 12px 12px 40px;
+  }
+
+  .t-slider {
+    gap: 6px;
+  }
+
+  .t-nav {
+    width: 32px;
+    height: 32px;
+  }
+
+  .t-card {
+    padding: 20px 16px 18px;
+  }
+
+  .t-avatar {
+    width: 46px;
+    height: 46px;
+  }
+
+  .t-quote-mark {
+    font-size: 60px;
+  }
+}
